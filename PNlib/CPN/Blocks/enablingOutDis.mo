@@ -10,9 +10,7 @@ block enablingOutDis "enabling process of output transitions"
   input Real enablingProb[:] "enabling probabilites of output transitions";
   input Real enablingBene[:] "enabling benefit of output transitions";
   input PNlib.Types.BenefitType benefitType "algorithm for benefit";
-  input Boolean disTransition[:] "discrete output transition";
   input Boolean delayPassed "Does any delayPassed of a output transition";
-  input Boolean activeCon "change of activation of output transitions";
   parameter input Integer localSeed "Local seed to initialize random number generator";
   parameter input Integer globalSeed "Global seed to initialize random number generator";
   output Boolean TEout_[nOut] "enabled output transitions";
@@ -30,9 +28,9 @@ protected
   discrete Real sumEnablingProbTAout "sum of the enabling probabilities of the active output transitions";
   Boolean endWhile;
   Integer Index "priority Index";
-  discrete Real benefitMax "theoretical benefit";
-  Boolean valid "valid solution";
-  discrete Real benefitLimit "best valid benefit";
+  //discrete Real benefitMax "theoretical benefit";
+  //Boolean valid "valid solution";
+  //discrete Real benefitLimit "best valid benefit";
 initial algorithm
   // Generate initial state from localSeed and globalSeed
   state128 := Modelica.Math.Random.Generators.Xorshift128plus.initialState(localSeed, globalSeed);
@@ -41,15 +39,14 @@ algorithm
   TEout := fill(false, nOut);
   arcWeightSum := 0;
   for i in 1: nOut loop  //continuous transitions afterwards (discrete transitions have priority over continuous transitions)
-    if TAout[i] and not disTransition[i] and t-(arcWeightSum+arcWeight[i]) >= minTokens then
+    if TAout[i] and t-(arcWeightSum+arcWeight[i]) >= minTokens then
       TEout[i] := true;
       arcWeightSum := arcWeightSum + arcWeight[i];
     end if;
   end for;
-
-  when delayPassed or activeCon then
+  when delayPassed then
     if nOut>0 then
-      arcWeightSum := Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAout);  //arc weight sum of all active output transitions
+      arcWeightSum := PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAout);  //arc weight sum of all active output transitions
       if t - arcWeightSum >= minTokens then  //Place has no actual conflict; all active output transitions are enabled
         TEout := TAout;
       else                          //Place has an actual conflict;
@@ -57,14 +54,7 @@ algorithm
           arcWeightSum := 0;
           for i in 1: nOut loop  //discrete transitions are proven at first
             Index:=Modelica.Math.Vectors.find(i,enablingPrio);
-            if Index>0 and TAout[Index] and disTransition[Index] and t-(arcWeightSum+arcWeight[Index]) >= minTokens then
-              TEout[Index] := true;
-              arcWeightSum := arcWeightSum + arcWeight[Index];
-            end if;
-          end for;
-          for i in 1: nOut loop  //continuous transitions afterwards (discrete transitions have priority over continuous transitions)
-          Index:=Modelica.Math.Vectors.find(i,enablingPrio);
-            if TAout[Index] and not disTransition[Index] and t-(arcWeightSum+arcWeight[Index]) >= minTokens then
+            if Index>0 and TAout[Index] and t-(arcWeightSum+arcWeight[Index]) >= minTokens then
               TEout[Index] := true;
               arcWeightSum := arcWeightSum + arcWeight[Index];
             end if;
@@ -74,7 +64,7 @@ algorithm
           nremTAout := 0;
           arcWeightSum := 0;
           for i in 1:nOut loop
-            if TAout[i] and disTransition[i] then
+            if TAout[i] then
               nremTAout := nremTAout+1;  //number of active output transitions
               remTAout[nremTAout] := i;  //active output transitions
             end if;
@@ -105,7 +95,7 @@ algorithm
               end if;
               nremTAout := nremTAout - 1;
               if nremTAout > 0 then
-                remTAout := Functions.OddsAndEnds.deleteElementInt(remTAout, k);
+                remTAout := PNlib.Functions.OddsAndEnds.deleteElementInt(remTAout, k);
                 cumEnablingProb := zeros(nOut);
                 sumEnablingProbTAout := sum(enablingProb[remTAout[1:nremTAout]]);
                 if sumEnablingProbTAout>0 then
@@ -119,14 +109,8 @@ algorithm
               end if;
             end for;
           end if;
-          for i in 1: nOut loop
-            if TAout[i] and not disTransition[i] and t-(arcWeightSum+arcWeight[i])>=minTokens then
-              TEout[i] := true;
-              arcWeightSum := arcWeightSum + arcWeight[i];
-            end if;
-          end for;
         else
-          if benefitType==PNlib.Types.BenefitType.Greedy then
+          /*if benefitType==PNlib.Types.BenefitType.Greedy then
              TEout:=PNlib.Functions.Enabling.benefitGreedyDisOut(nOut, arcWeight, t, minTokens, TAout, enablingBene, disTransition);
            elseif benefitType==PNlib.Types.BenefitType.BenefitQuotient then
              TEout:=PNlib.Functions.Enabling.benefitQuotientDisOut(nOut, arcWeight, t, minTokens, TAout, enablingBene, disTransition);
@@ -135,7 +119,7 @@ algorithm
            benefitMax:=sum(enablingBene);
            benefitLimit:=0;
              (TEout, arcWeightSum,  benefitMax, valid, benefitLimit):=PNlib.Functions.Enabling.benefitBaBDisOut(1, nOut, enablingBene, arcWeight, enablingBene ./arcWeight, t, benefitMax, minTokens, TEout, 0, benefitLimit, TAout, disTransition);
-          end if;
+          end if;*/
         end if;
       end if;
     else
@@ -151,9 +135,9 @@ algorithm
       sumEnablingProbTAout := 0.0;
       endWhile := false;
       Index := 0;
-      benefitMax:=0 ;
-      valid:=false ;
-      benefitLimit:=0 ;
+      //benefitMax:=0 ;
+      //valid:=false ;
+      //benefitLimit:=0 ;
     end if;
   end when;
   // hack for Dymola 2017
