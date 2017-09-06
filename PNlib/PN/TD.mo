@@ -33,14 +33,14 @@ protected
 public
   Boolean active "Is the transition active?";
   Boolean fire "Does the transition fire?";
-  PNlib.PN.Interfaces.TransitionIn inPlaces[nIn](
+  PNlib.PN.Interfaces.DisTransitionIn inPlaces[nIn](
     each active=delayPassed,
     arcWeightint=arcWeightIntIn,
     each fire=fire,
     tint=tIntIn,
     minTokensint=minTokensInt,
     enable=enableIn) if nIn > 0 "connector for input places" annotation(Placement(transformation(extent={{-56, -10}, {-40, 10}}, rotation=0)));
-  PNlib.PN.Interfaces.TransitionOut outPlaces[nOut](
+  PNlib.PN.Interfaces.DisTransitionOut outPlaces[nOut](
     each active=delayPassed,
     arcWeightint=arcWeightIntOut,
     each fire=fire,

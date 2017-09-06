@@ -36,7 +36,7 @@ protected
   //****BLOCKS END****//
 
 public
-  PNlib.PN.Interfaces.PlaceIn inTransition[nIn](
+  PNlib.PN.Interfaces.DisPlaceIn inTransition[nIn](
     each tint=pret,
     each maxTokensint=maxTokens,
     enable=enableIn.TEin_,
@@ -44,7 +44,7 @@ public
     arcWeightint=arcWeightIn,
     active=activeIn,
     enabledByInPlaces=enabledByInPlaces) if nIn > 0 "connector for input transitions" annotation(Placement(transformation(extent={{-114, -10}, {-98, 10}}, rotation=0), iconTransformation(extent={{-116, -10}, {-100, 10}})));
-  PNlib.PN.Interfaces.PlaceOut outTransition[nOut](
+  PNlib.PN.Interfaces.DisPlaceOut outTransition[nOut](
     each tint=pret,
     each minTokensint=minTokens,
     enable=enableOut.TEout_,
