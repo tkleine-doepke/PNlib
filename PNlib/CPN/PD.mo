@@ -28,8 +28,8 @@ protected
   Blocks.anyTrue delayPassedOut(vec=activeOut) if nOut>0;
   Blocks.anyTrue delayPassedIn(vec=activeIn) if nIn>0;
   //firing sum calculation
-  CPN.Blocks.firingSumDis firingSumIn(fire=fireIn, arcWeight=arcWeightIn) /*if nIn>0*/;
-  CPN.Blocks.firingSumDis firingSumOut(fire=fireOut, arcWeight=arcWeightOut) /*if nOut>0*/;
+  CPN.Blocks.firingSumDis firingSumIn(fire=fireIn, arcWeight=arcWeightIn) if nIn>0;
+  CPN.Blocks.firingSumDis firingSumOut(fire=fireOut, arcWeight=arcWeightOut) if nOut>0;
   //Enabling process
   CPN.Blocks.enablingOutDis enableOut(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut, enablingPrio=enablingPrioOut) if nOut>0;
   CPN.Blocks.enablingInDis enableIn(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=if nIn>0 then enabledByInPlaces and activeIn else fill(true, nOut), enablingPrio=enablingPrioIn) if nIn>0;

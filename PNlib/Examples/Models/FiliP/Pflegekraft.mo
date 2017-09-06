@@ -53,7 +53,7 @@ model Pflegekraft
   PNlib.Interfaces.TransitionIn transitionIn[3] annotation(
     Placement(transformation(extent = {{360, 152}, {300, 250}})));
   PNlib.TT ArbeitszeitGeber(nOut = 1, tactIntervall = 14, tactStart = if WEF == 2 then 9 else 2, arcWeightOut = {2 * 38.5 * Stelle}, nIn = 1, arcWeightIn = {ArbeitszeitKontingent.t}) annotation(
-    Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = 90, origin = {-256, -168})));
+    Placement(visible = true, transformation(origin = {-232, -168}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   PNlib.TT WochenEndSignal(nOut = 1, tactIntervall = if WEF == 3 then 7 else 14, tactStart = if WEF == 2 then 9 else 2) annotation(
     Placement(transformation(extent = {{198, -278}, {178, -258}})));
   PNlib.TD WochenEndGeber2(nIn = 2, nOut = 1, delay = 0) annotation(
@@ -72,9 +72,16 @@ model Pflegekraft
     Placement(transformation(extent = {{102, -228}, {122, -208}})));
   PNlib.Examples.Models.FiliP.KrankUrlaub krankurlaub (UrlaubEndTermine = UrlaubEndTermine, UrlaubStartTermine = UrlaubStartTermine)  annotation(
     Placement(visible = true, transformation(origin = {-80, -78}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-protected
   outer PNlib.Settings settings "global settings for animation and display";
 equation
+  connect(ArbeitszeitGeber.inPlaces[1], ArbeitszeitKontingent.outTransition[4]) annotation(
+    Line(points = {{-229, -168}, {-198, -168}, {-198, -73.6}, {-245.2, -73.6}}));
+  connect(ArbeitszeitGeber.outPlaces[1], ArbeitszeitKontingent.inTransition[1]) annotation(
+    Line(points = {{-239, -168}, {-274, -168}, {-274, -74}, {-266.8, -74}}));
+    connect(SSE.inPlaces[2], transitionIn[2]) annotation(
+      Line(points = {{79.2, 160}, {28, 160}, {28, 200}, {80, 200}, {80, 201}, {330, 201}}));
+    connect(NSB.outPlaces[2], transitionOut[3]) annotation(
+      Line(points = {{-79.2, 72}, {-68, 72}, {-68, 276}, {-248, 276}, {-248, 203}, {-330, 203}}));
   connect(WochenEndEnde.outPlaces[1], krankurlaub.placeIn[3]) annotation(
     Line(points = {{-20, -158}, {0, -158}, {0, -80}, {-52, -80}, {-52, -78}, {-56, -78}}, thickness = 0.5));
   connect(EinTagWiederholer.outPlaces[1], krankurlaub.placeIn[2]) annotation(
@@ -100,12 +107,8 @@ equation
       Line(points = {{-79.2, 250}, {-56, 250}, {-56, 294}, {-262, 294}, {-262, 203}, {-330, 203}}, color = {0, 0, 0}, smooth = Smooth.None));
     connect(SSB.outPlaces[2], transitionOut[2]) annotation(
       Line(points = {{-77.2, 160}, {-42, 160}, {-42, 298}, {-280, 298}, {-280, 203}, {-330, 203}}, color = {0, 0, 0}, smooth = Smooth.None));
-    connect(NSB.outPlaces[2], transitionOut[3]) annotation(
-      Line(points = {{-79.2, 72}, {-79.2, 54}, {-66, 54}, {-66, 276}, {-248, 276}, {-248, 203}, {-330, 203}}, color = {0, 0, 0}, smooth = Smooth.None));
     connect(FSE.inPlaces[2], transitionIn[1]) annotation(
       Line(points = {{79.2, 250}, {44, 250}, {44, 278}, {282, 278}, {282, 201}, {330, 201}}, color = {0, 0, 0}, smooth = Smooth.None));
-    connect(SSE.inPlaces[2], transitionIn[2]) annotation(
-      Line(points = {{79.2, 160}, {48, 160}, {48, 190}, {172, 190}, {172, 201}, {330, 201}}, color = {0, 0, 0}, smooth = Smooth.None));
     connect(NSE.inPlaces[2], transitionIn[3]) annotation(
       Line(points = {{79.2, 72}, {54, 72}, {54, 201}, {330, 201}}, color = {0, 0, 0}, smooth = Smooth.None));
 
@@ -129,8 +132,6 @@ equation
     Line(points = {{-245.2, -74.4}, {-222.6, -74.4}, {-222.6, 160.5}, {-86.8, 160.5}}, color = {0, 0, 0}, smooth = Smooth.None));
   connect(ArbeitszeitKontingent.outTransition[3], NSB.inPlaces[2]) annotation(
     Line(points = {{-245.2, -74}, {-214, -74}, {-214, 72.5}, {-88.8, 72.5}}, color = {0, 0, 0}, smooth = Smooth.None));
-  connect(ArbeitszeitGeber.outPlaces[1], ArbeitszeitKontingent.inTransition[1]) annotation(
-    Line(points = {{-256, -163.2}, {-274, -163.2}, {-274, -74}, {-266.8, -74}}, color = {0, 0, 0}, smooth = Smooth.None));
   connect(WochenEndEnde.inPlaces[1], ImWochenEnde.outTransition[1]) annotation(
     Line(points = {{-28.8, -158}, {-67.2, -158}}, color = {0, 0, 0}, smooth = Smooth.None));
   connect(WochenEndGeber1.inPlaces[1], Dienstbereit.outTransition[4]) annotation(
@@ -157,8 +158,6 @@ equation
     Line(points = {{-52.8, -118}, {-156, -118}, {-156, -77.2}, {-150.8, -77.2}}, color = {0, 0, 0}, smooth = Smooth.None));
   connect(WEenderbeiKrank.inPlaces[1], SollInsWochenEnde.outTransition[3]) annotation(
     Line(points = {{107.2, -218}, {50, -218}, {50, -217.2}, {-7.33333, -217.2}}, color = {0, 0, 0}, smooth = Smooth.None));
-  connect(ArbeitszeitGeber.inPlaces[1], ArbeitszeitKontingent.outTransition[4]) annotation(
-    Line(points = {{-256, -172.8}, {-198, -172.8}, {-198, -73.6}, {-245.2, -73.6}}, color = {0, 0, 0}, smooth = Smooth.None));
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-300, -300}, {300, 300}}, initialScale = 0.1), graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-300, 300}, {300, -302}}), Line(points = {{-160, -100}, {158, -100}, {78, 0}, {-78, 0}, {-158, -100}}), Rectangle(extent = {{-76, 0}, {80, 138}}), Rectangle(extent = {{-20, 138}, {20, 160}}), Ellipse(extent = {{-72, 286}, {74, 160}}, endAngle = 360), Ellipse(extent = {{116, 134}, {80, 4}}, endAngle = 360), Ellipse(fillPattern = FillPattern.Solid, extent = {{-40, 260}, {-16, 236}}, endAngle = 360), Rectangle(fillColor = {255, 0, 0}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-8, -20}, {8, -80}}), Ellipse(extent = {{-62, -100}, {-10, -282}}, endAngle = 360), Ellipse(extent = {{12, -100}, {64, -282}}, endAngle = 360), Ellipse(fillColor = {255, 0, 0}, fillPattern = FillPattern.Solid, extent = {{-44, 196}, {46, 184}}, endAngle = 360), Ellipse(fillPattern = FillPattern.Solid, extent = {{18, 260}, {42, 236}}, endAngle = 360), Rectangle(extent = {{-8, 228}, {12, 214}}), Ellipse(extent = {{-76, 134}, {-112, 4}}, endAngle = 360), Rectangle(origin = {0, -50}, rotation = 90, fillColor = {255, 0, 0}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-8, 30}, {8, -30}}), Text(extent = {{-314, 470}, {290, 304}}, textString = "%name")}),
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-300, -300}, {300, 300}}, initialScale = 0.1), graphics));

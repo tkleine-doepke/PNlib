@@ -26,9 +26,9 @@ protected
   //activation process
   CPN.Blocks.activationDis activation(nIn=nIn, nOut=nOut, tIntIn=tIntIn, tIntOut=tIntOut, arcWeightIntIn=arcWeightIntIn, arcWeightIntOut=arcWeightIntOut, minTokensInt=minTokensInt, maxTokensInt=maxTokensInt, firingCon=firingCon);
   //Is the transition enabled by all input places?
-  Boolean enabledByInPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableIn) /*if nIn>0*/;
+  Boolean enabledByInPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableIn) if nIn>0;
    //Is the transition enabled by all output places?
-  Boolean enabledByOutPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableOut) /*if nOut>0*/;
+  Boolean enabledByOutPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableOut) if nOut>0;
   //****BLOCKS END****//
 public
   Boolean active "Is the transition active?";
@@ -59,7 +59,8 @@ equation
    //delay passed?
    delayPassed= active and time>=firingTime;
    //firing process
-   fire=if nOut==0 then enabledByInPlaces else enabledByOutPlaces;
+  // fire=if nOut==0 then enabledByInPlaces else enabledByOutPlaces;
+    fire=if nOut==0 and nIn==0 then false elseif nOut==0 then enabledByInPlaces else enabledByOutPlaces;
    //****MAIN END****//
    //****ERROR MESSENGES BEGIN****//
    for i in 1:nIn loop
