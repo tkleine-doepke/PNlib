@@ -56,7 +56,18 @@ equation
   //****MAIN BEGIN****//
   //recalculation of tokens
   pret=pre(t);
-  tokeninout = (if nIn>0 then pre(firingSumIn.firingSum) > 0 else false) or (if nOut>0 then pre(firingSumOut.firingSum) > 0 else false);
+
+  //tokeninout = (if nIn>0 then pre(firingSumIn.firingSum) > 0 else false) or (if nOut>0 then pre(firingSumOut.firingSum) > 0 else false);
+  if nIn>0 and nOut>0 then
+    tokeninout = pre(firingSumIn.firingSum) > 0 or pre(firingSumOut.firingSum) > 0;
+  elseif nIn>0 then
+    tokeninout = pre(firingSumIn.firingSum) > 0;
+    elseif nOut>0 then
+    tokeninout = pre(firingSumOut.firingSum) > 0;
+  else
+     tokeninout = false;
+  end if;
+
   when {if nIn>0 then pre(firingSumIn.firingSum) > 0 else false, if nOut>0 then pre(firingSumOut.firingSum) > 0 else false} then
     t = pret + (if nIn>0 then pre(firingSumIn.firingSum)  else 0) - (if nOut>0 then pre(firingSumOut.firingSum) else 0);
   end when;
