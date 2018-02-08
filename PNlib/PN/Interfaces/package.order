@@ -2,3 +2,5 @@ DisPlaceIn
 DisPlaceOut
 DisTransitionIn
 DisTransitionOut
+BooleanCon
+IntegerCon

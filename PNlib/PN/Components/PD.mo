@@ -14,7 +14,7 @@ model PD "Discrete Place"
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
 protected
   discrete Integer pret "pre marking";
-  Boolean tokeninout(start=false, fixed=true) "change of tokens?";
+  //Boolean tokeninout(start=false, fixed=true) "change of tokens?";
   Integer arcWeightIn[nIn] "Integer weights of input arcs";
   Boolean fireIn[nIn] "Do input transtions fire?";
   Boolean activeIn[nIn] "Are delays passed of input transitions?";
@@ -48,28 +48,45 @@ public
     each tint=pret,
     each minTokensint=minTokens,
     enable=enableOut.TEout_,
-    each tokenInOut=pre(tokeninout),
+    each tokenInOut=pre(tokeninout.value),
     fire=fireOut,
     arcWeightint=arcWeightOut,
     active=activeOut) if nOut > 0 "connector for output transitions" annotation(Placement(transformation(extent={{100, -10}, {116, 10}}, rotation=0)));
+
+
+
+      PNlib.PN.Interfaces.BooleanCon tokeninout1(value=(pre(firingSumIn.firingSum) > 0 or pre(firingSumOut.firingSum) > 0)) if (nIn>0 and nOut>0);
+      PNlib.PN.Interfaces.BooleanCon tokeninout2(value=pre(firingSumIn.firingSum) > 0) if (nIn>0 and nOut==0);
+      PNlib.PN.Interfaces.BooleanCon tokeninout3(value=pre(firingSumOut.firingSum) > 0) if (nIn==0 and nOut>0);
+      PNlib.PN.Interfaces.BooleanCon tokeninout4(value=false) if (nIn==0 and nOut==0);
+      PNlib.PN.Interfaces.BooleanCon tokeninout;
+
+      PNlib.PN.Interfaces.IntegerCon firingSum1(value=firingSumIn.firingSum) if nIn>0;
+      PNlib.PN.Interfaces.IntegerCon firingSum2(value=firingSumOut.firingSum) if nOut>0;
+      PNlib.PN.Interfaces.IntegerCon firingSum3(value=0) if nIn==0;
+      PNlib.PN.Interfaces.IntegerCon firingSum4(value=0) if nOut==0;
+      PNlib.PN.Interfaces.IntegerCon firingSumInput;
+      PNlib.PN.Interfaces.IntegerCon firingSumOutput;
+
+
 equation
   //****MAIN BEGIN****//
   //recalculation of tokens
   pret=pre(t);
 
   //tokeninout = (if nIn>0 then pre(firingSumIn.firingSum) > 0 else false) or (if nOut>0 then pre(firingSumOut.firingSum) > 0 else false);
-  if nIn>0 and nOut>0 then
-    tokeninout = pre(firingSumIn.firingSum) > 0 or pre(firingSumOut.firingSum) > 0;
-  elseif nIn>0 then
-    tokeninout = pre(firingSumIn.firingSum) > 0;
-    elseif nOut>0 then
-    tokeninout = pre(firingSumOut.firingSum) > 0;
-  else
-     tokeninout = false;
-  end if;
+  connect(tokeninout,tokeninout1);
+  connect(tokeninout,tokeninout2);
+  connect(tokeninout,tokeninout3);
+  connect(tokeninout,tokeninout4);
 
-  when {if nIn>0 then pre(firingSumIn.firingSum) > 0 else false, if nOut>0 then pre(firingSumOut.firingSum) > 0 else false} then
-    t = pret + (if nIn>0 then pre(firingSumIn.firingSum)  else 0) - (if nOut>0 then pre(firingSumOut.firingSum) else 0);
+  connect(firingSumInput,firingSum1);
+  connect(firingSumInput,firingSum3);
+  connect(firingSumOutput,firingSum2);
+  connect(firingSumOutput,firingSum4);
+
+  when {if nIn>0 then pre(firingSumInput.value) > 0 else false, if nOut>0 then pre(firingSumOutput.value) > 0 else false} then
+    t = pret + (if nIn>0 then pre(firingSumInput.value)  else 0) - (if nOut>0 then pre(firingSumOutput.value) else 0);
   end when;
   //****MAIN END****//
   //****ERROR MESSENGES BEGIN****//
