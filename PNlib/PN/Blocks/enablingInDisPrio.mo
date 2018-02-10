@@ -1,5 +1,5 @@
 within PNlib.PN.Blocks;
-block enablingInDis "enabling process of discrete input transitions"
+block enablingInDisPrio "enabling process of discrete input transitions"
   parameter input Integer nIn "number of input transitions";
   input Integer arcWeight[:] "arc weights of input transitions";
   input Integer t "current token number";
@@ -37,4 +37,4 @@ algorithm
   for i in 1:nIn loop
     TEin_[i] := TEin[i] and active[i];
   end for;
-end enablingInDis;
+end enablingInDisPrio;

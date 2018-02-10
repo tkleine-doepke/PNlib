@@ -1,5 +1,5 @@
 within PNlib.PN.Blocks;
-block enablingOutDis "enabling process of output transitions"
+block enablingOutDisPrio "enabling process of output transitions"
   parameter input Integer nOut "number of output transitions";
   input Integer arcWeight[:] "arc weights of output transitions";
   input Integer t "current token number";
@@ -36,4 +36,4 @@ algorithm
   for i in 1:nOut loop
     TEout_[i] := TEout[i] and TAout[i];
   end for;
-end enablingOutDis;
+end enablingOutDisPrio;

@@ -7,10 +7,23 @@ model PD "Discrete Place"
   parameter Integer startTokens = 0 "start tokens" annotation(Dialog(enable = true, group = "Tokens"));
   parameter Integer minTokens = 0 "minimum capacity" annotation(Dialog(enable = true, group = "Tokens"));
   parameter Integer maxTokens=PNlib.Constants.Integer_inf "maximum capacity" annotation(Dialog(enable = true, group = "Tokens"));
+
+  parameter PNlib.Types.EnablingType enablingType=PNlib.Types.EnablingType.Priority
+    "resolution type of actual conflict (type-1-conflict)" annotation(Dialog(enable = true, group = "Enabling"));
   parameter Integer enablingPrioIn[nIn]=1:nIn
-    "enabling priorities of input transitions" annotation(Dialog(enable =true, group = "Enabling"));
+    "enabling priorities of input transitions" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Priority then true else false, group = "Enabling"));
   parameter Integer enablingPrioOut[nOut]=1:nOut
-    "enabling priorities of output transitions" annotation(Dialog(enable = true, group = "Enabling"));
+    "enabling priorities of output transitions" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Priority then true else false, group = "Enabling"));
+  parameter Real enablingProbIn[nIn]=fill(1/nIn, nIn)
+    "enabling probabilities of input transitions" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Probability then true else false, group = "Enabling"));
+  parameter Real enablingProbOut[nOut]=fill(1/nOut, nOut)
+    "enabling probabilities of output transitions" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Probability then true else false, group = "Enabling"));
+  parameter Real enablingBeneIn[nIn]=1:nIn
+      "enabling benefit of input transitions" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Benefit then true else false, group = "Enabling"));
+  parameter Real enablingBeneOut[nOut]=1:nOut
+      "enabling benefit of output transitions" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Benefit then true else false, group = "Enabling"));
+  parameter PNlib.Types.BenefitType benefitType=PNlib.Types.BenefitType.Greedy
+        "enabling strategy for benefit" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Benefit then true else false, group = "Enabling"));
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
 protected
   discrete Integer pret "pre marking";
@@ -31,8 +44,8 @@ protected
   PN.Blocks.firingSumDis firingSumIn(fire=fireIn, arcWeight=arcWeightIn) if nIn>0;
   PN.Blocks.firingSumDis firingSumOut(fire=fireOut, arcWeight=arcWeightOut) if nOut>0;
   //Enabling process
-  PN.Blocks.enablingOutDis enableOut(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut, enablingPrio=enablingPrioOut) if nOut>0;
-  PN.Blocks.enablingInDis enableIn(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=if nIn>0 then enabledByInPlaces and activeIn else fill(true, nOut), enablingPrio=enablingPrioIn) if nIn>0;
+  PN.Blocks.enablingOutDisPrio enableOutPrio(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut, enablingPrio=enablingPrioOut) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Priority);
+  PN.Blocks.enablingInDisPrio enableInPrio(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=if nIn>0 then enabledByInPlaces and activeIn else fill(true, nOut), enablingPrio=enablingPrioIn) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Priority);
   //****BLOCKS END****//
 
 public

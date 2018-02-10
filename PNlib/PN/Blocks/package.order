@@ -1,6 +1,8 @@
 activationDis
 anyTrue
 anyChange
-enablingInDis
-enablingOutDis
+enablingInDisPrio
+enablingOutDisPrio
+enablingInDisProb
+enablingOutDisProb
 firingSumDis

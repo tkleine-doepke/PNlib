@@ -26,9 +26,9 @@ protected
   //activation process
   PN.Blocks.activationDis activation(nIn=nIn, nOut=nOut, tIntIn=tIntIn, tIntOut=tIntOut, arcWeightIntIn=arcWeightIntIn, arcWeightIntOut=arcWeightIntOut, minTokensInt=minTokensInt, maxTokensInt=maxTokensInt, firingCon=firingCon);
   //Is the transition enabled by all input places?
-  Boolean enabledByInPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableIn) if nIn>0;
+  //Boolean enabledByInPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableIn) if nIn>0;
    //Is the transition enabled by all output places?
-  Boolean enabledByOutPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableOut) if nOut>0;
+  //Boolean enabledByOutPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableOut) if nOut>0;
   //****BLOCKS END****//
 public
   Boolean active "Is the transition active?";
@@ -44,11 +44,24 @@ public
     each active=delayPassed,
     arcWeightint=arcWeightIntOut,
     each fire=fire,
-    each enabledByInPlaces=if nIn>0 then enabledByInPlaces else true,
+    each enabledByInPlaces=if nIn>0 then enabledIn.value else true,
     tint=tIntOut,
     maxTokensint=maxTokensInt,
     enable=enableOut) if nOut > 0 "connector for output places" annotation(Placement(transformation(extent={{40, -10}, {56, 10}}, rotation=0)));
+
+    PNlib.PN.Interfaces.BooleanCon enabledIn1(value=PNlib.Functions.OddsAndEnds.allTrue(enableIn)) if nIn>0;
+    PNlib.PN.Interfaces.BooleanCon enabledOut1(value=PNlib.Functions.OddsAndEnds.allTrue(enableOut)) if nOut>0;
+    PNlib.PN.Interfaces.BooleanCon enabledIn2(value=false) if nIn==0;
+    PNlib.PN.Interfaces.BooleanCon enabledOut2(value=false) if nOut==0;
+    PNlib.PN.Interfaces.BooleanCon enabledIn;
+    PNlib.PN.Interfaces.BooleanCon enabledOut;
+
 equation
+  connect(enabledIn,enabledIn1);
+  connect(enabledIn,enabledIn2);
+  connect(enabledOut,enabledOut1);
+  connect(enabledOut,enabledOut2);
+
   //****MAIN BEGIN****//
    //reset active when delay passed
    active = activation.active and not pre(delayPassed);
@@ -60,7 +73,7 @@ equation
    delayPassed= active and time>=firingTime;
    //firing process
   // fire=if nOut==0 then enabledByInPlaces else enabledByOutPlaces;
-    fire=if nOut==0 and nIn==0 then false elseif nOut==0 then enabledByInPlaces else enabledByOutPlaces;
+    fire=if nOut==0 and nIn==0 then false elseif nOut==0 then enabledIn.value else enabledOut.value;
    //****MAIN END****//
    //****ERROR MESSENGES BEGIN****//
    for i in 1:nIn loop
