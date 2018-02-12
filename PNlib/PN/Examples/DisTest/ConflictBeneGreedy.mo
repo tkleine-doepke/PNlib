@@ -1,7 +1,7 @@
 within PNlib.PN.Examples.DisTest;
-model ConflictPrio
+model ConflictBeneGreedy
   extends Modelica.Icons.Example;
-  PNlib.PN.Components.PD P1(nIn = 1, nOut = 2, startTokens = 2) annotation(Placement(transformation(extent = {{-30, -10}, {-10, 10}})));
+  PNlib.PN.Components.PD P1(enablingType = PNlib.Types.EnablingType.Benefit,nIn = 1, nOut = 2, startTokens = 2) annotation(Placement(transformation(extent = {{-30, -10}, {-10, 10}})));
   PNlib.PN.Components.TD T1(nIn = 1, nOut = 1) annotation(Placement(transformation(extent = {{0, 10}, {20, 30}})));
   PNlib.PN.Components.TD T2(nIn = 1, nOut = 1) annotation(Placement(transformation(extent = {{0, -30}, {20, -10}})));
   PNlib.PN.Components.PD P2(nIn = 1) annotation(Placement(transformation(extent = {{30, 10}, {50, 30}})));
@@ -15,4 +15,4 @@ equation
   connect(T2.inPlacesDis[1], P1.outTransitionDis[2]) annotation(Line(points = {{5.2, -20}, {-0.4, -20}, {-0.4, 0.5}, {-9.2, 0.5}}, color = {0, 0, 0}, smooth = Smooth.None));
   connect(T2.outPlacesDis[1], P3.inTransitionDis[1]) annotation(Line(points = {{14.8, -20}, {29.2, -20}}, color = {0, 0, 0}, smooth = Smooth.None));
   annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -40}, {60, 40}}), graphics), experiment(StartTime = 0.0, StopTime = 10.0, Tolerance = 1e-6));
-end ConflictPrio;
+end ConflictBeneGreedy;

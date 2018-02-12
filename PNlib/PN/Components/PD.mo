@@ -46,10 +46,14 @@ protected
   //Enabling process
   PN.Blocks.enablingOutDisPrio enableOutPrio(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut, enablingPrio=enablingPrioOut) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Priority);
   PN.Blocks.enablingInDisPrio enableInPrio(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=if nIn>0 then enabledByInPlaces and activeIn else fill(true, nOut), enablingPrio=enablingPrioIn) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Priority);
+
+  PN.Blocks.enablingOutDisProb enableOutPrio(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut,  enablingProb=enablingProbOut, localSeed=localSeedOut, globalSeed=settings.globalSeed) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Probability);
+  PN.Blocks.enablingInDisProb enableInPrio(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=enabledByInPlaces and activeIn, enablingProb=enablingProbIn, localSeed=localSeedIn, globalSeed=settings.globalSeed) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Probability);
+
   //****BLOCKS END****//
 
 public
-  PNlib.PN.Interfaces.DisPlaceIn inTransition[nIn](
+  PNlib.PN.Interfaces.DisPlaceIn inTransitionDis[nIn](
     each tint=pret,
     each maxTokensint=maxTokens,
     enable=enableIn.TEin_,
@@ -57,7 +61,7 @@ public
     arcWeightint=arcWeightIn,
     active=activeIn,
     enabledByInPlaces=enabledByInPlaces) if nIn > 0 "connector for input transitions" annotation(Placement(transformation(extent={{-114, -10}, {-98, 10}}, rotation=0), iconTransformation(extent={{-116, -10}, {-100, 10}})));
-  PNlib.PN.Interfaces.DisPlaceOut outTransition[nOut](
+  PNlib.PN.Interfaces.DisPlaceOut outTransitionDis[nOut](
     each tint=pret,
     each minTokensint=minTokens,
     enable=enableOut.TEout_,

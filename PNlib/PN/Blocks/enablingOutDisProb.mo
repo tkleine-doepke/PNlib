@@ -1,5 +1,5 @@
 within PNlib.PN.Blocks;
-block enablingOutDisPrio "enabling process of output transitions"
+block enablingOutDisProb "enabling process of output transitions"
   parameter input Integer nOut "number of output transitions";
   input Integer arcWeight[:] "arc weights of output transitions";
   input Integer t "current token number";
@@ -32,7 +32,7 @@ algorithm
   arcWeightSum := 0;
   when delayPassed then
     if nOut>0 then
-      arcWeightSum := Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAout);  //arc weight sum of all active output transitions
+      arcWeightSum := PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAout);  //arc weight sum of all active output transitions
       if t - arcWeightSum >= minTokens then  //Place has no actual conflict; all active output transitions are enabled
         TEout := TAout;
       else                          //Place has an actual conflict;
@@ -71,7 +71,7 @@ algorithm
               end if;
               nremTAout := nremTAout - 1;
               if nremTAout > 0 then
-                remTAout := Functions.OddsAndEnds.deleteElementInt(remTAout, k);
+                remTAout := PNlib.Functions.OddsAndEnds.deleteElementInt(remTAout, k);
                 cumEnablingProb := zeros(nOut);
                 sumEnablingProbTAout := sum(enablingProb[remTAout[1:nremTAout]]);
                 if sumEnablingProbTAout>0 then
@@ -112,4 +112,4 @@ algorithm
   for i in 1:nOut loop
     TEout_[i] := TEout[i] and TAout[i];
   end for;
-end enablingOutDisPrio;
+end enablingOutDisProb;

@@ -6,7 +6,7 @@ model TDtoPD
   PNlib.PN.Components.TD T1(nOut = 1) annotation(Placement(visible = true, transformation(origin={-20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PNlib.PN.Components.Settings settings annotation(Placement(visible = true, transformation(origin={30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(P1.inTransition[1], T1.outPlaces[1]) annotation(Line(points={{9.2, 0}, {
+  connect(P1.inTransitionDis[1], T1.outPlacesDis[1]) annotation(Line(points={{9.2, 0}, {
           9.2, 0}, {-15.2, 0}}));
   annotation(Diagram(coordinateSystem(extent={{-40, -40},
             {40, 40}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), experiment(StartTime=0.0, StopTime=10.0, Tolerance = 1e-6));
