@@ -32,8 +32,18 @@ block enablingInDisProb "enabling process of discrete input transitions"
   algorithm
   TEin:=fill(false, nIn);
   arcWeightSum := 0;
+  remTAin := fill(0, nIn);
+  cumEnablingProb := fill(0.0, nIn);
+  nremTAin := 0;
+  nTAin := 0;
+  k := 0;
+  posTE := 0;
+  //randNum := 0;
+  //state128 := pre(state128);
+  sumEnablingProbTAin := 0;
+  endWhile := false;
+
   when delayPassed then
-    if nIn>0 then
       arcWeightSum:=PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAein);  //arc weight sum of all active input transitions which are already enabled by their input places
       if t + arcWeightSum <= maxTokens then  //Place has no actual conflict; all active input transitions are enabled
         TEin:=TAein;
@@ -85,19 +95,7 @@ block enablingInDisProb "enabling process of discrete input transitions"
               end if;
             end if;
           end for;
-    else
-      remTAin := fill(0, nIn);
-      cumEnablingProb := fill(0.0, nIn);
-      arcWeightSum := 0;
-      nremTAin := 0;
-      nTAin := 0;
-      k := 0;
-      posTE := 0;
-      randNum := 0;
-      state128 := pre(state128);
-      sumEnablingProbTAin := 0;
-      endWhile := false;
-    end if;
+        end if;
   end when;
   // hack for Dymola 2017
   // TEin_ := TEin and active;

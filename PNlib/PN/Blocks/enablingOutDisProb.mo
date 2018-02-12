@@ -30,8 +30,18 @@ initial algorithm
 algorithm
   TEout := fill(false, nOut);
   arcWeightSum := 0;
+  remTAout := fill(0, nOut);
+  cumEnablingProb := fill(0.0, nOut);
+  nremTAout := 0;
+  nTAout := 0;
+  k := 0;
+  posTE := 0;
+  //randNum := 0;
+  //state128 := pre(state128);
+  sumEnablingProbTAout := 0.0;
+  endWhile := false;
+
   when delayPassed then
-    if nOut>0 then
       arcWeightSum := PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAout);  //arc weight sum of all active output transitions
       if t - arcWeightSum >= minTokens then  //Place has no actual conflict; all active output transitions are enabled
         TEout := TAout;
@@ -85,27 +95,7 @@ algorithm
               end if;
             end for;
           end if;
-          for i in 1: nOut loop
-            if TAout[i] and not disTransition[i] and t-(arcWeightSum+arcWeight[i])>=minTokens then
-              TEout[i] := true;
-              arcWeightSum := arcWeightSum + arcWeight[i];
-            end if;
-          end for;
         end if;
-      end if;
-    else
-      remTAout := fill(0, nOut);
-      cumEnablingProb := fill(0.0, nOut);
-      arcWeightSum := 0;
-      nremTAout := 0;
-      nTAout := 0;
-      k := 0;
-      posTE := 0;
-      randNum := 0;
-      state128 := pre(state128);
-      sumEnablingProbTAout := 0.0;
-      endWhile := false;
-    end if;
   end when;
   // hack for Dymola 2017
   // TEout_ := TEout and TAout;
