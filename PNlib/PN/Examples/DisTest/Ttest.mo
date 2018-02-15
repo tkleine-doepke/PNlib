@@ -7,13 +7,13 @@ model Ttest
     Placement(visible = true, transformation(origin = {-62, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P2(nIn = 1, nOut = 2)  annotation(
     Placement(visible = true, transformation(origin = {12, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.T T1(arcWeightIn = {2}, arcWeightOut = {3}, nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.T T1(arcWeightIntIn = {2}, arcWeightIntOut = {3}, nIn = 1, nOut = 1)  annotation(
     Placement(visible = true, transformation(origin = {-12, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.T T3(arcWeightIn = {2}, arcWeightOut = {2},nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.T T3(arcWeightIntIn = {2}, arcWeightIntOut = {2},nIn = 1, nOut = 1)  annotation(
     Placement(visible = true, transformation(origin = {40, 22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P3(nIn = 1)  annotation(
     Placement(visible = true, transformation(origin = {64, 22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.T T4(arcWeightIn = {2}, arcWeightOut = {2},nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.T T4(arcWeightIntIn = {2}, arcWeightIntOut = {2},nIn = 1, nOut = 1)  annotation(
     Placement(visible = true, transformation(origin = {42, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P4(nIn = 1)  annotation(
     Placement(visible = true, transformation(origin = {66, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

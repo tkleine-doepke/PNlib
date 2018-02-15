@@ -4,7 +4,7 @@ model TDtoPDfunction
   extends Modelica.Icons.Example;
   PNlib.PN.Components.PD P1(nIn = 1, nOut = 0, startTokens = 1) annotation(
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T1(arcWeightOut = {P1.t}, nOut = 1) annotation(
+  PNlib.PN.Components.TD T1(arcWeightIntOut = {P1.t}, nOut = 1) annotation(
     Placement(visible = true, transformation(origin = {-20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PNlib.PN.Components.Settings settings annotation(
     Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

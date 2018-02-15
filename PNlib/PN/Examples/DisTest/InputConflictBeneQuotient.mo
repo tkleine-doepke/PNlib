@@ -4,11 +4,11 @@ model InputConflictBeneQuotient
 
   PNlib.PN.Components.PD P1(benefitType = PNlib.Types.BenefitType.BenefitQuotient, enablingBeneIn = {6, 5}, enablingType = PNlib.Types.EnablingType.Benefit, maxTokens = 5, nIn = 2, nOut = 1) annotation(Placement(transformation(extent={{10, -10},
             {30, 10}})));
-  PNlib.PN.Components.TD T1(arcWeightIn = {3}, nIn = 1) annotation(Placement(transformation(extent={{40, -10}, {60,
+  PNlib.PN.Components.TD T1(arcWeightIntIn = {3}, nIn = 1) annotation(Placement(transformation(extent={{40, -10}, {60,
             10}})));
-  PNlib.PN.Components.TD T2(arcWeightOut = {3},nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{-20, 10},
+  PNlib.PN.Components.TD T2(arcWeightIntOut = {3},nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{-20, 10},
             {0, 30}})));
-  PNlib.PN.Components.TD T3(arcWeightOut = {2},nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{-20, -30},
+  PNlib.PN.Components.TD T3(arcWeightIntOut = {2},nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{-20, -30},
             {0, -10}})));
   PNlib.PN.Components.PD P2(startTokens = 5, nOut = 1) annotation(Placement(transformation(extent={{-50, 10},
             {-30, 30}})));

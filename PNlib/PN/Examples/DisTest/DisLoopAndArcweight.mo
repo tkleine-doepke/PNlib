@@ -4,7 +4,7 @@ model DisLoopAndArcweight
 
   PNlib.PN.Components.PD P1(nOut = 1, nIn = 1, startTokens = 2) annotation(Placement(transformation(extent={{-10, -30},
             {10, -10}})));
-  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, arcWeightIn = {2}, arcWeightOut = {3}) annotation(Placement(transformation(extent={{8, 10}, {
+  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, arcWeightIntIn = {2}, arcWeightIntOut = {3}) annotation(Placement(transformation(extent={{8, 10}, {
             -12, 30}})));
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent={{20, 40},
             {40, 60}})));

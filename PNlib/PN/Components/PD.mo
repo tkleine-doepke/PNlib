@@ -48,11 +48,15 @@ protected
   PN.Blocks.firingSumDis firingSumIn(fire=fireIn, arcWeight=arcWeightIn) if nIn>0;
   PN.Blocks.firingSumDis firingSumOut(fire=fireOut, arcWeight=arcWeightOut) if nOut>0;
   //Enabling process
-  PN.Blocks.enablingOutDisPrio enableOutPrio(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut, enablingPrio=enablingPrioOut) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Priority);
-  PN.Blocks.enablingInDisPrio enableInPrio(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=if nIn>0 then enabledByInPlaces and activeIn else fill(true, nOut), enablingPrio=enablingPrioIn) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Priority);
+  PNlib.PN.Blocks.enablingOutDisPrio enableOutPrio(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut, enablingPrio=enablingPrioOut) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Priority);
+  PNlib.PN.Blocks.enablingInDisPrio enableInPrio(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=if nIn>0 then enabledByInPlaces and activeIn else fill(true, nOut), enablingPrio=enablingPrioIn) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Priority);
 
-  PN.Blocks.enablingOutDisProb enableOutProb(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut,  enablingProb=enablingProbOut, localSeed=localSeedOut, globalSeed=settings.globalSeed) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Probability);
-  PN.Blocks.enablingInDisProb enableInProb(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=enabledByInPlaces and activeIn, enablingProb=enablingProbIn, localSeed=localSeedIn, globalSeed=settings.globalSeed) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Probability);
+  PNlib.PN.Blocks.enablingOutDisProb enableOutProb(delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut,  enablingProb=enablingProbOut, localSeed=localSeedOut, globalSeed=settings.globalSeed) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Probability);
+  PNlib.PN.Blocks.enablingInDisProb enableInProb(delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=enabledByInPlaces and activeIn, enablingProb=enablingProbIn, localSeed=localSeedIn, globalSeed=settings.globalSeed) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Probability);
+
+  PNlib.PN.Blocks.enablingOutDisBene enableOutBene (delayPassed=delayPassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut,  enablingBene=enablingBeneOut, benefitType=benefitType) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Benefit);
+  PNlib.PN.Blocks.enablingInDisBene enableInBene (delayPassed=delayPassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=enabledByInPlaces and activeIn, enablingBene=enablingBeneIn, benefitType=benefitType) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Benefit);
+
 
   //****BLOCKS END****//
 
@@ -85,6 +89,8 @@ public
     PNlib.PN.Interfaces.BooleanCon PrioOut[nOut](value=enableOutPrio.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Priority);
     PNlib.PN.Interfaces.BooleanCon ProbIn[nIn](value=enableInProb.TEin_) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Probability);
     PNlib.PN.Interfaces.BooleanCon ProbOut[nOut](value=enableOutProb.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Probability);
+    PNlib.PN.Interfaces.BooleanCon BeneIn[nIn](value=enableInBene.TEin_) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Benefit);
+    PNlib.PN.Interfaces.BooleanCon BeneOut[nOut](value=enableOutBene.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Benefit);
     PNlib.PN.Interfaces.BooleanCon enableInDummy[nIn](value=false) if (nIn==0);
     PNlib.PN.Interfaces.BooleanCon enableOutDummy[nOut](value=false) if (nOut==0);
     PNlib.PN.Interfaces.BooleanCon enableIn[nIn];
@@ -112,12 +118,14 @@ equation
 for i in 1:nIn loop
   connect(enableIn[i],PrioIn[i]);
   connect(enableIn[i],ProbIn[i]);
+  connect(enableIn[i],BeneIn[i]);
   connect(enableIn[i],enableInDummy[i]);
 end for;
 
 for i in 1:nOut loop
   connect(enableOut[i],PrioOut[i]);
   connect(enableOut[i],ProbOut[i]);
+  connect(enableOut[i],BeneOut[i]);
   connect(enableOut[i],enableOutDummy[i]);
 end for;
 

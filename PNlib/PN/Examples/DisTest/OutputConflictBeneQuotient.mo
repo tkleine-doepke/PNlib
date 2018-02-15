@@ -4,15 +4,15 @@ model OutputConflictBeneQuotient
   extends Modelica.Icons.Example;
   PNlib.PN.Components.PD P1(benefitType = PNlib.Types.BenefitType.BenefitQuotient, enablingBeneOut = {8, 7}, enablingType = PNlib.Types.EnablingType.Benefit, minTokens = 8, nIn = 1, nOut = 2, startTokens = 8) annotation(
     Placement(transformation(extent = {{-30, -10}, {-10, 10}})));
-  PNlib.PN.Components.TD T1(arcWeightIn = {4},nIn = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TD T1(arcWeightIntIn = {4},nIn = 1, nOut = 1) annotation(
     Placement(transformation(extent = {{0, 10}, {20, 30}})));
-  PNlib.PN.Components.TD T2(arcWeightIn = {3},nIn = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TD T2(arcWeightIntIn = {3},nIn = 1, nOut = 1) annotation(
     Placement(transformation(extent = {{0, -30}, {20, -10}})));
   PNlib.PN.Components.PD P2(nIn = 1) annotation(
     Placement(transformation(extent = {{30, 10}, {50, 30}})));
   PNlib.PN.Components.PD P3(nIn = 1) annotation(
     Placement(transformation(extent = {{30, -30}, {50, -10}})));
-  PNlib.PN.Components.TD T3(arcWeightOut = {2}, nOut = 1) annotation(
+  PNlib.PN.Components.TD T3(arcWeightIntOut = {2}, nOut = 1) annotation(
     Placement(transformation(extent = {{-60, -10}, {-40, 10}})));
   inner PNlib.PN.Components.Settings settings annotation(
     Placement(transformation(extent = {{-60, 20}, {-40, 40}})));

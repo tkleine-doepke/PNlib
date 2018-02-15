@@ -27,7 +27,7 @@ model FiveTimes
     Placement(visible = true, transformation(origin = {0, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.TT T4(nIn = 1, nOut = 1, tactStart = 2)  annotation(
     Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TE T6(arcWeightOut = {3, 3, 3, 3, 3}, event = {5.5}, nOut = 5)  annotation(
+  PNlib.PN.Components.TE T6(arcWeightIntOut = {3, 3, 3, 3, 3}, event = {5.5}, nOut = 5)  annotation(
     Placement(visible = true, transformation(origin = {-70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PC P9(nIn = 1, nOut = 1, startMarks = 3)  annotation(
     Placement(visible = true, transformation(origin = {-30, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
