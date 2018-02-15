@@ -1,6 +1,10 @@
 activationDis
+activationDisIn
+activationDisOut
 anyTrue
 anyChange
+delay
+duration
 enablingInDisBene
 enablingOutDisBene
 enablingInDisPrio

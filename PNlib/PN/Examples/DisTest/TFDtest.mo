@@ -8,7 +8,7 @@ model TFDtest
     Placement(visible = true, transformation(extent = {{-38, -10}, {-18, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P2(nIn = 1) annotation(
     Placement(visible = true, transformation(origin = {28, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TFD T1(nIn = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.FireDuration) annotation(
     Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(P1.outTransitionDis[1], T1.inPlacesDis[1]) annotation(

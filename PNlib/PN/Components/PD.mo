@@ -42,8 +42,8 @@ protected
   Boolean activeOut[nOut](each start=false, each fixed=true) "Are delay passed of output transitions?";
   //****BLOCKS BEGIN****// since no events are generated within functions!!!
   //Does any delay passed of a connected transition?
-  Blocks.anyTrue delayPassedOut(vec=activeOut) if nOut>0;
-  Blocks.anyTrue delayPassedIn(vec=activeIn) if nIn>0;
+  PNlib.Blocks.anyTrue delayPassedOut(vec=activeOut) if nOut>0;
+  PNlib.Blocks.anyTrue delayPassedIn(vec=activeIn) if nIn>0;
   //firing sum calculation
   PN.Blocks.firingSumDis firingSumIn(fire=fireIn, arcWeight=arcWeightIn) if nIn>0;
   PN.Blocks.firingSumDis firingSumOut(fire=fireOut, arcWeight=arcWeightOut) if nOut>0;
