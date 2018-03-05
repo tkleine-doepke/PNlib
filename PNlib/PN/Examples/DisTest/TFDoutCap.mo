@@ -8,11 +8,11 @@ model TFDoutCap
     Placement(visible = true, transformation(extent = {{-34, -10}, {-14, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P2(maxTokens = 1, nIn = 1, nOut = 1, startTokens = 1) annotation(
     Placement(visible = true, transformation(origin = {22, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TFD T1(nIn = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.FireDuration) annotation(
     Placement(visible = true, transformation(origin = {-2, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TE T2(event = {1, 2.5, 3.8}, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T2(event = {1, 2.5, 3.8}, nOut = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
     Placement(visible = true, transformation(origin = {-50, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TE T3(event = {1.5, 4}, nIn = 1)  annotation(
+  PNlib.PN.Components.TD T3(event = {1.5, 4}, nIn = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
     Placement(visible = true, transformation(origin = {44, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(T2.outPlacesDis[1], P1.inTransitionDis[1]) annotation(

@@ -8,11 +8,11 @@ model TFDoutputConflict
     Placement(visible = true, transformation(extent = {{-30, -6}, {-10, 14}}, rotation = 0)));
   PNlib.PN.Components.PD P2(localSeedIn = 3, localSeedOut = 4, nIn = 1) annotation(
     Placement(visible = true, transformation(origin = {40, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TFD T1(nIn = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.FireDuration) annotation(
     Placement(visible = true, transformation(origin = {10, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.TD T3(nOut = 1)  annotation(
     Placement(visible = true, transformation(origin = {-44, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TFD T2(nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T2(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.FireDuration)  annotation(
     Placement(visible = true, transformation(origin = {10, -24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P3(localSeedIn = 5, localSeedOut = 6, nIn = 1)  annotation(
     Placement(visible = true, transformation(origin = {40, -24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

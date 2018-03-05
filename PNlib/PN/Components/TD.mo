@@ -37,6 +37,7 @@ protected
 
   PN.Blocks.delay fireDelay (nIn=nIn, nOut=nOut, delay=delay, active=activationIn.active and activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Delay;
   PN.Blocks.duration fireDuration (nIn=nIn, nOut=nOut, duration=duration, activeIn=activationIn.active, activeOut=activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.FireDuration;
+  PN.Blocks.event fireEvent (nIn=nIn, nOut=nOut, event=event, active=activationIn.active and activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Event;
   //Is the transition enabled by all input places?
   //Boolean enabledByInPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableIn) if nIn>0;
    //Is the transition enabled by all output places?
@@ -56,7 +57,7 @@ public
     each active=timePassedOut.value,
     arcWeightint=arcWeightIntOut,
     each fire=fireOut.value,
-    each enabledByInPlaces=if nIn>0 and not timeType==PNlib.Types.TimeType.FireDuration then enabledIn else true,
+    each enabledByInPlaces=if nIn>0 and not timeType==PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
     tint=tIntOut,
     maxTokensint=maxTokensInt,
     enable=enableOut) if nOut > 0 "connector for output places" annotation(Placement(transformation(extent={{40, -10}, {56, 10}}, rotation=0)));
@@ -77,6 +78,11 @@ public
     PNlib.PN.Interfaces.BooleanCon fireOutDuration(value=fireDuration.fireOut) if  timeType==PNlib.Types.TimeType.FireDuration;
     PNlib.PN.Interfaces.BooleanCon timePassedInDuration(value=fireDuration.durationPassedIn) if  timeType==PNlib.Types.TimeType.FireDuration;
     PNlib.PN.Interfaces.BooleanCon timePassedOutDuration(value=fireDuration.durationPassedOut) if  timeType==PNlib.Types.TimeType.FireDuration;
+  // Event
+    PNlib.PN.Interfaces.BooleanCon fireInEvent(value=fireEvent.fire) if  timeType==PNlib.Types.TimeType.Event;
+    PNlib.PN.Interfaces.BooleanCon fireOutEvent(value=fireEvent.fire) if  timeType==PNlib.Types.TimeType.Event;
+    PNlib.PN.Interfaces.BooleanCon timePassedInEvent(value=fireEvent.eventPassed) if  timeType==PNlib.Types.TimeType.Event;
+    PNlib.PN.Interfaces.BooleanCon timePassedOutEvent(value=fireEvent.eventPassed) if  timeType==PNlib.Types.TimeType.Event;
   // Dummy
     PNlib.PN.Interfaces.BooleanCon fireIn;
     PNlib.PN.Interfaces.BooleanCon fireOut;
@@ -98,6 +104,12 @@ equation
   connect(fireOut,fireOutDuration);
   connect(timePassedIn,timePassedInDuration);
   connect(timePassedOut,timePassedOutDuration);
+// Delay
+  connect(fireIn,fireInEvent);
+  connect(fireOut,fireOutEvent);
+  connect(timePassedIn,timePassedInEvent);
+  connect(timePassedOut,timePassedOutEvent);
+
    //****ERROR MESSENGES BEGIN****//
    for i in 1:nIn loop
       assert(arcWeightIntIn[i]>=0, "Input arc weights must be positive.");
@@ -115,9 +127,11 @@ equation
         Text(
           extent={{-2, -112}, {-2, -140}},
           lineColor={0, 0, 0},
-          textString=DynamicSelect("d=%delay","d=%delay")),
+          textString=DynamicSelect(" ",if timeType==PNlib.Types.TimeType.Delay then "d=%delay" else "d=" )),
+
                                           Text(
           extent={{-4, 139}, {-4, 114}},
           lineColor={0, 0, 0},
           textString="%name")}), Diagram(graphics));
+
 end TD;
