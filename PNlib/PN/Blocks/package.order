@@ -6,6 +6,8 @@ anyChange
 delay
 duration
 event
+tact
+immediate
 enablingInDisBene
 enablingOutDisBene
 enablingInDisPrio

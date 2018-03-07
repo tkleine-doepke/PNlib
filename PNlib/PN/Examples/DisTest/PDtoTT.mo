@@ -6,7 +6,7 @@ model PDtoTT
             {40, 40}})));
   PNlib.PN.Components.PD P1(nOut = 1, startTokens = 10) annotation(Placement(transformation(extent={{-30, -10},
             {-10, 10}})));
-  PNlib.PN.Components.TT T1(nIn = 1)  annotation(
+  PNlib.PN.Components.TD T1(nIn = 1, timeType = PNlib.Types.TimeType.Tact, timeValue = {1, 1})  annotation(
     Placement(visible = true, transformation(origin = {18, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(P1.outTransitionDis[1], T1.inPlacesDis[1]) annotation(

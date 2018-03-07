@@ -3,17 +3,17 @@ model Ttest
   extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(Placement(visible = true, transformation(extent = {{-80, 20}, {-60, 40}}, rotation = 0)));
   PNlib.PN.Components.PD P1(nIn = 1,nOut = 1, startTokens = 0) annotation(Placement(visible = true, transformation(extent = {{-46, -12}, {-26, 8}}, rotation = 0)));
-  PNlib.PN.Components.TE T2(event = {1, 2, 3, 4}, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T2( nOut = 1, timeType = PNlib.Types.TimeType.Event,timeValue = {1, 2, 3, 4})  annotation(
     Placement(visible = true, transformation(origin = {-62, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P2(nIn = 1, nOut = 2)  annotation(
     Placement(visible = true, transformation(origin = {12, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.T T1(arcWeightIntIn = {2}, arcWeightIntOut = {3}, nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T1(arcWeightIntIn = {2}, arcWeightIntOut = {3}, nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.Immediate, timeValue = {0})  annotation(
     Placement(visible = true, transformation(origin = {-12, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.T T3(arcWeightIntIn = {2}, arcWeightIntOut = {2},nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T3(arcWeightIntIn = {2}, arcWeightIntOut = {2},nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.Immediate, timeValue = {0})  annotation(
     Placement(visible = true, transformation(origin = {40, 22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P3(nIn = 1)  annotation(
     Placement(visible = true, transformation(origin = {64, 22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.T T4(arcWeightIntIn = {2}, arcWeightIntOut = {2},nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T4(arcWeightIntIn = {2}, arcWeightIntOut = {2},nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.Immediate, timeValue = {0})  annotation(
     Placement(visible = true, transformation(origin = {42, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P4(nIn = 1)  annotation(
     Placement(visible = true, transformation(origin = {66, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

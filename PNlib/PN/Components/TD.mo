@@ -4,12 +4,7 @@ model TD "Discrete Transition with delay "
   parameter Integer nOut = 0 "number of output places" annotation(Dialog(connectorSizing=true));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
   parameter PNlib.Types.TimeType timeType=PNlib.Types.TimeType.Delay;
-  Real delay = 1 "delay of timed transition" annotation(Dialog(enable = if timeType==PNlib.Types.TimeType.Delay then true else false, group = "Discrete Time Concept"));
-  Real duration = 1 "duration of timed transition" annotation(Dialog(enable = if timeType==PNlib.Types.TimeType.FireDuration then true else false, group = "Discrete Time Concept"));
-  Real event[:] = {1,2,3} "Event time of timed transition" annotation(Dialog(enable = if timeType==PNlib.Types.TimeType.Event then true else false, group = "Discrete Time Concept"));
-  parameter Real tactIntervall = 1 "tact intervall of timed transition" annotation(Dialog(enable = if timeType==PNlib.Types.TimeType.Tact then true else false, group = "Discrete Time Concept"));
-  parameter Real tactStart = 1 "tact start of timed transition" annotation(Dialog(enable = if timeType==PNlib.Types.TimeType.Tact then true else false, group = "Discrete Time Concept"));
-  annotation(Dialog(enable = if timeType==PNlib.Types.TimeType.Delay then true else false, group = "Discrete Time Concept"));
+  parameter Real timeValue [:] = {1} "time Value of transition" annotation(Dialog(enable = true, group = "Discrete Time Concept"));
   Integer arcWeightIntIn[nIn] = fill(1, nIn) "arc weights of input places" annotation(Dialog(enable = true, group = "Arc Weights"));
   Integer arcWeightIntOut[nOut] = fill(1, nOut) "arc weights of output places" annotation(Dialog(enable = true, group = "Arc Weights"));
   Boolean firingCon=true "additional firing condition" annotation(Dialog(enable = true, group = "Firing Condition"));
@@ -35,9 +30,11 @@ protected
   PN.Blocks.activationDisIn activationIn(nIn=nIn, tIntIn=tIntIn, arcWeightIntIn=arcWeightIntIn, minTokensInt=minTokensInt, firingCon=firingCon);
   PN.Blocks.activationDisOut activationOut(nOut=nOut, tIntOut=tIntOut, arcWeightIntOut=arcWeightIntOut, maxTokensInt=maxTokensInt, firingCon=firingCon);
 
-  PN.Blocks.delay fireDelay (nIn=nIn, nOut=nOut, delay=delay, active=activationIn.active and activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Delay;
-  PN.Blocks.duration fireDuration (nIn=nIn, nOut=nOut, duration=duration, activeIn=activationIn.active, activeOut=activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.FireDuration;
-  PN.Blocks.event fireEvent (nIn=nIn, nOut=nOut, event=event, active=activationIn.active and activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Event;
+  PN.Blocks.delay fireDelay (nIn=nIn, nOut=nOut, delay=timeValue[1], active=activationIn.active and activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Delay;
+  PN.Blocks.duration fireDuration (nIn=nIn, nOut=nOut, duration=timeValue[1], activeIn=activationIn.active, activeOut=activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.FireDuration;
+  PN.Blocks.event fireEvent (nIn=nIn, nOut=nOut, event=timeValue, active=activationIn.active and activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Event;
+  PN.Blocks.tact fireTact (nIn=nIn, nOut=nOut, tactTime=timeValue, active=activationIn.active and activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Tact;
+  PN.Blocks.immediate fireImmediate (nIn=nIn, nOut=nOut, active=activationIn.active and activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Immediate;
   //Is the transition enabled by all input places?
   //Boolean enabledByInPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableIn) if nIn>0;
    //Is the transition enabled by all output places?
@@ -83,6 +80,16 @@ public
     PNlib.PN.Interfaces.BooleanCon fireOutEvent(value=fireEvent.fire) if  timeType==PNlib.Types.TimeType.Event;
     PNlib.PN.Interfaces.BooleanCon timePassedInEvent(value=fireEvent.eventPassed) if  timeType==PNlib.Types.TimeType.Event;
     PNlib.PN.Interfaces.BooleanCon timePassedOutEvent(value=fireEvent.eventPassed) if  timeType==PNlib.Types.TimeType.Event;
+  // Event
+    PNlib.PN.Interfaces.BooleanCon fireInTact(value=fireTact.fire) if  timeType==PNlib.Types.TimeType.Tact;
+    PNlib.PN.Interfaces.BooleanCon fireOutTact(value=fireTact.fire) if  timeType==PNlib.Types.TimeType.Tact;
+    PNlib.PN.Interfaces.BooleanCon timePassedInTact(value=fireTact.tactPassed) if  timeType==PNlib.Types.TimeType.Tact;
+    PNlib.PN.Interfaces.BooleanCon timePassedOutTact(value=fireTact.tactPassed) if  timeType==PNlib.Types.TimeType.Tact;
+  // Immediate
+    PNlib.PN.Interfaces.BooleanCon fireInImmediate(value=fireImmediate.fire) if  timeType==PNlib.Types.TimeType.Immediate;
+    PNlib.PN.Interfaces.BooleanCon fireOutImmediate(value=fireImmediate.fire) if  timeType==PNlib.Types.TimeType.Immediate;
+    PNlib.PN.Interfaces.BooleanCon timePassedInImmediate(value=fireImmediate.Passed) if  timeType==PNlib.Types.TimeType.Immediate;
+    PNlib.PN.Interfaces.BooleanCon timePassedOutImmediate(value=fireImmediate.Passed) if  timeType==PNlib.Types.TimeType.Immediate;
   // Dummy
     PNlib.PN.Interfaces.BooleanCon fireIn;
     PNlib.PN.Interfaces.BooleanCon fireOut;
@@ -104,11 +111,21 @@ equation
   connect(fireOut,fireOutDuration);
   connect(timePassedIn,timePassedInDuration);
   connect(timePassedOut,timePassedOutDuration);
-// Delay
+// Event
   connect(fireIn,fireInEvent);
   connect(fireOut,fireOutEvent);
   connect(timePassedIn,timePassedInEvent);
   connect(timePassedOut,timePassedOutEvent);
+// Tact
+  connect(fireIn,fireInTact);
+  connect(fireOut,fireOutTact);
+  connect(timePassedIn,timePassedInTact);
+  connect(timePassedOut,timePassedOutTact);
+// Immediate
+  connect(fireIn,fireInImmediate);
+  connect(fireOut,fireOutImmediate);
+  connect(timePassedIn,timePassedInImmediate);
+  connect(timePassedOut,timePassedOutImmediate);
 
    //****ERROR MESSENGES BEGIN****//
    for i in 1:nIn loop
@@ -117,6 +134,19 @@ equation
    for i in 1:nOut loop
       assert(arcWeightIntOut[i]>=0, "Output arc weights must be positive.");
    end for;
+
+   if timeType==PNlib.Types.TimeType.Delay then
+      assert(size(timeValue,1)==1, "Only one Value at timeValue for Delay");
+   elseif timeType==PNlib.Types.TimeType.FireDuration then
+      assert(size(timeValue,1)==1, "Only one Value at timeValue for Fire Duration");
+   elseif timeType==PNlib.Types.TimeType.Event then
+      assert(PNlib.Functions.OddsAndEnds.eventCheck(timeValue), "The event times must be greater than zero and must be specified in a larger order at timeValue");
+   elseif timeType==PNlib.Types.TimeType.Tact then
+     assert(size(timeValue,1)==2, "Exact two Values at timeValue for Tact");
+   else
+     assert(size(timeValue,1)==1 and timeValue[1]==0, "Only one Value at timeValue for Delay");
+   end if;
+
    //****ERROR MESSENGES END****//
 
   annotation(defaultComponentName = "T1", Icon(graphics={Rectangle(
@@ -127,9 +157,12 @@ equation
         Text(
           extent={{-2, -112}, {-2, -140}},
           lineColor={0, 0, 0},
-          textString=DynamicSelect(" ",if timeType==PNlib.Types.TimeType.Delay then "d=%delay" else "d=" )),
-
-                                          Text(
+          textString=DynamicSelect("%timeType","%timeType")),
+        Text(
+          extent={{-2, -152}, {-2, -180}},
+          lineColor={0, 0, 0},
+          textString=DynamicSelect("%timeValue","%timeValue")),
+        Text(
           extent={{-4, 139}, {-4, 114}},
           lineColor={0, 0, 0},
           textString="%name")}), Diagram(graphics));
