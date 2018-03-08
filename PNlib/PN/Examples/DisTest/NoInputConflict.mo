@@ -2,7 +2,7 @@ within PNlib.PN.Examples.DisTest;
 model NoInputConflict
   extends Modelica.Icons.Example;
   PNlib.PN.Components.TD T1(nOut = 1) annotation(Placement(visible = true, transformation(extent = {{-30, 10}, {-10, 30}}, rotation = 0)));
-  PNlib.PN.Components.TD T2(delay = 2, nOut = 1) annotation(Placement(visible = true, transformation(extent = {{-30, -30}, {-10, -10}}, rotation = 0)));
+  PNlib.PN.Components.TD T2(nOut = 1, timeValue = {2}) annotation(Placement(visible = true, transformation(extent = {{-30, -30}, {-10, -10}}, rotation = 0)));
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent={{-60, 20},
             {-40, 40}})));
   PNlib.PN.Components.PD P1(enablingPrioIn = {2, 1}, maxTokens = 1, nIn = 2)  annotation(

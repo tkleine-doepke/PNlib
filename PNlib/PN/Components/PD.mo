@@ -156,11 +156,15 @@ end for;
         lineColor={0, 0, 0},
         textString=DynamicSelect("%startTokens",realString(t, 1, 0))),
         Text(
-          extent={{-90, 130}, {-90, 116}},
+          extent={{0, -130}, {0, -116}},
           lineColor={0, 0, 0},
-          textString=DynamicSelect(" ", if true then if maxTokens>1073741822 then  "[%minTokens, inf]" else "[%minTokens, %maxTokens]" else " ")),
+          textString=DynamicSelect("Cmax=%maxTokens", "Cmax=%maxTokens")),
+                  Text(
+          extent={{0, -150}, {0, -136}},
+          lineColor={0, 0, 0},
+          textString=DynamicSelect("Cmin=%minTokens", "Cmin=%minTokens" )),
                                           Text(
-          extent={{-74, -113}, {-74, -138}},
+          extent={{-0, 113}, {-0, 138}},
           lineColor={0, 0, 0},
           textString="%name")}),
                            Diagram(graphics));

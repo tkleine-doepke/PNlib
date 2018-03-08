@@ -21,13 +21,13 @@ model FiveTimes
     Placement(visible = true, transformation(origin = {30, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.TD T1(nIn = 1, nOut = 1)  annotation(
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TE T2(event = {1, 3, 4, 5, 6, 9}, nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T2(timeValue = {1, 3, 4, 5, 6, 9}, nIn = 1, nOut = 1)  annotation(
     Placement(visible = true, transformation(origin = {0, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TFD T3(nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T3(nIn = 1, nOut = 1)  annotation(
     Placement(visible = true, transformation(origin = {0, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TT T4(nIn = 1, nOut = 1, tactStart = 2)  annotation(
+  PNlib.PN.Components.TD T4(nIn = 1, nOut = 1, timeValue = {2,1})  annotation(
     Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TE T6(arcWeightIntOut = {3, 3, 3, 3, 3}, event = {5.5}, nOut = 5)  annotation(
+  PNlib.PN.Components.TD T6(arcWeightIntOut = {3, 3, 3, 3, 3}, timeValue = {5.5}, nOut = 5)  annotation(
     Placement(visible = true, transformation(origin = {-70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PC P9(nIn = 1, nOut = 1, startMarks = 3)  annotation(
     Placement(visible = true, transformation(origin = {-30, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

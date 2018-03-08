@@ -3,9 +3,9 @@ model TTcircle
   extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(Placement(visible = true, transformation(extent = {{30, 30}, {50, 50}}, rotation = 0)));
   PNlib.PN.Components.PD P1(nIn = 1,nOut = 1, startTokens = 1) annotation(Placement(visible = true, transformation(extent = {{-30, 8}, {-10, 28}}, rotation = 0)));
-  PNlib.PN.Components.TT T1(nIn = 1, nOut = 1, tactIntervall = 1, tactStart = 0)  annotation(Placement(visible = true, transformation(origin = {0, 18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.Tact, timeValue = {0, 1})  annotation(Placement(visible = true, transformation(origin = {0, 18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P2(nIn = 1, nOut = 1)  annotation(Placement(visible = true, transformation(origin = {22, 18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TT T2(nIn = 1, nOut = 1,tactIntervall = 2, tactStart = 1.5)  annotation(Placement(visible = true, transformation(origin = {0, -22}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  PNlib.PN.Components.TD T2(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.Tact, timeValue = {1.5, 2})  annotation(Placement(visible = true, transformation(origin = {0, -22}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
   connect(T1.outPlacesDis[1], P2.inTransitionDis[1]) annotation(Line(points = {{4.8, 18}, {12.8, 18}, {12.8, 18}, {12.8, 18}}));
   connect(P2.outTransitionDis[1], T2.inPlacesDis[1]) annotation(Line(points = {{33, 18}, {40, 18}, {40, -22}, {4, -22}}));

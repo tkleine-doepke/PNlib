@@ -10,11 +10,11 @@ model TFDinputConflict
     Placement(visible = true, transformation(origin = {22, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.FireDuration) annotation(
     Placement(visible = true, transformation(origin = {-2, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T2(event = {1, 2.5, 3.8}, nOut = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
+  PNlib.PN.Components.TD T2(timeValue = {1, 2.5, 3.8}, nOut = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
     Placement(visible = true, transformation(origin = {-50, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T3(event = {1.8, 2.3, 3.9}, nIn = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
+  PNlib.PN.Components.TD T3(timeValue = {1.8, 2.3, 3.9}, nIn = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
     Placement(visible = true, transformation(origin = {44, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T4(event = {1.5, 3.5}, nOut = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
+  PNlib.PN.Components.TD T4(timeValue = {1.5, 3.5}, nOut = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
     Placement(visible = true, transformation(origin = {-2, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(T4.outPlacesDis[1], P2.inTransitionDis[2]) annotation(

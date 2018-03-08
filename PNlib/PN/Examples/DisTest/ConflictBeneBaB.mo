@@ -19,7 +19,7 @@ model ConflictBeneBaB
     Placement(visible = true, transformation(origin = {40, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P7(benefitType = PNlib.Types.BenefitType.BranchAndBound, enablingBeneOut = {6, 5, 3, 4, 2, 0}, enablingType = PNlib.Types.EnablingType.Benefit,nIn = 1, nOut = 6, startTokens = 4)  annotation(
     Placement(visible = true, transformation(origin = {-30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T7(arcWeightIntOut = {4},delay = 2, nIn = 1, nOut = 1)  annotation(
+  PNlib.PN.Components.TD T7(arcWeightIntOut = {4}, nIn = 1, nOut = 1, timeValue = {2})  annotation(
     Placement(visible = true, transformation(origin = {-40, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PNlib.PN.Components.TD T6(arcWeightIntIn = {1},nIn = 1, nOut = 1)  annotation(
     Placement(visible = true, transformation(origin = {4, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
