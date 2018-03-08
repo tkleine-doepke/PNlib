@@ -2,5 +2,7 @@ DisPlaceIn
 DisPlaceOut
 DisTransitionIn
 DisTransitionOut
-BooleanCon
-IntegerCon
+BooleanConIn
+BooleanConOut
+IntegerConIn
+IntegerConOut

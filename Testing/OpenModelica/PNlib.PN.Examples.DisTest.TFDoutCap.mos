@@ -1,0 +1,51 @@
+// name: PNlib.PN.Examples.DisTest.TFDoutCap
+// keywords: PNlib, discrete
+// status: correct
+
+loadFile("../../PNlib/package.mo"); getErrorString();
+simulate(PNlib.PN.Examples.DisTest.TFDoutCap); getErrorString();
+
+vars := {
+  "P1.t",
+  "P2.t",
+  "T1.fire",
+  "T1.fireIn",
+  "T1.fireOut",
+  "T1.activeIn",
+  "T1.activeOut",
+  "T2.fire",
+  "T2.active",
+  "T3.fire",
+  "T3.active"
+};
+
+(success, failVars) := OpenModelica.Scripting.diffSimulationResults("PNlib.PN.Examples.DisTest.TFDoutCap_res.mat",
+  "../../ReferenceFiles/PNlib.PN.Examples.DisTest.TFDoutCap.mat",
+  "PNlib.PN.Examples.DisTest.TFDoutCap_diff", vars=vars); getErrorString();
+
+if success then
+  print("Files Equal!");
+else
+  filterSimulationResults("PNlib.PN.Examples.DisTest.TFDoutCap_res.mat", "../../ReferenceFiles/PNlib.PN.Examples.DisTest.TFDoutCap_minimal.mat", vars, 0); getErrorString();
+end if;
+
+// Result:
+// true
+// "Notification: Automatically loaded package Modelica 3.2.2 due to uses annotation.
+// Notification: Automatically loaded package Complex 3.2.2 due to uses annotation.
+// Notification: Automatically loaded package ModelicaServices 3.2.2 due to uses annotation.
+// "
+// record SimulationResult
+//     resultFile = "PNlib.PN.Examples.DisTest.TFDoutCap_res.mat",
+//     simulationOptions = "startTime = 0.0, stopTime = 5.0, numberOfIntervals = 500, tolerance = 1e-06, method = 'dassl', fileNamePrefix = 'PNlib.PN.Examples.DisTest.TFDoutCap', options = '', outputFormat = 'mat', variableFilter = '.*', cflags = '', simflags = ''",
+//     messages = "LOG_SUCCESS       | info    | The initialization finished successfully without homotopy method.
+// LOG_SUCCESS       | info    | The simulation finished successfully.
+// "
+// end SimulationResult;
+// "Warning: The initial conditions are not fully specified. For more information set -d=initialization. In OMEdit Tools->Options->Simulation->OMCFlags, in OMNotebook call setCommandLineOptions("-d=initialization").
+// "
+// {"P1.t","P2.t","T1.fire","T1.fireIn","T1.fireOut","T1.activeIn","T1.activeOut","T2.fire","T2.active","T3.fire","T3.active"}
+//
+// ""
+// Files Equal!
+// endResult

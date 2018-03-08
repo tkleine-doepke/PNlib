@@ -79,29 +79,29 @@ public
     active=activeOut) if nOut > 0 "connector for output transitions" annotation(Placement(transformation(extent={{100, -10}, {116, 10}}, rotation=0)));
 
 
-    PNlib.PN.Interfaces.BooleanCon tokeninout1(value=(pre(firingSumIn.firingSum) > 0 or pre(firingSumOut.firingSum) > 0)) if (nIn>0 and nOut>0);
-    PNlib.PN.Interfaces.BooleanCon tokeninout2(value=pre(firingSumIn.firingSum) > 0) if (nIn>0 and nOut==0);
-    PNlib.PN.Interfaces.BooleanCon tokeninout3(value=pre(firingSumOut.firingSum) > 0) if (nIn==0 and nOut>0);
-    PNlib.PN.Interfaces.BooleanCon tokeninout4(value=false) if (nIn==0 and nOut==0);
-    PNlib.PN.Interfaces.BooleanCon tokeninout;
+    PNlib.PN.Interfaces.BooleanConIn tokeninout1(value=(pre(firingSumIn.firingSum) > 0 or pre(firingSumOut.firingSum) > 0)) if (nIn>0 and nOut>0);
+    PNlib.PN.Interfaces.BooleanConIn tokeninout2(value=pre(firingSumIn.firingSum) > 0) if (nIn>0 and nOut==0);
+    PNlib.PN.Interfaces.BooleanConIn tokeninout3(value=pre(firingSumOut.firingSum) > 0) if (nIn==0 and nOut>0);
+    PNlib.PN.Interfaces.BooleanConIn tokeninout4(value=false) if (nIn==0 and nOut==0);
+    PNlib.PN.Interfaces.BooleanConOut tokeninout;
 
-    PNlib.PN.Interfaces.BooleanCon PrioIn [nIn](value=enableInPrio.TEin_) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Priority);
-    PNlib.PN.Interfaces.BooleanCon PrioOut[nOut](value=enableOutPrio.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Priority);
-    PNlib.PN.Interfaces.BooleanCon ProbIn[nIn](value=enableInProb.TEin_) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Probability);
-    PNlib.PN.Interfaces.BooleanCon ProbOut[nOut](value=enableOutProb.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Probability);
-    PNlib.PN.Interfaces.BooleanCon BeneIn[nIn](value=enableInBene.TEin_) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Benefit);
-    PNlib.PN.Interfaces.BooleanCon BeneOut[nOut](value=enableOutBene.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Benefit);
-    PNlib.PN.Interfaces.BooleanCon enableInDummy[nIn](value=false) if (nIn==0);
-    PNlib.PN.Interfaces.BooleanCon enableOutDummy[nOut](value=false) if (nOut==0);
-    PNlib.PN.Interfaces.BooleanCon enableIn[nIn];
-    PNlib.PN.Interfaces.BooleanCon enableOut[nOut];
+    PNlib.PN.Interfaces.BooleanConIn PrioIn [nIn](value=enableInPrio.TEin_) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Priority);
+    PNlib.PN.Interfaces.BooleanConIn PrioOut[nOut](value=enableOutPrio.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Priority);
+    PNlib.PN.Interfaces.BooleanConIn ProbIn[nIn](value=enableInProb.TEin_) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Probability);
+    PNlib.PN.Interfaces.BooleanConIn ProbOut[nOut](value=enableOutProb.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Probability);
+    PNlib.PN.Interfaces.BooleanConIn BeneIn[nIn](value=enableInBene.TEin_) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Benefit);
+    PNlib.PN.Interfaces.BooleanConIn BeneOut[nOut](value=enableOutBene.TEout_) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Benefit);
+    PNlib.PN.Interfaces.BooleanConIn enableInDummy[nIn](value=false) if (nIn==0);
+    PNlib.PN.Interfaces.BooleanConIn enableOutDummy[nOut](value=false) if (nOut==0);
+    PNlib.PN.Interfaces.BooleanConOut enableIn[nIn];
+    PNlib.PN.Interfaces.BooleanConOut enableOut[nOut];
 
-    PNlib.PN.Interfaces.IntegerCon firingSum1(value=firingSumIn.firingSum) if nIn>0;
-    PNlib.PN.Interfaces.IntegerCon firingSum2(value=firingSumOut.firingSum) if nOut>0;
-    PNlib.PN.Interfaces.IntegerCon firingSum3(value=0) if nIn==0;
-    PNlib.PN.Interfaces.IntegerCon firingSum4(value=0) if nOut==0;
-    PNlib.PN.Interfaces.IntegerCon firingSumInput;
-    PNlib.PN.Interfaces.IntegerCon firingSumOutput;
+    PNlib.PN.Interfaces.IntegerConIn firingSum1(value=firingSumIn.firingSum) if nIn>0;
+    PNlib.PN.Interfaces.IntegerConIn firingSum2(value=firingSumOut.firingSum) if nOut>0;
+    PNlib.PN.Interfaces.IntegerConIn firingSum3(value=0) if nIn==0;
+    PNlib.PN.Interfaces.IntegerConIn firingSum4(value=0) if nOut==0;
+    PNlib.PN.Interfaces.IntegerConOut firingSumInput;
+    PNlib.PN.Interfaces.IntegerConOut firingSumOutput;
 
 
 equation
