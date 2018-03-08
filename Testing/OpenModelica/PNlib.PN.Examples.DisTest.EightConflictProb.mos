@@ -8,21 +8,13 @@ simulate(PNlib.PN.Examples.DisTest.EightConflictProb); getErrorString();
 vars := {
   "P1.t",
   "T1.active",
-  "T1.fire",
   "T2.active",
-  "T2.fire",
   "T3.active",
-  "T3.fire",
   "T4.active",
-  "T4.fire",
   "T5.active",
-  "T5.fire",
   "T6.active",
-  "T6.fire",
   "T7.active",
-  "T7.fire",
-  "T8.active",
-  "T8.fire"
+  "T8.active"
 };
 
 (success, failVars) := OpenModelica.Scripting.diffSimulationResults("PNlib.PN.Examples.DisTest.EightConflictProb_res.mat",
@@ -50,7 +42,7 @@ end if;
 // end SimulationResult;
 // "Warning: The initial conditions are not fully specified. For more information set -d=initialization. In OMEdit Tools->Options->Simulation->OMCFlags, in OMNotebook call setCommandLineOptions("-d=initialization").
 // "
-// {"P1.t","T1.active","T1.fire","T2.active","T2.fire","T3.active","T3.fire","T4.active","T4.fire","T5.active","T5.fire","T6.active","T6.fire","T7.active","T7.fire","T8.active","T8.fire"}
+// {"P1.t","T1.active","T2.active","T3.active",T4.active","T5.active","T6.active","T7.active","T8.active"}
 //
 // ""
 // Files Equal!

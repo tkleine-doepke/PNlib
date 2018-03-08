@@ -8,8 +8,12 @@ duration
 event
 tact
 immediate
-enablingInDisBene
-enablingOutDisBene
+enablingInDisBeneBaB
+enablingOutDisBeneBaB
+enablingInDisBeneGreedy
+enablingOutDisBeneGreedy
+enablingInDisBeneQuotient
+enablingOutDisBeneQuotient
 enablingInDisPrio
 enablingOutDisPrio
 enablingInDisProb

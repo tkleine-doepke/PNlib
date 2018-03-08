@@ -8,16 +8,10 @@ simulate(PNlib.PN.Examples.DisTest.TFDinputConflict); getErrorString();
 vars := {
   "P1.t",
   "P2.t",
-  "T1.fire",
-  "T1.fireIn",
-  "T1.fireOut",
-  "T1.activeIn",
-  "T1.activeOut",
-  "T2.fire",
+  "T1.TransitionDurationFire.value",
+  "T1.active",
   "T2.active",
-  "T3.fire",
   "T3.active",
-  "T4.fire",
   "T4.active"
 };
 
@@ -46,7 +40,7 @@ end if;
 // end SimulationResult;
 // "Warning: The initial conditions are not fully specified. For more information set -d=initialization. In OMEdit Tools->Options->Simulation->OMCFlags, in OMNotebook call setCommandLineOptions("-d=initialization").
 // "
-// {"P1.t","P2.t","T1.fire","T1.fireIn","T1.fireOut","T1.activeIn","T1.activeOut","T2.fire","T2.active","T3.fire","T3.active","T4.fire","T4.active"}
+// {"P1.t","P2.t","T1.TransitionDurationFire.value","T1.active","T2.active","T3.active","T4.active"}
 //
 // ""
 // Files Equal!

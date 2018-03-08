@@ -76,6 +76,7 @@ public
     PNlib.PN.Interfaces.BooleanConIn fireOutDuration(value=fireDuration.fireOut) if  timeType==PNlib.Types.TimeType.FireDuration;
     PNlib.PN.Interfaces.BooleanConIn timePassedInDuration(value=fireDuration.durationPassedIn) if  timeType==PNlib.Types.TimeType.FireDuration;
     PNlib.PN.Interfaces.BooleanConIn timePassedOutDuration(value=fireDuration.durationPassedOut) if  timeType==PNlib.Types.TimeType.FireDuration;
+    PNlib.PN.Interfaces.BooleanConIn TransitionDurationFire (value=fireDuration.fire) if  timeType==PNlib.Types.TimeType.FireDuration;
   // Event
     PNlib.PN.Interfaces.BooleanConIn fireInEvent(value=fireEvent.fire) if  timeType==PNlib.Types.TimeType.Event;
     PNlib.PN.Interfaces.BooleanConIn fireOutEvent(value=fireEvent.fire) if  timeType==PNlib.Types.TimeType.Event;

@@ -6,7 +6,7 @@ block enablingInDisProb "enabling process of discrete input transitions"
   input Integer maxTokens "maximum capacity";
   input Boolean TAein[:] "active previous transitions which are already enabled by their input places";
   input Real enablingProb[:] "enabling probabilites of input transitions";
-  input Boolean delayPassed "Does any delayPassed of a output transition";
+  input Boolean timePassed "Does any timePassed of a output transition";
   input Boolean active[:] "Are the input transitions active?";
   parameter input Integer localSeed "Local seed to initialize random number generator";
   parameter input Integer globalSeed "Global seed to initialize random number generator";
@@ -32,7 +32,7 @@ block enablingInDisProb "enabling process of discrete input transitions"
   algorithm
   TEin:=fill(false, nIn);
   arcWeightSum := 0;
-  when delayPassed then
+  when timePassed then
       arcWeightSum:=PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAein);  //arc weight sum of all active input transitions which are already enabled by their input places
       if t + arcWeightSum <= maxTokens then  //Place has no actual conflict; all active input transitions are enabled
         TEin:=TAein;

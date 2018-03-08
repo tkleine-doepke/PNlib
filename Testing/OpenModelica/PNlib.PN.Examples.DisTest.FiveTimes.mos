@@ -17,21 +17,14 @@ vars := {
   "P9.t",
   "P10.t",
   "T1.active",
-  "T1.fire",
   "T2.active",
-  "T2.fire",
-  "T3.fire",
-  "T3.fireIn",
-  "T3.fireOut",
-  "T3.activeIn",
-  "T3.activeOut",
+  "T3.TransitionDurationFire.value",
+  "T3.active",
   "T4.active",
-  "T4.fire",
   "T5.fire",
   "T5.instantaneousSpeed",
   "T5.maximumSpeed",
-  "T6.active",
-  "T6.fire"
+  "T6.active"
 };
 
 (success, failVars) := OpenModelica.Scripting.diffSimulationResults("PNlib.PN.Examples.DisTest.FiveTimes_res.mat",

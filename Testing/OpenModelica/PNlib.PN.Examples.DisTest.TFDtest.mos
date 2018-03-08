@@ -8,11 +8,8 @@ simulate(PNlib.PN.Examples.DisTest.TFDtest); getErrorString();
 vars := {
   "P1.t",
   "P2.t",
-  "T1.fire",
-  "T1.fireIn",
-  "T1.fireOut",
-  "T1.activeIn",
-  "T1.activeOut"
+  "T1.TransitionDurationFire.value",
+  "T1.active"
 };
 
 (success, failVars) := OpenModelica.Scripting.diffSimulationResults("PNlib.PN.Examples.DisTest.TFDtest_res.mat",
@@ -40,7 +37,7 @@ end if;
 // end SimulationResult;
 // "Warning: The initial conditions are not fully specified. For more information set -d=initialization. In OMEdit Tools->Options->Simulation->OMCFlags, in OMNotebook call setCommandLineOptions("-d=initialization").
 // "
-// {"P1.t","P2.t","T1.fire","T1.fireIn","T1.fireOut","T1.activeIn","T1.activeOut"}
+// {"P1.t","P2.t","T1.TransitionDurationFire.value","T1.active"}
 //
 // ""
 // Files Equal!

@@ -8,9 +8,7 @@ simulate(PNlib.PN.Examples.DisTest.NoInputConflict); getErrorString();
 vars := {
   "P1.t",
   "T1.active",
-  "T1.fire",
-  "T2.active",
-  "T2.fire"
+  "T2.active"
 };
 
 (success, failVars) := OpenModelica.Scripting.diffSimulationResults("PNlib.PN.Examples.DisTest.NoInputConflict_res.mat",
@@ -38,7 +36,7 @@ end if;
 // end SimulationResult;
 // "Warning: The initial conditions are not fully specified. For more information set -d=initialization. In OMEdit Tools->Options->Simulation->OMCFlags, in OMNotebook call setCommandLineOptions("-d=initialization").
 // "
-// {"P1.t","T1.active","T1.fire","T2.active","T2.fire"}
+// {"P1.t","T1.active","T2.active"}
 //
 // ""
 // Files Equal!

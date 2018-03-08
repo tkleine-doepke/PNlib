@@ -4,9 +4,9 @@ block enablingOutDisPrio "enabling process of output transitions"
   input Integer arcWeight[:] "arc weights of output transitions";
   input Integer t "current token number";
   input Integer minTokens "minimum capacity";
-  input Boolean TAout[:] "active output transitions with passed delay";
+  input Boolean TAout[:] "active output transitions with passed time";
   input Integer enablingPrio[:] "enabling priorities of output transitions";
-  input Boolean delayPassed "Does any delayPassed of a output transition";
+  input Boolean timePassed "Does any timePassed of a output transition";
   output Boolean TEout_[nOut] "enabled output transitions";
 protected
   Boolean TEout[nOut] "enabled output transitions";
@@ -16,7 +16,7 @@ algorithm
   TEout := fill(false, nOut);
   arcWeightSum := 0;
   Index := 0;
-  when delayPassed then
+  when timePassed then
       arcWeightSum := PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAout);  //arc weight sum of all active output transitions
       if t - arcWeightSum >= minTokens then  //Place has no actual conflict; all active output transitions are enabled
         TEout := TAout;

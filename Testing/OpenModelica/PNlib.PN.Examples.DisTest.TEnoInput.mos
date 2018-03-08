@@ -7,7 +7,6 @@ simulate(PNlib.PN.Examples.DisTest.TEnoInput); getErrorString();
 
 vars := {
   "P1.t",
-  "T2.fire",
   "T2.active"
 };
 
@@ -36,7 +35,7 @@ end if;
 // end SimulationResult;
 // "Warning: The initial conditions are not fully specified. For more information set -d=initialization. In OMEdit Tools->Options->Simulation->OMCFlags, in OMNotebook call setCommandLineOptions("-d=initialization").
 // "
-// {"P1.t","T2.fire","T2.active"}
+// {"P1.t",T2.active"}
 //
 // ""
 // Files Equal!

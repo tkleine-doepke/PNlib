@@ -4,7 +4,7 @@ TEST = ./rtest -v
 
 TESTFILES = \
 PNlib.PN.Examples.DisTest.ConflictPrio.mos \
-#PNlib.PN.Examples.DisTest.ConflictProb.mos \
+PNlib.PN.Examples.DisTest.ConflictProb.mos \
 PNlib.PN.Examples.DisTest.ConflictBeneGreedy.mos \
 PNlib.PN.Examples.DisTest.ConflictBeneQuotient.mos \
 PNlib.PN.Examples.DisTest.ConflictBeneBaB.mos \

@@ -6,7 +6,7 @@ block enablingInDisPrio "enabling process of discrete input transitions"
   input Integer maxTokens "maximum capacity";
   input Boolean TAein[:] "active previous transitions which are already enabled by their input places";
   input Integer enablingPrio[:] "enabling priorities of input transitions";
-  input Boolean delayPassed "Does any delayPassed of a output transition";
+  input Boolean timePassed "Does any timePassed of a output transition";
   input Boolean active[:] "Are the input transitions active?";
   output Boolean TEin_[nIn] "enabled input transitions";
 protected
@@ -17,7 +17,7 @@ algorithm
   TEin:=fill(false, nIn);
   arcWeightSum := 0;
   Index := 0;
-  when delayPassed then
+  when timePassed then
       arcWeightSum:=PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAein);  //arc weight sum of all active input transitions which are already enabled by their input places
       if t + arcWeightSum <= maxTokens then  //Place has no actual conflict; all active input transitions are enabled
         TEin:=TAein;
