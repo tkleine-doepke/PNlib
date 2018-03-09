@@ -43,8 +43,6 @@ PNlib.PN.Examples.DisTest.Ttest.mos \
 
 
 
-
-
 #TESTFILES = \
 PNlib.PN.Examples.ConTest.Conflict.mos \
 PNlib.PN.Examples.ConTest.ConflictLoop.mos \

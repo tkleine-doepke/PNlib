@@ -39,7 +39,7 @@ end if;
 // end SimulationResult;
 // "Warning: The initial conditions are not fully specified. For more information set -d=initialization. In OMEdit Tools->Options->Simulation->OMCFlags, in OMNotebook call setCommandLineOptions("-d=initialization").
 // "
-// {"P1.t","P2.t",""T1.TransitionDurationFire.value","T1.active","T2.active","T3.active"}
+// {"P1.t","P2.t","T1.TransitionDurationFire.value","T1.active","T2.active","T3.active"}
 //
 // ""
 // Files Equal!

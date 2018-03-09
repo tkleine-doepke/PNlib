@@ -12,20 +12,21 @@ protected
   Boolean TEout[nOut] "enabled output transitions";
   Integer arcWeightSum "arc weight sum";
   Integer Index "benefit Index";
-  Real enablingBene_[nOut]  "Benefit";
+  Real enablingBene_[nOut] "Benefit";
   Real BestValue "Max Benefit";
 algorithm
   TEout := fill(false, nOut);
   arcWeightSum := 0;
-  enablingBene_:=enablingBene;
   when timePassed then
       arcWeightSum := PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAout);  //arc weight sum of all active output transitions
       if t - arcWeightSum >= minTokens then  //Place has no actual conflict; all active output transitions are enabled
         TEout := TAout;
         Index:=0;
         BestValue:=0;
+        enablingBene_:=enablingBene;
       else
         arcWeightSum := 0;
+        enablingBene_:=enablingBene;
         for i in 1: nOut loop
           BestValue:=max(enablingBene_);
           Index:=Modelica.Math.Vectors.find(BestValue,enablingBene_);

@@ -21,7 +21,7 @@ algorithm
   benefitMax:=sum(enablingBene);
   benefitLimit:=0;
   when timePassed then
-      arcWeightSum:=Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAein);  //arc weight sum of all active input transitions which are already enabled by their input places
+      arcWeightSum:=PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAein);  //arc weight sum of all active input transitions which are already enabled by their input places
       if t + arcWeightSum <= maxTokens then  //Place has no actual conflict; all active input transitions are enabled
         TEin:=TAein;
         valid:=false;
