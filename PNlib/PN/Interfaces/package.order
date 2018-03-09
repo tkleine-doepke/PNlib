@@ -2,6 +2,10 @@ DisPlaceIn
 DisPlaceOut
 DisTransitionIn
 DisTransitionOut
+ExtIn
+ExtOut
+PlaceOutExt
+TransitionInExt
 BooleanConIn
 BooleanConOut
 IntegerConIn

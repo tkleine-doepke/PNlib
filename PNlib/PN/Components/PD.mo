@@ -3,6 +3,7 @@ model PD "Discrete Place"
   discrete Integer t(start = startTokens, fixed=true) "marking";
   parameter Integer nIn=0 "number of input transitions" annotation(Dialog(connectorSizing=true));
   parameter Integer nOut=0 "number of output transitions" annotation(Dialog(connectorSizing=true));
+  parameter Integer nOutExt=0 "number of output transitions" annotation(Dialog(connectorSizing=true));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
   parameter Integer startTokens = 0 "start tokens" annotation(Dialog(enable = true, group = "Tokens"));
   parameter Integer minTokens = 0 "minimum capacity" annotation(Dialog(enable = true, group = "Tokens"));
@@ -47,26 +48,24 @@ protected
   //firing sum calculation
   PN.Blocks.firingSumDis firingSumIn(fire=fireIn, arcWeight=arcWeightIn) if nIn>0;
   PN.Blocks.firingSumDis firingSumOut(fire=fireOut, arcWeight=arcWeightOut) if nOut>0;
-  //Enabling process
+  //Enabling process Prio
   PNlib.PN.Blocks.enablingOutDisPrio enableOutPrio(timePassed=timePassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut, enablingPrio=enablingPrioOut) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Priority);
   PNlib.PN.Blocks.enablingInDisPrio enableInPrio(timePassed=timePassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=if nIn>0 then enabledByInPlaces and activeIn else fill(true, nOut), enablingPrio=enablingPrioIn) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Priority);
-
+  //Enabling process Prob
   PNlib.PN.Blocks.enablingOutDisProb enableOutProb(timePassed=timePassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut,  enablingProb=enablingProbOut, localSeed=localSeedOut, globalSeed=settings.globalSeed) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Probability);
   PNlib.PN.Blocks.enablingInDisProb enableInProb(timePassed=timePassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=enabledByInPlaces and activeIn, enablingProb=enablingProbIn, localSeed=localSeedIn, globalSeed=settings.globalSeed) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Probability);
-
+  //Enabling process Benefit Greedy
   PNlib.PN.Blocks.enablingOutDisBeneGreedy enableOutBeneGreedy (timePassed=timePassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut,  enablingBene=enablingBeneOut) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Benefit and benefitType==PNlib.Types.BenefitType.Greedy);
   PNlib.PN.Blocks.enablingInDisBeneGreedy enableInBeneGreedy (timePassed=timePassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=enabledByInPlaces and activeIn, enablingBene=enablingBeneIn) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Benefit and benefitType==PNlib.Types.BenefitType.Greedy);
-
+  //Enabling process Benefit Quotient
   PNlib.PN.Blocks.enablingOutDisBeneQuotient enableOutBeneQuotient (timePassed=timePassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut,  enablingBene=enablingBeneOut) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Benefit and benefitType==PNlib.Types.BenefitType.BenefitQuotient);
   PNlib.PN.Blocks.enablingInDisBeneQuotient enableInBeneQuotient (timePassed=timePassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=enabledByInPlaces and activeIn, enablingBene=enablingBeneIn) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Benefit and benefitType==PNlib.Types.BenefitType.BenefitQuotient);
-
+  //Enabling process Benefit Branch and Bound
   PNlib.PN.Blocks.enablingOutDisBeneBaB enableOutBeneBaB (timePassed=timePassedOut.anytrue, nOut=nOut, arcWeight=arcWeightOut, t=pret, minTokens=minTokens, TAout=activeOut,  enablingBene=enablingBeneOut) if (nOut>0 and enablingType==PNlib.Types.EnablingType.Benefit and benefitType==PNlib.Types.BenefitType.BranchAndBound);
   PNlib.PN.Blocks.enablingInDisBeneBaB enableInBeneBaB (timePassed=timePassedIn.anytrue, active=activeIn, nIn=nIn, arcWeight=arcWeightIn, t=pret, maxTokens=maxTokens, TAein=enabledByInPlaces and activeIn, enablingBene=enablingBeneIn) if (nIn>0 and enablingType==PNlib.Types.EnablingType.Benefit and benefitType==PNlib.Types.BenefitType.BranchAndBound);
-
-
   //****BLOCKS END****//
-
 public
+
   PNlib.PN.Interfaces.DisPlaceIn inTransitionDis[nIn](
     each tint=pret,
     each maxTokensint=maxTokens,
@@ -83,7 +82,8 @@ public
     fire=fireOut,
     arcWeightint=arcWeightOut,
     active=activeOut) if nOut > 0 "connector for output transitions" annotation(Placement(transformation(extent={{100, -10}, {116, 10}}, rotation=0)));
-
+  PNlib.PN.Interfaces.PlaceOutExt extOut[nOutExt](
+      each t=pret) if nOutExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{70, 62}, {86, 82}}, rotation =45)));
 
     PNlib.PN.Interfaces.BooleanConIn tokeninout1(value=(pre(firingSumIn.firingSum) > 0 or pre(firingSumOut.firingSum) > 0)) if (nIn>0 and nOut>0);
     PNlib.PN.Interfaces.BooleanConIn tokeninout2(value=pre(firingSumIn.firingSum) > 0) if (nIn>0 and nOut==0);
