@@ -20,3 +20,8 @@ enablingOutDisPrio
 enablingInDisProb
 enablingOutDisProb
 firingSumDis
+tokenFlowCon
+firingSumCon
+enablingOutCon
+enablingInCon
+activationCon
