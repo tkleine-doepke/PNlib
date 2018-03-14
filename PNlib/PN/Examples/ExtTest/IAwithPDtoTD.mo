@@ -1,18 +1,23 @@
 within PNlib.PN.Examples.ExtTest;
 model IAwithPDtoTD
-  extends Modelica.Icons.Example;
+ extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent={{-60, 40}, {-40, 60}})));
-  PNlib.PN.Components.IA TA1(testValue=3) annotation(Placement(transformation(extent={{-20, -36}, {-6, -30}})));
-  PNlib.PN.Components.PD P1(nOut=2, startTokens=5) annotation(Placement(transformation(extent={{-54, -12}, {-34, 8}})));
-  PNlib.PN.Components.PD P2(nIn=1) annotation(Placement(transformation(extent={{30, 18}, {50, 38}})));
-  PNlib.PN.Components.PD P3(nIn=1) annotation(Placement(transformation(extent={{30, -42}, {50, -22}})));
-  PNlib.PN.Components.TD T1(nIn=1, nOut=1) annotation(Placement(transformation(extent={{6, 18}, {26, 38}})));
-  PNlib.PN.Components.TD T2(nIn=1, nOut=1) annotation(Placement(transformation(extent={{6, -42}, {26, -22}})));
+  PNlib.PN.Components.PD P1(nOut = 1, nOutExt = 1, startTokens=5) annotation(Placement(transformation(extent={{-52, -10}, {-32, 10}})));
+  PNlib.PN.Components.PD P2(nIn=1) annotation(Placement(visible = true, transformation(extent = {{30, -44}, {50, -24}}, rotation = 0)));
+  PNlib.PN.Components.PD P3(nIn=1) annotation(Placement(visible = true, transformation(extent = {{30, 10}, {50, 30}}, rotation = 0)));
+  PNlib.PN.Components.EA EA1(Arc = PNlib.Types.ArcType.RealInhibitorArc, testValue = 3) annotation(Placement(visible = true, transformation(extent = {{-18, 26}, {-4, 32}}, rotation = 0)));
+  PNlib.PN.Components.TD T1(nIn=1, nOut=1) annotation(Placement(visible = true, transformation(extent = {{6, -44}, {26, -24}}, rotation = 0)));
+  PNlib.PN.Components.TD T2(nInExt = 1, nIn = 0, nOut=1) annotation(Placement(visible = true, transformation(extent = {{6, 10}, {26, 30}}, rotation = 0)));
 equation
-  connect(P1.outTransition[1], T1.inPlaces[1]) annotation(Line(points={{-33.2, -2.5}, {-28, -2.5}, {-28, 28}, {11.2, 28}}, color={0, 0, 0}));
-  connect(T1.outPlaces[1], P2.inTransition[1]) annotation(Line(points={{20.8, 28}, {29.2, 28}}, color={0, 0, 0}));
-  connect(P1.outTransition[2], TA1.inPlace) annotation(Line(points={{-33.2, -1.5}, {-28, -1.5}, {-28, -33}, {-21.1111, -33}}, color={0, 0, 0}));
-  connect(TA1.outTransition, T2.inPlaces[1]) annotation(Line(points={{-4.88889, -33}, {1.5556, -33}, {1.5556, -32}, {11.2, -32}}, color={0, 0, 0}));
-  connect(T2.outPlaces[1], P3.inTransition[1]) annotation(Line(points={{20.8, -32}, {29.2, -32}}, color={0, 0, 0}));
+  connect(P1.outTransitionDis[1], T1.inPlacesDis[1]) annotation(
+    Line(points = {{-32, 0}, {-26, 0}, {-26, -34}, {12, -34}, {12, -34}}, thickness = 0.5));
+  connect(T2.outPlacesDis[1], P3.inTransitionDis[1]) annotation(
+    Line(points = {{20.8, 20}, {28.8, 20}, {28.8, 20}, {30.8, 20}}, thickness = 0.5));
+  connect(EA1.outExt, T2.extIn[1]) annotation(
+    Line(points = {{-3.27778, 29.6727}, {12.7222, 29.6727}, {12.7222, 29.6727}, {12.7222, 29.6727}}));
+  connect(EA1.inExt, P1.extOut[1]) annotation(
+    Line(points = {{-19, 28}, {-26.5, 28}, {-26.5, 8}, {-34, 8}}));
+  connect(T1.outPlacesDis[1], P2.inTransitionDis[1]) annotation(
+    Line(points = {{20.8, -34}, {28.8, -34}, {28.8, -34}, {30.8, -34}}, thickness = 0.5));
   annotation(Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-60, -60}, {60, 60}}), graphics), experiment(StartTime=0.0, StopTime=10.0, Tolerance = 1e-6));
 end IAwithPDtoTD;

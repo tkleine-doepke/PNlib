@@ -39,6 +39,33 @@ PNlib.PN.Examples.DisTest.TTcircle.mos \
 PNlib.PN.Examples.DisTest.TEtest.mos \
 PNlib.PN.Examples.DisTest.TEnoInput.mos \
 PNlib.PN.Examples.DisTest.Ttest.mos \
+PNlib.PN.Examples.ExtTest.DoubleArcwithPTtoTD.mos \
+PNlib.PN.Examples.ExtTest.DoubleArcwithPTtoTD2.mos \
+PNlib.PN.Examples.ExtTest.IAwithPDtoTD.mos \
+PNlib.PN.Examples.ExtTest.IAwithPDtoTD2.mos \
+PNlib.PN.Examples.ExtTest.TAwithPDtoTD.mos \
+PNlib.PN.Examples.ExtTest.TAwithPDtoTD2.mos \
+PNlib.PN.Examples.ExtTest.TDSTest.mos \
+PNlib.PN.Examples.ExtTest.TDSTestinterrupt.mos \
+PNlib.PN.Examples.ExtTest.TDStriangular.mos \
+PNlib.PN.Examples.ExtTest.TDSuniform.mos \
+PNlib.PN.Examples.ExtTest.TDStruncatednormal.mos \
+PNlib.PN.Examples.ExtTest.TDSdiscrete.mos \
+PNlib.PN.Examples.ExtTest.TFDStest.mos \
+PNlib.PN.Examples.ExtTest.TEStest.mos \
+
+#PNlib.PN.Examples.ExtTest.TATest.mos \
+PNlib.PN.Examples.ExtTest.IATest.mos \
+PNlib.PN.Examples.ExtTest.ArcswithPCtoTC.mos \
+PNlib.PN.Examples.ExtTest.ArcswithPCtoTC2.mos \
+PNlib.PN.Examples.ExtTest.ArcswithPCtoTC3.mos \
+PNlib.PN.Examples.ExtTest.DoubleArcwithPCtoTC.mos \
+PNlib.PN.Examples.ExtTest.IAwithPCtoTC.mos \
+PNlib.PN.Examples.ExtTest.TAwithPCtoTC.mos \
+PNlib.PN.Examples.ExtTest.TAwithWeaklyActivation.mos \
+PNlib.PN.Examples.ExtTest.NoTokens.mos \
+
+
 #PNlib.PN.Examples.DisTest.FiveTimes.mos \
 
 

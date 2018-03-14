@@ -103,7 +103,7 @@ public
     PNlib.PN.Interfaces.BooleanConOut timePassedIn;
     PNlib.PN.Interfaces.BooleanConOut timePassedOut;
 equation
-  active=activationIn.active and activationOut.active;
+  active=activationIn.active and activationOut.active and allExtendedCondition;
 // Enable
   connect(enabledIn,enabledIn1);
   connect(enabledIn,enabledIn2);
