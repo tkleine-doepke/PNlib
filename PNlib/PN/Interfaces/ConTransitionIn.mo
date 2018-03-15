@@ -11,5 +11,5 @@ connector ConTransitionIn "part of transition model to connect transitions to in
   output Real instSpeed "Instantaneous speed of a continuous transition" annotation(HideResult=true);
   output Real prelimSpeed "Preliminary speed of a continuous transition" annotation(HideResult=true);
   output Real maxSpeed "Maximum speed of a continuous transition" annotation(HideResult=true);
-  annotation(Icon(graphics={Polygon(points={{-100, 100}, {98, 0}, {-100, -100}, {-100, 100}}, lineColor={0, 0, 0}, fillColor={255, 0, 0}, fillPattern=FillPattern.Solid)}));
+  annotation(Icon(graphics = {Polygon(fillColor = {0, 0, 255}, fillPattern = FillPattern.Solid, points = {{-100, 100}, {98, 0}, {-100, -100}, {-100, 100}})}, coordinateSystem(initialScale = 0.1)));
 end ConTransitionIn;

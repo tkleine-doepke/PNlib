@@ -2,7 +2,8 @@ within PNlib.PN.Components;
 model PC "Continuous Place"
   Real t "marking";
   parameter Integer nIn(min=0)= 0 "number of input transitions" annotation(Dialog(enable=true,group="Connector sizing"));
-parameter Integer nOut(min=0)= 0 "number of output transitions" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nOut(min=0)= 0 "number of output transitions" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nOutExt(min=0)=0 "number of output transitions" annotation(Dialog(connectorSizing=true));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
   parameter Real startMarks = 0 "start marks" annotation(Dialog(enable = true, group = "Marks"));
   parameter Real minMarks = 0 "minimum capacity" annotation(Dialog(enable = true, group = "Marks"));
@@ -72,12 +73,7 @@ public
   maxSpeed=maxSpeedOut,
   prelimSpeed=prelimSpeedOut) if nOut > 0 "connector for output transitions" annotation(Placement(
         transformation(extent={{100, -10}, {116, 10}}, rotation=0)));
-  Modelica.Blocks.Interfaces.RealOutput pc_t=t
-    "connector for Simulink connection" annotation(Placement(
-        transformation(extent={{-36, 68}, {-16, 88}}), iconTransformation(
-        extent={{-10, -10}, {10, 10}},
-        rotation=90,
-        origin={0, 108})));
+  PNlib.PN.Interfaces.PlaceOutExt extOut[nOutExt](each t=pret) if nOutExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{70, 62}, {86, 82}}, rotation =45)));
 
 
   PNlib.PN.Interfaces.RealConIn decFactorIn1 [nIn] (value=decreasingFactorCon.decFactorIn) if (nIn>0 and nOut>0);
@@ -140,7 +136,7 @@ equation
           lineColor={0, 0, 0},
           textString=DynamicSelect("Cmin=%minTokens", "Cmin=%minTokens" )),
                                           Text(
-          extent={{-74, -103}, {-74, -128}},
+          extent={{-0, 113}, {-0, 138}},
           lineColor={0, 0, 0},
           textString="%name")}),
   Diagram(graphics));

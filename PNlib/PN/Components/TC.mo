@@ -2,6 +2,7 @@ within PNlib.PN.Components;
 model TC "Continuous Transition"
   parameter Integer nIn(min=0)= 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
   parameter Integer nOut(min=0)= 0 "number of output places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nInExt = 0 "number of input places" annotation(Dialog(connectorSizing=true));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
   Real maximumSpeed=1 "maximum speed" annotation(Dialog(enable = true, group = "Maximum Speed"));
   Real arcWeightIn[nIn]=fill(1, nIn) "arc weights of input places" annotation(Dialog(enable = true, group = "Arc Weights"));
@@ -12,7 +13,6 @@ model TC "Continuous Transition"
   Real instantaneousSpeed "instantaneous speed";
   Real actualSpeed = if fire then instantaneousSpeed else 0.0;
 protected
-  Real prelimSpeed "preliminary speed";
   Real tIn[nIn] "tokens of input places";
   Real tOut[nOut] "tokens of output places";
   Real minTokens[nIn] "minimum tokens of input places";
@@ -23,9 +23,13 @@ protected
   Real decreasingFactorOut[nOut] "decreasing factors of output places";
   Boolean fed[nIn] "Are the input places fed by their input transitions?";
   Boolean emptied[nOut] "Are the output places emptied by their output transitions?";
+  Boolean extendedCondition[nInExt] "Is the extended Arc Condition true?";
+  Boolean allExtendedCondition =PNlib.Functions.OddsAndEnds.allTrue(extendedCondition) "Are all the extended Arc Condition true?" ;
   //****BLOCKS BEGIN****// since no events are generated within functions!!!
   //activation process
   PNlib.PN.Blocks.activationCon activation(nIn=nIn, nOut=nOut, tIn=tIn, tOut=tOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, minTokens=minTokens, maxTokens=maxTokens, firingCon=firingCon, fed=fed, emptied=emptied);
+  //preliminary speed calculation
+  PNlib.PN.Blocks.preliminarySpeed prelimSpeed (nIn=nIn, nOut=nOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=activation.weaklyInputActiveVec, weaklyOutputActiveVec=activation.weaklyOutputActiveVec);
   //firing process
   //Boolean fire_ = PNlib.Functions.OddsAndEnds.allTrue(/* hack for Dymola 2017 */ PNlib.Functions.OddsAndEnds.boolOr(enableIn, not disPlaceIn));
   //****BLOCKS END****//
@@ -35,7 +39,7 @@ public
     each fire=fire,
     arcWeight=arcWeightIn,
     each instSpeed = instantaneousSpeed,
-    each prelimSpeed = prelimSpeed,
+    each prelimSpeed = prelimSpeed.prelimSpeed,
     each maxSpeed =  maximumSpeed,
     t=tIn,
     minTokens=minTokens,
@@ -47,21 +51,23 @@ public
     each fire=fire,
     arcWeight=arcWeightOut,
     each instSpeed = instantaneousSpeed,
-    each prelimSpeed = prelimSpeed,
+    each prelimSpeed = prelimSpeed.prelimSpeed,
     each maxSpeed =  maximumSpeed,
     t=tOut,
     maxTokens=maxTokens,
     emptied=emptied,
     speedSum=speedSumOut,
     decreasingFactor=decreasingFactorOut) if nOut > 0  "connector for output places" annotation(Placement(transformation(extent={{40, -10}, {56, 10}}, rotation=0)));
+    PNlib.PN.Interfaces.TransitionInExt extIn[nInExt](
+          condition=extendedCondition) if nInExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{-56, 80}, {-40, 100}}, rotation =0)));
 equation
   //****MAIN BEGIN****//
   //preliminary speed calculation
-  prelimSpeed = PNlib.PN.Functions.preliminarySpeed(nIn=nIn, nOut=nOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=activation.weaklyInputActiveVec, weaklyOutputActiveVec=activation.weaklyOutputActiveVec);
+  //prelimSpeed = PNlib.PN.Functions.preliminarySpeed(nIn=nIn, nOut=nOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=activation.weaklyInputActiveVec, weaklyOutputActiveVec=activation.weaklyOutputActiveVec);
   //firing process
-  fire=activation.active and not maximumSpeed<=0;
+  fire=activation.active and allExtendedCondition and not maximumSpeed<=0;
   //instantaneous speed calculation
-  instantaneousSpeed=min(min(min(decreasingFactorIn), min(decreasingFactorOut))*maximumSpeed, prelimSpeed);
+  instantaneousSpeed=min(min(min(decreasingFactorIn), min(decreasingFactorOut))*maximumSpeed, prelimSpeed.prelimSpeed);
   //****MAIN END****//
   //****ERROR MESSENGES BEGIN****//  hier noch Message gleiches Kantengewicht und auch Kante dis Place!!
   for i in 1:nIn loop

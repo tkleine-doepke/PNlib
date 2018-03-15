@@ -12,5 +12,5 @@ connector ConPlaceOut "part of place model to connect places to output transitio
   output Real decreasingFactor "Factor for decreasing the speed of continuous input transitions" annotation(HideResult=true);
   output Boolean fed "Is the continuous place fed by input transitions?" annotation(HideResult=true);
   output Real speedSum "Input speed of a continuous place" annotation(HideResult=true);
-  annotation(Icon(graphics={Polygon( points={{-100, 100}, {98, 0}, {-100, -100}, {-100, 100}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid)}));
+  annotation(Icon(graphics = {Polygon(fillColor = {0, 0, 255}, fillPattern = FillPattern.Solid, points = {{-100, 100}, {98, 0}, {-100, -100}, {-100, 100}})}, coordinateSystem(initialScale = 0.1)));
 end ConPlaceOut;
