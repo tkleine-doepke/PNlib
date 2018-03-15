@@ -13,7 +13,7 @@ equation
     Line(points = {{-20, 40}, {0, 40}, {0, 20}, {25, 20}}, thickness = 0.5));
   connect(T2.outPlaces[1], P2.inTransition[1]) annotation(
     Line(points = {{34, 58}, {48, 58}, {48, 58}, {50, 58}}, thickness = 0.5));
-  connect(P1.outTransition[1], T2.inPlaces[1]) annotation(
+  connect(P1.outTransition[2], T2.inPlaces[1]) annotation(
     Line(points = {{-20, 40}, {0, 40}, {0, 58}, {26, 58}, {26, 58}}, thickness = 0.5));
   connect(EA1.outExt, T2.extIn[1]) annotation(
     Line(points = {{16, 68}, {24, 68}, {24, 68}, {26, 68}}));
