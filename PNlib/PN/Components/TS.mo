@@ -1,8 +1,8 @@
 within PNlib.PN.Components;
 model TS "Stochastic Transition"
-  parameter Integer nIn = 0 "number of input places" annotation(Dialog(connectorSizing=true));
-  parameter Integer nOut = 0 "number of output places" annotation(Dialog(connectorSizing=true));
-  parameter Integer nInExt = 0 "number of input places" annotation(Dialog(connectorSizing=true));
+  parameter Integer nIn = 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nOut = 0 "number of output places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nInExt = 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
   parameter PNlib.Types.StoTimeType timeType=PNlib.Types.StoTimeType.Delay;
   parameter PNlib.Types.DistributionType distributionType=PNlib.Types.DistributionType.Exponential

@@ -3,7 +3,7 @@ model PC "Continuous Place"
   Real t "marking";
   parameter Integer nIn(min=0)= 0 "number of input transitions" annotation(Dialog(enable=true,group="Connector sizing"));
   parameter Integer nOut(min=0)= 0 "number of output transitions" annotation(Dialog(enable=true,group="Connector sizing"));
-  parameter Integer nOutExt(min=0)=0 "number of output transitions" annotation(Dialog(connectorSizing=true));
+  parameter Integer nOutExt(min=0)=0 "number of output transitions" annotation(Dialog(enable=true,group="Connector sizing"));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
   parameter Real startMarks = 0 "start marks" annotation(Dialog(enable = true, group = "Marks"));
   parameter Real minMarks = 0 "minimum capacity" annotation(Dialog(enable = true, group = "Marks"));
@@ -73,7 +73,7 @@ public
   maxSpeed=maxSpeedOut,
   prelimSpeed=prelimSpeedOut) if nOut > 0 "connector for output transitions" annotation(Placement(
         transformation(extent={{100, -10}, {116, 10}}, rotation=0)));
-  PNlib.PN.Interfaces.PlaceOutExt extOut[nOutExt](each t=pret) if nOutExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{70, 62}, {86, 82}}, rotation =45)));
+  PNlib.PN.Interfaces.PlaceOutExt extOut[nOutExt](each t=t) if nOutExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{70, 62}, {86, 82}}, rotation =45)));
 
 
   PNlib.PN.Interfaces.RealConIn decFactorIn1 [nIn] (value=decreasingFactorCon.decFactorIn) if (nIn>0 and nOut>0);
