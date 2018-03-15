@@ -8,7 +8,7 @@ model ZeroPlace
             -40, 10}})));
   PNlib.PN.Components.PC P1(nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{-30, -10},
             {-10, 10}})));
-  PNlib.PN.Components.TC T2(nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{0, -10},
+  PNlib.PN.Components.TC T2(maximumSpeed = 2,nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{0, -10},
             {20, 10}})));
   PNlib.PN.Components.PC P2(nIn = 1) annotation(Placement(transformation(extent={{30, -10}, {50,
             10}})));

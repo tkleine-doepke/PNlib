@@ -12,7 +12,7 @@ parameter Integer nOut(min=0)= 0 "number of output transitions" annotation(Dialo
     "resolution type of actual conflict (type-1-conflict)" annotation(Dialog(enable = true, group = "Enabling"));
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
 
-  PNlib.PN.Blocks.tokenFlowCon tokenFlow(nIn=nIn, nOut=nOut, conFiringSumIn=firingSumIn.conFiringSum, conFiringSumOut=firingSumOut.conFiringSum, fireIn=fireIn, fireOut=fireOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, instSpeedIn=instSpeedIn, instSpeedOut=instSpeedOut) if showTokenFlow;
+  PNlib.PN.Blocks.tokenFlowCon tokenFlow(nIn=nIn, nOut=nOut, conFiringSumIn=firingSumInCon.conFiringSum, conFiringSumOut=firingSumOutCon.conFiringSum, fireIn=fireIn, fireOut=fireOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, instSpeedIn=instSpeedIn, instSpeedOut=instSpeedOut) if showTokenFlow;
   parameter Integer localSeedIn = PNlib.Functions.Random.counter() "Local seed to initialize random number generator for input conflicts" annotation(Dialog(enable = true, group = "Random Number Generator"));
   parameter Integer localSeedOut = PNlib.Functions.Random.counter() "Local seed to initialize random number generator for output conflicts" annotation(Dialog(enable = true, group = "Random Number Generator"));
 protected
@@ -39,18 +39,18 @@ protected
   //Is the place emptied by output transitions?"
   PNlib.PN.Blocks.anyTrue emptying(vec=preFireOut);
   //firing sum calculation
-  PNlib.PN.Blocks.firingSumCon firingSumIn(fire=preFireIn, arcWeight=arcWeightIn, instSpeed=instSpeedIn);
-  PNlib.PN.Blocks.firingSumCon firingSumOut(fire=preFireOut, arcWeight=arcWeightOut, instSpeed=instSpeedOut);
+  PNlib.PN.Blocks.firingSumCon firingSumInCon(fire=preFireIn, arcWeight=arcWeightIn, instSpeed=instSpeedIn);
+  PNlib.PN.Blocks.firingSumCon firingSumOutCon(fire=preFireOut, arcWeight=arcWeightOut, instSpeed=instSpeedOut);
+  PNlib.PN.Blocks.decreasingFactor decreasingFactorCon (nIn=nIn, nOut=nOut, t=t_, minMarks=minMarks, maxMarks=maxMarks, speedIn= firingSumInCon.conFiringSum, speedOut= firingSumOutCon.conFiringSum, maxSpeedIn=maxSpeedIn, maxSpeedOut=maxSpeedOut, prelimSpeedIn=prelimSpeedIn, prelimSpeedOut=prelimSpeedOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, firingIn=fireIn, firingOut=fireOut) if nIn>0 and nOut>0 ;
+
   //****BLOCKS END****//
-  Real decFactorIn[nIn] "decreasing factors for input transitions";
-  Real decFactorOut[nOut] "decreasing factors for output transitions";
 public
   PNlib.PN.Interfaces.ConPlaceIn inTransition[nIn](
   each t=t_,
   each maxTokens=maxMarks,
   each emptied = emptying.anytrue,
-  decreasingFactor = decFactorIn,
-  each speedSum= firingSumOut.conFiringSum,
+  decreasingFactor = decFactorIn.value,
+  each speedSum= firingSumOutCon.conFiringSum,
   fire=fireIn,
   active=activeIn,
   arcWeight=arcWeightIn,
@@ -63,8 +63,8 @@ public
   each t = t_,
   each minTokens=minMarks,
   each fed=feeding.anytrue,
-  decreasingFactor=decFactorOut,
-  each speedSum=firingSumIn.conFiringSum,
+  decreasingFactor=decFactorOut.value,
+  each speedSum=firingSumInCon.conFiringSum,
   fire=fireOut,
   active=activeOut,
   arcWeight=arcWeightOut,
@@ -78,11 +78,29 @@ public
         extent={{-10, -10}, {10, 10}},
         rotation=90,
         origin={0, 108})));
+
+
+  PNlib.PN.Interfaces.RealConIn decFactorIn1 [nIn] (value=decreasingFactorCon.decFactorIn) if (nIn>0 and nOut>0);
+  PNlib.PN.Interfaces.RealConIn decFactorIn2 [nIn](each value=1.0) if not (nIn>0 and nOut>0);
+  PNlib.PN.Interfaces.RealConOut decFactorIn [nIn];
+
+  PNlib.PN.Interfaces.RealConIn decFactorOut1 [nOut] (value=decreasingFactorCon.decFactorOut) if (nIn>0 and nOut>0);
+  PNlib.PN.Interfaces.RealConIn decFactorOut2 [nOut] (each value=1.0) if not (nIn>0 and nOut>0);
+  PNlib.PN.Interfaces.RealConOut decFactorOut [nOut];
+
+
 equation
   //decreasing factor calculation
-  (decFactorIn, decFactorOut) = PNlib.PN.Functions.decreasingFactor(nIn=nIn, nOut=nOut, t=t_, minMarks=minMarks, maxMarks=maxMarks, speedIn= firingSumIn.conFiringSum, speedOut= firingSumOut.conFiringSum, maxSpeedIn=maxSpeedIn, maxSpeedOut=maxSpeedOut, prelimSpeedIn=prelimSpeedIn, prelimSpeedOut=prelimSpeedOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, firingIn=fireIn, firingOut=fireOut);
+  for i in 1:nIn loop
+    connect(decFactorIn[i],decFactorIn1[i]);
+    connect(decFactorIn[i],decFactorIn2[i]);
+  end for;
+  for i in 1:nOut loop
+    connect(decFactorOut[i],decFactorOut1[i]);
+    connect(decFactorOut[i],decFactorOut2[i]);
+  end for;
   //calculation of continuous mark change
-  conMarkChange=firingSumIn.conFiringSum-firingSumOut.conFiringSum;
+  conMarkChange=firingSumInCon.conFiringSum-firingSumOutCon.conFiringSum;
   der(t_)=conMarkChange;
 
   for i in 1:nOut loop
