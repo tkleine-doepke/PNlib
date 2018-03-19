@@ -8,6 +8,10 @@ DisTransitionIn
 DisTransitionOut
 ExtIn
 ExtOut
+HybPlaceIn
+HybPlaceOut
+HybTransitionIn
+HybTransitionOut
 PlaceOutExt
 TransitionInExt
 BooleanConIn

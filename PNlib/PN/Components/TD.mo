@@ -2,27 +2,39 @@ within PNlib.PN.Components;
 model TD "Discrete Transition with delay "
   parameter Integer nIn = 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
   parameter Integer nOut = 0 "number of output places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nInCon = 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nOutCon = 0 "number of output places" annotation(Dialog(enable=true,group="Connector sizing"));
   parameter Integer nInExt = 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
   parameter PNlib.Types.TimeType timeType=PNlib.Types.TimeType.Delay;
   parameter Real timeValue [:] = {1} "time Value of transition" annotation(Dialog(enable = true, group = "Discrete Time Concept"));
-  Integer arcWeightIntIn[nIn] = fill(1, nIn) "arc weights of input places" annotation(Dialog(enable = true, group = "Arc Weights"));
-  Integer arcWeightIntOut[nOut] = fill(1, nOut) "arc weights of output places" annotation(Dialog(enable = true, group = "Arc Weights"));
+  Integer arcWeightInDis[nIn] = fill(1, nIn) "arc weights of input places" annotation(Dialog(enable = true, group = "Arc Weights"));
+  Integer arcWeightOutDis[nOut] = fill(1, nOut) "arc weights of output places" annotation(Dialog(enable = true, group = "Arc Weights"));
   Boolean firingCon=true "additional firing condition" annotation(Dialog(enable = true, group = "Firing Condition"));
   Boolean active;
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
 protected
-  //Real firingTime "next putative firing time";
-  //Real delay_ = if delay < 1e-6 then 1e-6 else delay "due to event problems if delay==0";
-  Integer tIntIn[nIn] "integer tokens of input places (for generating events!)";
-  Integer tIntOut[nOut]
+// Discrete
+  Integer tInDis[nIn] "integer tokens of input places (for generating events!)";
+  Integer tOutDis[nOut]
     "integer tokens of output places (for generating events!)";
-  Integer minTokensInt[nIn]
+  Integer minTokensDis[nIn]
     "Integer minimum tokens of input places (for generating events!)";
-  Integer maxTokensInt[nOut]
+  Integer maxTokensDis[nOut]
     "Integer maximum tokens of output places (for generating events!)";
-  Boolean enableIn[nIn] "Is the transition enabled by input places?";
-  Boolean enableOut[nOut] "Is the transition enabled by output places?";
+  Boolean enableInDis[nIn] "Is the transition enabled by input places?";
+  Boolean enableOutDis[nOut] "Is the transition enabled by output places?";
+// Continuous
+  Real tInCon[nInCon] "integer tokens of input places (for generating events!)";
+  Real tOutCon[nOutCon]
+      "integer tokens of output places (for generating events!)";
+  Real minTokensCon[nInCon]
+      "Integer minimum tokens of input places (for generating events!)";
+  Real maxTokensCon[nOutCon]
+      "Integer maximum tokens of output places (for generating events!)";
+  Boolean enableInCon[nInCon] "Is the transition enabled by input places?";
+  Boolean enableOutCon[nOutCon] "Is the transition enabled by output places?";
+// extended
   Boolean extendedCondition[nInExt] "Is the extended Arc Condition true?";
   Boolean allExtendedCondition =PNlib.Functions.OddsAndEnds.allTrue(extendedCondition) "Are all the extended Arc Condition true?" ;
   //Boolean delayPassed(start=false, fixed=true) "Is the delay passed?";
@@ -31,10 +43,12 @@ protected
   //activation process
   //PN.Blocks.activationDis activation(nIn=nIn, nOut=nOut, tIntIn=tIntIn, tIntOut=tIntOut, arcWeightIntIn=arcWeightIntIn, arcWeightIntOut=arcWeightIntOut, minTokensInt=minTokensInt, maxTokensInt=maxTokensInt, firingCon=firingCon);
 
-  PN.Blocks.activationDisIn activationIn(nIn=nIn, tIntIn=tIntIn, arcWeightIntIn=arcWeightIntIn, minTokensInt=minTokensInt, firingCon=firingCon);
-  PN.Blocks.activationDisOut activationOut(nOut=nOut, tIntOut=tIntOut, arcWeightIntOut=arcWeightIntOut, maxTokensInt=maxTokensInt, firingCon=firingCon);
+  PN.Blocks.activationDisIn activationInDis(nIn=nIn, tIntIn=tInDis, arcWeightIntIn=arcWeightInDis, minTokensInt=minTokensDis, firingCon=firingCon);
+  PN.Blocks.activationDisOut activationOutDis(nOut=nOut, tIntOut=tOutDis, arcWeightIntOut=arcWeightOutDis, maxTokensInt=maxTokensDis, firingCon=firingCon);
+  PN.Blocks.activationConIn activationInCon(nIn=nInCon, tIn=tInCon, arcWeightIn=arcWeightInCon, minTokens=minTokensCon, firingCon=firingCon);
+  PN.Blocks.activationConOut activationOutCon(nOut=nOutCon, tOut=tOutCon, arcWeightOut=arcWeightOutCon, maxTokens=maxTokensCon, firingCon=firingCon);
 
-  PN.Blocks.delay fireDelay (nIn=nIn, nOut=nOut, delay=timeValue[1], active=active and allExtendedCondition, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Delay;
+  PN.Blocks.delay fireDelay (nIn=nIn, nOut=nOut, delay=timeValue[1], active=active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Delay;
   PN.Blocks.duration fireDuration (nIn=nIn, nOut=nOut, duration=timeValue[1], activeIn=activationIn.active, activeOut=activationOut.active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.FireDuration;
   PN.Blocks.event fireEvent (nIn=nIn, nOut=nOut, event=timeValue, active=active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Event;
   PN.Blocks.tact fireTact (nIn=nIn, nOut=nOut, tactTime=timeValue, active=active, firingCon=firingCon, enabledIn=enabledIn.value, enabledOut=enabledOut.value) if  timeType==PNlib.Types.TimeType.Tact;
@@ -49,19 +63,36 @@ public
   //Boolean fire "Does the transition fire?";
   PNlib.PN.Interfaces.DisTransitionIn inPlacesDis[nIn](
     each active=timePassedIn.value,
-    arcWeightint=arcWeightIntIn,
+    arcWeightint=arcWeightInDis,
     each fire=fireIn.value,
-    tint=tIntIn,
-    minTokensint=minTokensInt,
-    enable=enableIn) if nIn > 0 "connector for input places" annotation(Placement(transformation(extent={{-56, -10}, {-40, 10}}, rotation=0)));
+    tint=tInDis,
+    minTokensint=minTokensDis,
+    enable=enableInDis) if nIn > 0 "connector for input places" annotation(Placement(transformation(extent={{-56, -10}, {-40, 10}}, rotation=0)));
   PNlib.PN.Interfaces.DisTransitionOut outPlacesDis[nOut](
     each active=timePassedOut.value,
-    arcWeightint=arcWeightIntOut,
-    each fire=fireOut.value,
-    each enabledByInPlaces=if nIn>0 and not timeType==PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
-    tint=tIntOut,
-    maxTokensint=maxTokensInt,
-    enable=enableOut) if nOut > 0 "connector for output places" annotation(Placement(transformation(extent={{40, -10}, {56, 10}}, rotation=0)));
+    arcWeightint=arcWeightOutDis,
+    each fire=fireOutDis.value,
+    each enabledByInPlacesDis=if nIn>0 and not timeType==PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
+    tint=tOutDis,
+    maxTokensint=maxTokensDis,
+    enable=enableOutDis) if nOut > 0 "connector for output places" annotation(Placement(transformation(extent={{40, -10}, {56, 10}}, rotation=0)));
+  PNlib.PN.Interfaces.HybTransitionIn inPlacesCon[nInCon](
+    each active=timePassedIn.value,
+    arcWeight=arcWeightInCon,
+    each fire=fireInCon.value,
+    t=tInCon,
+    minTokens=minTokensCon,
+    enable=enableInDis) if nInCon > 0 "connector for input places" annotation(Placement(transformation(extent={{-56, -10}, {-40, 10}}, rotation=0)));
+  PNlib.PN.Interfaces.HybTransitionOut outPlacesCon[nOutCon](
+    each active=timePassedOut.value,
+    arcWeight=arcWeightOutCon,
+    each fire=fireOutCon.value,
+    each enabledByInPlacesCon=if nInCon>0 and not timeType==PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
+    t=tOutCon,
+    maxTokens=maxTokensCon,
+    enable=enableOutDis) if nOutCon > 0 "connector for output places" annotation(Placement(transformation(extent={{40, -10}, {56, 10}}, rotation=0)));
+
+
   PNlib.PN.Interfaces.TransitionInExt extIn[nInExt](
         condition=extendedCondition) if nInExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{-56, 80}, {-40, 100}}, rotation =0)));
   // Enable
