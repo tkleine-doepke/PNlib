@@ -18,14 +18,14 @@ algorithm
   arcWeightSum := 0;
   Index := 0;
   when timePassed then
-      arcWeightSum:=PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAein);  //arc weight sum of all active input transitions which are already enabled by their input places
+      arcWeightSum:=PNlib.Functions.OddsAndEnds.conditionalSum(arcWeight, TAein);  //arc weight sum of all active input transitions which are already enabled by their input places
       if t + arcWeightSum <= maxTokens then  //Place has no actual conflict; all active input transitions are enabled
         TEin:=TAein;
       else                          //Place has an actual conflict
         arcWeightSum:=0;
         for i in 1:nIn loop
           Index:=Modelica.Math.Vectors.find(i,enablingPrio);
-          if Index>0 and TAein[Index] and t+(arcWeightSum+arcWeight[Index])<=maxTokens then  ///new 07.03.2011
+          if Index>0 and TAein[Index] and t+(arcWeightSum+arcWeight[Index]-maxTokens) <= PNlib.Constants.almost_eps then  ///new 07.03.2011
             TEin[Index]:=true;
             arcWeightSum:=arcWeightSum + arcWeight[Index];
           end if;

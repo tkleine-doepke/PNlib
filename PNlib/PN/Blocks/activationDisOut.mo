@@ -4,7 +4,6 @@ block activationDisOut "Activation of a discrete transition"
   input Integer tIntOut[:] "tokens of output places";
   input Integer arcWeightIntOut[:] "arc weights of output places";
   input Integer maxTokensInt[:] "maximum capacities of output places";
-  input Boolean firingCon "firing condition of transition";
   output Boolean active "activation of transition";
 algorithm
   active:=true;
@@ -15,5 +14,4 @@ algorithm
         active:=false;
       end if;
   end for;
-  active:=active and firingCon;
 end activationDisOut;

@@ -5,7 +5,6 @@ block duration "Activation of a discrete transition"
   input Real duration "duration of timed transition";
   input Boolean activeIn "input activation of transition";
   input Boolean activeOut "output activation of transition";
-  input Boolean firingCon "firing condition of transition";
   input Boolean enabledIn;
   input Boolean enabledOut;
   output Boolean fireIn;

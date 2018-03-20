@@ -4,7 +4,6 @@ block activationDisIn "Activation of a discrete transition"
   input Integer tIntIn[:] "tokens of input places";
   input Integer arcWeightIntIn[:] "arc weights of input places";
   input Integer minTokensInt[:] "minimum capacities of input places";
-  input Boolean firingCon "firing condition of transition";
   output Boolean active "activation of transition";
 algorithm
   active:=true;
@@ -14,5 +13,4 @@ algorithm
         active:=false;
       end if;
   end for;
-  active:=active and firingCon;
 end activationDisIn;

@@ -4,7 +4,6 @@ block event "Activation of a discrete transition"
   parameter input Integer nOut "number of output places";
   input Real event [:] "events of timed transition";
   input Boolean active "activation of transition";
-  input Boolean firingCon "firing condition of transition";
   input Boolean enabledIn;
   input Boolean enabledOut;
   output Boolean fire;

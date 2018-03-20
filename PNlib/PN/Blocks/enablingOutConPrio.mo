@@ -17,14 +17,14 @@ algorithm
   arcWeightSum := 0;
   Index := 0;
   when timePassed then
-      arcWeightSum := PNlib.Functions.OddsAndEnds.conditionalSumInt(arcWeight, TAout);  //arc weight sum of all active output transitions
-      if t - arcWeightSum >= minTokens then  //Place has no actual conflict; all active output transitions are enabled
+      arcWeightSum := PNlib.Functions.OddsAndEnds.conditionalSum(arcWeight, TAout);  //arc weight sum of all active output transitions
+      if  ((t-arcWeightSum-minTokens>=-PNlib.Constants.almost_eps) or PNlib.Functions.OddsAndEnds.isEqual(arcWeightSum, 0.0)) then  //Place has no actual conflict; all active output transitions are enabled
         TEout := TAout;
       else                          //Place has an actual conflict;
         arcWeightSum := 0;
         for i in 1: nOut loop  //discrete transitions are proven at first
           Index:=Modelica.Math.Vectors.find(i,enablingPrio);
-          if Index>0 and TAout[Index] and t-(arcWeightSum+arcWeight[Index]) >= minTokens then
+          if Index>0 and TAout[Index] and ((t-arcWeightSum-arcWeight[Index]-minTokens>=-PNlib.Constants.almost_eps) or PNlib.Functions.OddsAndEnds.isEqual(arcWeight[Index], 0.0))  then
             TEout[Index] := true;
             arcWeightSum := arcWeightSum + arcWeight[Index];
           end if;
