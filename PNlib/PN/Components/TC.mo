@@ -1,80 +1,97 @@
 within PNlib.PN.Components;
 model TC "Continuous Transition"
-  parameter Integer nIn(min=0)= 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
-  parameter Integer nOut(min=0)= 0 "number of output places" annotation(Dialog(enable=true,group="Connector sizing"));
-  parameter Integer nInExt = 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nInCon(min=0)= 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nOutCon(min=0)= 0 "number of output places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nDis(min=0)= 0 "number of output places" annotation(Dialog(enable=true,group="Connector sizing"));
+  parameter Integer nInExt(min=0)= 0 "number of input places" annotation(Dialog(enable=true,group="Connector sizing"));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
   Real maximumSpeed=1 "maximum speed" annotation(Dialog(enable = true, group = "Maximum Speed"));
-  Real arcWeightIn[nIn]=fill(1, nIn) "arc weights of input places" annotation(Dialog(enable = true, group = "Arc Weights"));
-  Real arcWeightOut[nOut]=fill(1, nOut) "arc weights of output places" annotation(Dialog(enable = true, group = "Arc Weights"));
+  Real arcWeightInCon[nInCon]=fill(1, nInCon) "arc weights of input places" annotation(Dialog(enable = true, group = "Arc Weights"));
+  Real arcWeightOutCon[nOutCon]=fill(1, nOutCon) "arc weights of output places" annotation(Dialog(enable = true, group = "Arc Weights"));
+  Integer arcWeightDis[nDis]=fill(1, nDis) "arc weights of output places" annotation(Dialog(enable = true, group = "Arc Weights"));
   Boolean firingCon=true "Optinalonal firing condition" annotation(Dialog(enable = true, group = "Firing Condition"));
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
   Boolean fire "Does the transition fire?";
   Real instantaneousSpeed "instantaneous speed";
   Real actualSpeed = if fire then instantaneousSpeed else 0.0;
+  Boolean active;
+  PNlib.PN.Interfaces.ConTransitionIn[nInCon] inPlacesCon(
+    each active=active,
+    each fire=fire,
+    arcWeight=arcWeightInCon,
+    each instSpeed = instantaneousSpeed,
+    each prelimSpeed = prelimSpeed.prelimSpeed,
+    each maxSpeed =  maximumSpeed,
+    t=tInCon,
+    minTokens=minTokensCon,
+    fed=fed,
+    speedSum=speedSumIn,
+    decreasingFactor=decreasingFactorIn) if nInCon > 0 "connector for input places" annotation(Placement(transformation(extent={{ -56, -10}, {-40, 10}}, rotation=0)));
+  PNlib.PN.Interfaces.ConTransitionOut[nOutCon] outPlacesCon(
+    each active=active,
+    each fire=fire,
+    arcWeight=arcWeightOutCon,
+    each instSpeed = instantaneousSpeed,
+    each prelimSpeed = prelimSpeed.prelimSpeed,
+    each maxSpeed =  maximumSpeed,
+    t=tOutCon,
+    maxTokens=maxTokensCon,
+    emptied=emptied,
+    speedSum=speedSumOut,
+    decreasingFactor=decreasingFactorOut) if nOutCon > 0  "connector for output places" annotation(Placement(transformation(extent={{40, -10}, {56, 10}}, rotation=0)));
+    PNlib.PN.Interfaces.HybTransitionOutIn inOutPlacesDis[nDis](
+    each active = active,
+    arcWeight = arcWeightDis,
+    enable = enabledByDisPlaces,
+    t = tDis,
+    minTokens = minTokensDis,
+    maxTokens = maxTokensDis) if nDis > 0 "connector for output places" annotation(
+      Placement(visible = true, transformation(extent = {{-56, -98}, {-40, -78}}, rotation = 0), iconTransformation(extent = {{-56, -98}, {-40, -78}}, rotation = 0)));
+    PNlib.PN.Interfaces.TransitionInExt extIn[nInExt](
+          condition=extendedCondition) if nInExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{-56, 80}, {-40, 100}}, rotation =0)));
 protected
-  Real tIn[nIn] "tokens of input places";
-  Real tOut[nOut] "tokens of output places";
-  Real minTokens[nIn] "minimum tokens of input places";
-  Real maxTokens[nOut] "maximum tokens of output places";
-  Real speedSumIn[nIn] "Input speeds of continuous input places";
-  Real speedSumOut[nOut] "Output speeds of continuous output places";
-  Real decreasingFactorIn[nIn] "decreasing factors of input places";
-  Real decreasingFactorOut[nOut] "decreasing factors of output places";
-  Boolean fed[nIn] "Are the input places fed by their input transitions?";
-  Boolean emptied[nOut] "Are the output places emptied by their output transitions?";
+  Real tInCon[nInCon] "tokens of input places";
+  Real tOutCon[nOutCon] "tokens of output places";
+  Integer tDis[nDis] "tokens of output places";
+  Real minTokensCon[nInCon] "minimum tokens of input places";
+  Integer minTokensDis[nDis] "minimum tokens of Discrete places";
+  Integer maxTokensDis[nDis] "maximum tokens of Discrete places";
+  Real maxTokensCon[nOutCon] "maximum tokens of output places";
+  Real speedSumIn[nInCon] "Input speeds of continuous input places";
+  Real speedSumOut[nOutCon] "Output speeds of continuous output places";
+  Real decreasingFactorIn[nInCon] "decreasing factors of input places";
+  Real decreasingFactorOut[nOutCon] "decreasing factors of output places";
+  Boolean fed[nInCon] "Are the input places fed by their input transitions?";
+  Boolean emptied[nOutCon] "Are the output places emptied by their output transitions?";
+  Boolean enabledByDisPlaces[nDis] "Is the extended Arc Condition true?";
+  Boolean allEnabledByDisPlaces =PNlib.Functions.OddsAndEnds.allTrue(enabledByDisPlaces) "Are all the extended Arc Condition true?" ;
   Boolean extendedCondition[nInExt] "Is the extended Arc Condition true?";
   Boolean allExtendedCondition =PNlib.Functions.OddsAndEnds.allTrue(extendedCondition) "Are all the extended Arc Condition true?" ;
   //****BLOCKS BEGIN****// since no events are generated within functions!!!
   //activation process
-  PNlib.PN.Blocks.activationCon activation(nIn=nIn, nOut=nOut, tIn=tIn, tOut=tOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, minTokens=minTokens, maxTokens=maxTokens, firingCon=firingCon, fed=fed, emptied=emptied);
+  PNlib.PN.Blocks.activationCon conActivation(nIn=nInCon, nOut=nOutCon, tIn=tInCon, tOut=tOutCon, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, minTokens=minTokensCon, maxTokens=maxTokensCon, firingCon=firingCon, fed=fed, emptied=emptied);
+  PNlib.PN.Blocks.activationDis disActivation(nDis=nDis, tDis=tDis, arcWeightDis=arcWeightDis, minTokensDis=minTokensDis, maxTokensDis=maxTokensDis);
   //preliminary speed calculation
-  PNlib.PN.Blocks.preliminarySpeed prelimSpeed (nIn=nIn, nOut=nOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=activation.weaklyInputActiveVec, weaklyOutputActiveVec=activation.weaklyOutputActiveVec);
+  PNlib.PN.Blocks.preliminarySpeed prelimSpeed (nIn=nInCon, nOut=nOutCon, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=conActivation.weaklyInputActiveVec, weaklyOutputActiveVec=conActivation.weaklyOutputActiveVec);
   //firing process
   //Boolean fire_ = PNlib.Functions.OddsAndEnds.allTrue(/* hack for Dymola 2017 */ PNlib.Functions.OddsAndEnds.boolOr(enableIn, not disPlaceIn));
   //****BLOCKS END****//
-public
-  PNlib.PN.Interfaces.ConTransitionIn[nIn] inPlaces(
-    each active=activation.active,
-    each fire=fire,
-    arcWeight=arcWeightIn,
-    each instSpeed = instantaneousSpeed,
-    each prelimSpeed = prelimSpeed.prelimSpeed,
-    each maxSpeed =  maximumSpeed,
-    t=tIn,
-    minTokens=minTokens,
-    fed=fed,
-    speedSum=speedSumIn,
-    decreasingFactor=decreasingFactorIn) if nIn > 0 "connector for input places" annotation(Placement(transformation(extent={{ -56, -10}, {-40, 10}}, rotation=0)));
-  PNlib.PN.Interfaces.ConTransitionOut[nOut] outPlaces(
-    each active=activation.active,
-    each fire=fire,
-    arcWeight=arcWeightOut,
-    each instSpeed = instantaneousSpeed,
-    each prelimSpeed = prelimSpeed.prelimSpeed,
-    each maxSpeed =  maximumSpeed,
-    t=tOut,
-    maxTokens=maxTokens,
-    emptied=emptied,
-    speedSum=speedSumOut,
-    decreasingFactor=decreasingFactorOut) if nOut > 0  "connector for output places" annotation(Placement(transformation(extent={{40, -10}, {56, 10}}, rotation=0)));
-    PNlib.PN.Interfaces.TransitionInExt extIn[nInExt](
-          condition=extendedCondition) if nInExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{-56, 80}, {-40, 100}}, rotation =0)));
 equation
   //****MAIN BEGIN****//
   //preliminary speed calculation
-  //prelimSpeed = PNlib.PN.Functions.preliminarySpeed(nIn=nIn, nOut=nOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=activation.weaklyInputActiveVec, weaklyOutputActiveVec=activation.weaklyOutputActiveVec);
+  //prelimSpeed = PNlib.PN.Functions.preliminarySpeed(nIn=nIn, nOut=nOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=conActivation.weaklyInputActiveVec, weaklyOutputActiveVec=conActivation.weaklyOutputActiveVec);
   //firing process
-  fire=activation.active and allExtendedCondition and not maximumSpeed<=0;
+  active = conActivation.active and disActivation.active and allExtendedCondition and firingCon;
+  fire=active and allEnabledByDisPlaces and not maximumSpeed<=0;
   //instantaneous speed calculation
   instantaneousSpeed=min(min(min(decreasingFactorIn), min(decreasingFactorOut))*maximumSpeed, prelimSpeed.prelimSpeed);
   //****MAIN END****//
   //****ERROR MESSENGES BEGIN****//  hier noch Message gleiches Kantengewicht und auch Kante dis Place!!
-  for i in 1:nIn loop
-    assert(arcWeightIn[i]>=0, "Input arc weights must be positive.");
+  for i in 1:nInCon loop
+    assert(arcWeightInCon[i]>=0, "Input arc weights must be positive.");
   end for;
-  for i in 1:nOut loop
-    assert(arcWeightOut[i]>=0, "Output arc weights must be positive.");
+  for i in 1:nOutCon loop
+    assert(arcWeightOutCon[i]>=0, "Output arc weights must be positive.");
   end for;
   //****ERROR MESSENGES END****//
   annotation(defaultComponentName = "T1",

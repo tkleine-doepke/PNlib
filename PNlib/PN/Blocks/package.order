@@ -19,8 +19,11 @@ enablingInConPrio
 enablingOutConPrio
 enablingInDisPrio
 enablingOutDisPrio
+enablingInConProb
+enablingOutConProb
 enablingInDisProb
 enablingOutDisProb
+enablingConPrio
 firingSumDis
 tokenFlowCon
 firingSumCon

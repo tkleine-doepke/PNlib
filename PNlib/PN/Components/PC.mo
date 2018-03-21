@@ -90,6 +90,8 @@ model PC "Continuous Place"
  //Enable
   PNlib.PN.Interfaces.BooleanConIn PrioIn [nInDis](value=enableInPrio.TEin_) if (nInDis>0 and enablingType==PNlib.Types.EnablingType.Priority);
   PNlib.PN.Interfaces.BooleanConIn PrioOut[nOutDis](value=enableOutPrio.TEout_) if (nOutDis>0 and enablingType==PNlib.Types.EnablingType.Priority);
+  PNlib.PN.Interfaces.BooleanConIn ProbIn[nInDis](value=enableInProb.TEin_) if (nInDis>0 and enablingType==PNlib.Types.EnablingType.Probability);
+  PNlib.PN.Interfaces.BooleanConIn ProbOut[nOutDis](value=enableOutProb.TEout_) if (nOutDis>0 and enablingType==PNlib.Types.EnablingType.Probability);
   PNlib.PN.Interfaces.BooleanConIn enableInDummy[nInDis](value=false) if (nInDis==0);
   PNlib.PN.Interfaces.BooleanConIn enableOutDummy[nOutDis](value=false) if (nOutDis==0);
   PNlib.PN.Interfaces.BooleanConOut enableIn[nInDis];
@@ -147,6 +149,9 @@ protected
   //Enabling process Prio
   PNlib.PN.Blocks.enablingOutConPrio enableOutPrio(timePassed=timePassedOut.anytrue, nOut=nOutDis, arcWeight=arcWeightOutDis, t=t_, minTokens=minTokens, TAout=activeOutDis, enablingPrio=enablingPrioOut) if (nOutDis>0 and enablingType==PNlib.Types.EnablingType.Priority);
   PNlib.PN.Blocks.enablingInConPrio enableInPrio(timePassed=timePassedIn.anytrue, active=activeInDis, nIn=nInDis, arcWeight=arcWeightInDis, t=t_, maxTokens=maxTokens, TAein=enabledByInPlaces and activeInDis, enablingPrio=enablingPrioIn) if (nInDis>0 and enablingType==PNlib.Types.EnablingType.Priority);
+  //Enabling process Prob
+  PNlib.PN.Blocks.enablingOutConProb enableOutProb(timePassed=timePassedOut.anytrue, nOut=nOutDis, arcWeight=arcWeightOutDis, t=t_, minTokens=minTokens, TAout=activeOutDis,  enablingProb=enablingProbOut, localSeed=localSeedOut, globalSeed=settings.globalSeed) if (nOutDis>0 and enablingType==PNlib.Types.EnablingType.Probability);
+  PNlib.PN.Blocks.enablingInConProb enableInProb(timePassed=timePassedIn.anytrue, active=activeInDis, nIn=nInDis, arcWeight=arcWeightInDis, t=t_, maxTokens=maxTokens, TAein=enabledByInPlaces and activeInDis, enablingProb=enablingProbIn, localSeed=localSeedIn, globalSeed=settings.globalSeed) if (nInDis>0 and enablingType==PNlib.Types.EnablingType.Probability);
   //Does any discrete transition fire?
   PNlib.PN.Blocks.anyTrue disMarksOut(vec=fireOutDis);
   PNlib.PN.Blocks.anyTrue disMarksIn(vec=fireInDis);
@@ -169,9 +174,11 @@ equation
   connect(disMarksInOut,disMarksInOut4);
 for i in 1:nInDis loop
   connect(enableIn[i],PrioIn[i]);
+  connect(enableIn[i],ProbIn[i]);
 end for;
 for i in 1:nOutDis loop
   connect(enableOut[i],PrioOut[i]);
+  connect(enableOut[i],ProbOut[i]);
 end for;
   connect(firingSumInputDis,firingSum1Dis);
   connect(firingSumInputDis,firingSum3Dis);
@@ -195,10 +202,10 @@ end for;
 //****MAIN END****//
 //****ERROR MESSENGES BEGIN****//
   assert(startMarks >= minTokens and startMarks <= maxTokens, "minTokens<=startMarks<=maxTokens");
-  assert(PNlib.Functions.OddsAndEnds.prioCheck(enablingPrioIn,nInCon) or nInCon==0, "The priorities of the input priorities may be given only once and must be selected from 1 to nIn");
-  assert(PNlib.Functions.OddsAndEnds.prioCheck(enablingPrioOut,nOutCon) or nOutCon==0, "The priorities of the output priorities may be given only once and must be selected from 1 to nOut");
-  assert(PNlib.Functions.OddsAndEnds.isEqual(sum(enablingProbIn), 1.0, 1e-6) or nInCon==0 or enablingType==PNlib.Types.EnablingType.Priority, "The sum of input enabling probabilities has to be equal to 1");
-  assert(PNlib.Functions.OddsAndEnds.isEqual(sum(enablingProbOut), 1.0, 1e-6) or nOutCon==0 or enablingType==PNlib.Types.EnablingType.Priority, "The sum of output enabling probabilities has to be equal to 1");
+  assert(PNlib.Functions.OddsAndEnds.prioCheck(enablingPrioIn,nInDis) or nInDis==0, "The priorities of the input priorities may be given only once and must be selected from 1 to nIn");
+  assert(PNlib.Functions.OddsAndEnds.prioCheck(enablingPrioOut,nOutDis) or nOutDis==0, "The priorities of the output priorities may be given only once and must be selected from 1 to nOut");
+  assert(PNlib.Functions.OddsAndEnds.isEqual(sum(enablingProbIn), 1.0, 1e-6) or nInDis==0 or enablingType==PNlib.Types.EnablingType.Priority, "The sum of input enabling probabilities has to be equal to 1");
+  assert(PNlib.Functions.OddsAndEnds.isEqual(sum(enablingProbOut), 1.0, 1e-6) or nOutDis==0 or enablingType==PNlib.Types.EnablingType.Priority, "The sum of output enabling probabilities has to be equal to 1");
 //****ERROR MESSENGES END****//
    annotation(defaultComponentName = "P1", Icon(graphics={
         Ellipse(

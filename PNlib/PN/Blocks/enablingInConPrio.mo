@@ -19,7 +19,7 @@ algorithm
   Index := 0;
   when timePassed then
       arcWeightSum:=PNlib.Functions.OddsAndEnds.conditionalSum(arcWeight, TAein);  //arc weight sum of all active input transitions which are already enabled by their input places
-      if t + arcWeightSum <= maxTokens then  //Place has no actual conflict; all active input transitions are enabled
+      if t + arcWeightSum -maxTokens <= PNlib.Constants.almost_eps or PNlib.Functions.OddsAndEnds.isEqual(arcWeightSum, 0.0) then  //Place has no actual conflict; all active input transitions are enabled
         TEin:=TAein;
       else                          //Place has an actual conflict
         arcWeightSum:=0;

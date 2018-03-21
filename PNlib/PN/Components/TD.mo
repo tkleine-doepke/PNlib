@@ -41,7 +41,7 @@ model TD "Discrete Transition with delay "
   each active = timePassedOut.value,
   arcWeightint = arcWeightOutDis,
   each fire = fireOut.value,
-  each enabledByInPlaces = if nInDis > 0 and not timeType == PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
+  each enabledByInPlaces = if nInDis > 0 or nInCon > 0 and not timeType == PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
   tint = tOutDis,
   maxTokensint = maxTokensDis,
   enable = enableOutDis) if nOutDis > 0 "connector for output places" annotation(
@@ -53,16 +53,16 @@ model TD "Discrete Transition with delay "
   t = tInCon,
   minTokens = minTokensCon,
   enable = enableInCon) if nInCon > 0 "connector for input places" annotation(
-    Placement(visible = true, transformation(extent = {{-56, -10}, {-40, 10}}, rotation = 0), iconTransformation(extent = {{-56, -98}, {-40, -78}}, rotation = 0)));
+    Placement(visible = true, transformation(extent = {{-56, -98}, {-40, -78}}, rotation = 0), iconTransformation(extent = {{-56, -98}, {-40, -78}}, rotation = 0)));
   PNlib.PN.Interfaces.HybTransitionOut outPlacesCon[nOutCon](
   each active = timePassedOut.value,
   arcWeight = arcWeightOutCon,
   each fire = fireOut.value,
-  each enabledByInPlaces = if nInCon > 0 and not timeType == PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
+  each enabledByInPlaces = if nInDis > 0 or nInCon > 0 and not timeType == PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
   t = tOutCon,
   maxTokens = maxTokensCon,
   enable = enableOutCon) if nOutCon > 0 "connector for output places" annotation(
-    Placement(visible = true, transformation(extent = {{40, -10}, {56, 10}}, rotation = 0), iconTransformation(extent = {{40, -98}, {56, -78}}, rotation = 0)));
+    Placement(visible = true, transformation(extent = {{40, -98}, {56, -78}}, rotation = 0), iconTransformation(extent = {{40, -98}, {56, -78}}, rotation = 0)));
   PNlib.PN.Interfaces.TransitionInExt extIn[nInExt](condition = extendedCondition) if nInExt > 0 "connector for output extended Arcs" annotation(
     Placement(transformation(extent = {{-56, 80}, {-40, 100}}, rotation = 0)));
   // Activ In

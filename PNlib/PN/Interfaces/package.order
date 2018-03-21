@@ -12,6 +12,8 @@ HybPlaceIn
 HybPlaceOut
 HybTransitionIn
 HybTransitionOut
+HybPlaceOutIn
+HybTransitionOutIn
 PlaceOutExt
 TransitionInExt
 BooleanConIn
