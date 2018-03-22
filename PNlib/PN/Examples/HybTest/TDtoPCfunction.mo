@@ -2,7 +2,7 @@ within PNlib.PN.Examples.HybTest;
 
 model TDtoPCfunction
   extends Modelica.Icons.Example;
-  PNlib.PN.Components.PC P1(nInDis = 1, startMarks = 5)  annotation(Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PNlib.PN.Components.PC P1(nInDis = 1, startTokens = 5)  annotation(Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.TD T1(arcWeightOutCon = {P1.t}, nOutCon = 1)  annotation(Placement(visible = true, transformation(origin = {-20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PNlib.PN.Components.Settings settings annotation(Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation

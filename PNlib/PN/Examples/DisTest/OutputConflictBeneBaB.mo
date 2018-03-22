@@ -2,17 +2,17 @@ within PNlib.PN.Examples.DisTest;
 
 model OutputConflictBeneBaB
   extends Modelica.Icons.Example;
-  PNlib.PN.Components.PD P1(benefitType = PNlib.Types.BenefitType.BranchAndBound, enablingBeneOut = {8, 7}, enablingType = PNlib.Types.EnablingType.Benefit, minTokens = 8, nIn = 1, nOut = 2, startTokens = 15) annotation(
+  PNlib.PN.Components.PD P1(benefitType = PNlib.Types.BenefitType.BranchAndBound, enablingBeneOut = {8, 7}, enablingType = PNlib.Types.EnablingType.Benefit, minTokens = 8, nInDis = 1, nOutDis = 2, startTokens = 15) annotation(
     Placement(transformation(extent = {{-30, -10}, {-10, 10}})));
-  PNlib.PN.Components.TD T1(arcWeightIntIn = {4},nIn = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TD T1(arcWeightInDis = {4}, nInDis = 1, nOutDis = 1) annotation(
     Placement(transformation(extent = {{0, 10}, {20, 30}})));
-  PNlib.PN.Components.TD T2(arcWeightIntIn = {3},nIn = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TD T2(arcWeightInDis = {3}, nInDis = 1, nOutDis = 1) annotation(
     Placement(transformation(extent = {{0, -30}, {20, -10}})));
-  PNlib.PN.Components.PD P2(nIn = 1) annotation(
+  PNlib.PN.Components.PD P2(nInDis = 1) annotation(
     Placement(transformation(extent = {{30, 10}, {50, 30}})));
-  PNlib.PN.Components.PD P3(nIn = 1) annotation(
+  PNlib.PN.Components.PD P3(nInDis = 1) annotation(
     Placement(transformation(extent = {{30, -30}, {50, -10}})));
-  PNlib.PN.Components.TD T3(arcWeightIntOut = {2}, nOut = 1) annotation(
+  PNlib.PN.Components.TD T3(arcWeightOutDis = {2}, nOutDis = 1) annotation(
     Placement(transformation(extent = {{-60, -10}, {-40, 10}})));
   inner PNlib.PN.Components.Settings settings annotation(
     Placement(transformation(extent = {{-60, 20}, {-40, 40}})));

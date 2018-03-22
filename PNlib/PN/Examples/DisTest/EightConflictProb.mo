@@ -2,21 +2,21 @@ within PNlib.PN.Examples.DisTest;
 model EightConflictProb
   extends Modelica.Icons.Example;
 
-  PNlib.PN.Components.PD P1(startTokens = 1, enablingType = PNlib.Types.EnablingType.Probability, nOut = 8,
+  PNlib.PN.Components.PD P1(startTokens = 1, enablingType = PNlib.Types.EnablingType.Probability, nOutDis = 8,
     localSeedIn=1,
     localSeedOut=2)                                        annotation(Placement(transformation(extent={{-50, -10},
             {-30, 10}})));
-  PNlib.PN.Components.TD T1(nIn = 1) annotation(Placement(transformation(extent={{-20, 30}, {0, 50}})));
-  PNlib.PN.Components.TD T2(nIn = 1) annotation(Placement(transformation(extent={{0, 10}, {20, 30}})));
-  PNlib.PN.Components.TD T3(nIn = 1) annotation(Placement(transformation(extent={{20, 20}, {40, 40}})));
-  PNlib.PN.Components.TD T4(nIn = 1) annotation(Placement(transformation(extent={{40, 10}, {60, 30}})));
-  PNlib.PN.Components.TD T5(nIn = 1) annotation(Placement(transformation(extent={{40, -30}, {60,
+  PNlib.PN.Components.TD T1(nInDis = 1) annotation(Placement(transformation(extent={{-20, 30}, {0, 50}})));
+  PNlib.PN.Components.TD T2(nInDis = 1) annotation(Placement(transformation(extent={{0, 10}, {20, 30}})));
+  PNlib.PN.Components.TD T3(nInDis = 1) annotation(Placement(transformation(extent={{20, 20}, {40, 40}})));
+  PNlib.PN.Components.TD T4(nInDis = 1) annotation(Placement(transformation(extent={{40, 10}, {60, 30}})));
+  PNlib.PN.Components.TD T5(nInDis = 1) annotation(Placement(transformation(extent={{40, -30}, {60,
             -10}})));
-  PNlib.PN.Components.TD T6(nIn = 1) annotation(Placement(transformation(extent={{-20, -50}, {0,
+  PNlib.PN.Components.TD T6(nInDis = 1) annotation(Placement(transformation(extent={{-20, -50}, {0,
             -30}})));
-  PNlib.PN.Components.TD T7(nIn = 1) annotation(Placement(transformation(extent={{20, -40}, {40,
+  PNlib.PN.Components.TD T7(nInDis = 1) annotation(Placement(transformation(extent={{20, -40}, {40,
             -20}})));
-  PNlib.PN.Components.TD T8(nIn = 1) annotation(Placement(transformation(extent={{0, -30}, {20, -10}})));
+  PNlib.PN.Components.TD T8(nInDis = 1) annotation(Placement(transformation(extent={{0, -30}, {20, -10}})));
   inner PNlib.PN.Components.Settings settings
     annotation(Placement(transformation(extent={{-60, 40}, {-40, 60}})));
 equation

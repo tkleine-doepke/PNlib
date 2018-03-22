@@ -2,22 +2,22 @@ within PNlib.PN.Examples.DisTest;
 model OutputConflictProb
   extends Modelica.Icons.Example;
 
-  PNlib.PN.Components.PD P1(nIn = 1, startTokens = 2, nOut = 2, enablingProbOut = {0.5, 0.5}, minTokens = 2, enablingType = PNlib.Types.EnablingType.Probability,
+  PNlib.PN.Components.PD P1(nInDis = 1, startTokens = 2, nOutDis = 2, enablingProbOut = {0.5, 0.5}, minTokens = 2, enablingType = PNlib.Types.EnablingType.Probability,
     localSeedIn=1,
     localSeedOut=2)                                                                                              annotation(Placement(transformation(extent={{-30, -10},
             {-10, 10}})));
-  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{0, 10}, {
+  PNlib.PN.Components.TD T1(nInDis = 1, nOutDis = 1) annotation(Placement(transformation(extent={{0, 10}, {
             20, 30}})));
-  PNlib.PN.Components.TD T2(nIn = 1, nOut = 1) annotation(Placement(transformation(extent={{0, -30},
+  PNlib.PN.Components.TD T2(nInDis = 1, nOutDis = 1) annotation(Placement(transformation(extent={{0, -30},
             {20, -10}})));
-  PNlib.PN.Components.PD P2(nIn = 1,
+  PNlib.PN.Components.PD P2(nInDis = 1,
     localSeedIn=3,
     localSeedOut=4)    annotation(Placement(transformation(extent={{30, 10}, {50, 30}})));
-  PNlib.PN.Components.PD P3(nIn = 1,
+  PNlib.PN.Components.PD P3(nInDis = 1,
     localSeedIn=5,
     localSeedOut=6)    annotation(Placement(transformation(extent={{30, -30}, {50,
             -10}})));
-  PNlib.PN.Components.TD T3(nOut = 1) annotation(Placement(transformation(extent={{-60, -10}, {-40,
+  PNlib.PN.Components.TD T3(nOutDis = 1) annotation(Placement(transformation(extent={{-60, -10}, {-40,
             10}})));
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent={{-60, 20},
             {-40, 40}})));

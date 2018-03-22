@@ -4,8 +4,8 @@ model TTtoPD
 
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent={{20, 20},
             {40, 40}})));
-  PNlib.PN.Components.PD P1(nIn = 1) annotation(Placement(visible = true, transformation(extent = {{10, -10}, {30, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T1(nOut = 1, timeType = PNlib.Types.TimeType.Tact, timeValue = {1, 1})  annotation(
+  PNlib.PN.Components.PD P1(nInDis = 1) annotation(Placement(visible = true, transformation(extent = {{10, -10}, {30, 10}}, rotation = 0)));
+  PNlib.PN.Components.TD T1(nOutDis = 1, timeType = PNlib.Types.TimeType.Tact, timeValue = {1, 1})  annotation(
     Placement(visible = true, transformation(origin = {-20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(T1.outPlacesDis[1], P1.inTransitionDis[1]) annotation(

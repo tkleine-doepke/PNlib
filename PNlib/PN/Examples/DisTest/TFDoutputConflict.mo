@@ -4,17 +4,17 @@ model TFDoutputConflict
   extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(
     Placement(visible = true, transformation(extent = {{40, 20}, {60, 40}}, rotation = 0)));
-  PNlib.PN.Components.PD P1(enablingType = PNlib.Types.EnablingType.Probability, localSeedIn = 1, localSeedOut = 2,nIn = 1, nOut = 2, startTokens = 0) annotation(
+  PNlib.PN.Components.PD P1(enablingType = PNlib.Types.EnablingType.Probability, localSeedIn = 1, localSeedOut = 2,nInDis = 1, nOutDis = 2) annotation(
     Placement(visible = true, transformation(extent = {{-40, 2}, {-20, 22}}, rotation = 0)));
-  PNlib.PN.Components.PD P2(localSeedIn = 3, localSeedOut = 4, nIn = 1) annotation(
+  PNlib.PN.Components.PD P2(localSeedIn = 3, localSeedOut = 4, nInDis = 1) annotation(
     Placement(visible = true, transformation(origin = {30, 12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.FireDuration) annotation(
+  PNlib.PN.Components.TD T1(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.FireDuration) annotation(
     Placement(visible = true, transformation(origin = {0, 12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T3(nOut = 1)  annotation(
+  PNlib.PN.Components.TD T3(nOutDis = 1)  annotation(
     Placement(visible = true, transformation(origin = {-54, 12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T2(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.FireDuration)  annotation(
+  PNlib.PN.Components.TD T2(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.FireDuration)  annotation(
     Placement(visible = true, transformation(origin = {0, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PD P3(localSeedIn = 5, localSeedOut = 6, nIn = 1)  annotation(
+  PNlib.PN.Components.PD P3(localSeedIn = 5, localSeedOut = 6, nInDis = 1)  annotation(
     Placement(visible = true, transformation(origin = {30, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(T2.outPlacesDis[1], P3.inTransitionDis[1]) annotation(

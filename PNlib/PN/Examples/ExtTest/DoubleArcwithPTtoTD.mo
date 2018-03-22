@@ -3,12 +3,12 @@ model DoubleArcwithPTtoTD
   extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent={{-60, 40}, {-40, 60}})));
   PNlib.PN.Components.EA EA1(Arc = PNlib.Types.ArcType.RealInhibitorArc, testValue = 3) annotation(Placement(visible = true, transformation(extent = {{-24, 38}, {-12, 42}}, rotation = 0)));
-  PNlib.PN.Components.PD P1(nOut = 2,nOutExt =2, startTokens=5) annotation(Placement(transformation(extent={{-54, -8}, {-34, 12}})));
-  PNlib.PN.Components.PD P2(nIn=1) annotation(Placement(transformation(extent={{30, 20}, {50, 40}})));
-  PNlib.PN.Components.PD P3(nIn=1) annotation(Placement(transformation(extent={{30, -38}, {50, -18}})));
+  PNlib.PN.Components.PD P1(nOutDis = 2,nOutExt =2, startTokens=5) annotation(Placement(transformation(extent={{-54, -8}, {-34, 12}})));
+  PNlib.PN.Components.PD P2(nInDis=1) annotation(Placement(transformation(extent={{30, 20}, {50, 40}})));
+  PNlib.PN.Components.PD P3(nInDis=1) annotation(Placement(transformation(extent={{30, -38}, {50, -18}})));
   PNlib.PN.Components.EA EA2(testValue=2) annotation(Placement(visible = true, transformation(extent = {{-20, -22}, {-6, -16}}, rotation = 0)));
-  PNlib.PN.Components.TD T1( nIn=1, nInExt = 1,nOut=1) annotation(Placement(transformation(extent={{6, 20}, {26, 40}})));
-  PNlib.PN.Components.TD T2(nIn=1, nInExt = 1, nOut=1) annotation(Placement(transformation(extent={{6, -38}, {26, -18}})));
+  PNlib.PN.Components.TD T1( nInDis=1, nInExt = 1,nOutDis=1) annotation(Placement(transformation(extent={{6, 20}, {26, 40}})));
+  PNlib.PN.Components.TD T2(nInDis=1, nInExt = 1, nOutDis=1) annotation(Placement(transformation(extent={{6, -38}, {26, -18}})));
 equation
   connect(P1.extOut[2], EA2.inExt) annotation(
     Line(points = {{-36, 10}, {-30, 10}, {-30, -18}, {-22, -18}, {-22, -18}}, thickness = 0.5));

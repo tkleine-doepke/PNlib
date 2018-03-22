@@ -41,7 +41,7 @@ model TD "Discrete Transition with delay "
   each active = timePassedOut.value,
   arcWeightint = arcWeightOutDis,
   each fire = fireOut.value,
-  each enabledByInPlaces = if nInDis > 0 or nInCon > 0 and not timeType == PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
+  each enabledByInPlaces = if ((nInDis > 0 or nInCon > 0) and not timeType == PNlib.Types.TimeType.FireDuration) then enabledIn.value else true,
   tint = tOutDis,
   maxTokensint = maxTokensDis,
   enable = enableOutDis) if nOutDis > 0 "connector for output places" annotation(
@@ -58,7 +58,7 @@ model TD "Discrete Transition with delay "
   each active = timePassedOut.value,
   arcWeight = arcWeightOutCon,
   each fire = fireOut.value,
-  each enabledByInPlaces = if nInDis > 0 or nInCon > 0 and not timeType == PNlib.Types.TimeType.FireDuration then enabledIn.value else true,
+  each enabledByInPlaces = if ((nInDis > 0 or nInCon > 0) and not timeType == PNlib.Types.TimeType.FireDuration) then enabledIn.value else true,
   t = tOutCon,
   maxTokens = maxTokensCon,
   enable = enableOutCon) if nOutCon > 0 "connector for output places" annotation(
@@ -146,7 +146,7 @@ protected
   PN.Blocks.activationConOut activationOutCon(nOut = nOutCon, tOut = tOutCon, arcWeightOut = arcWeightOutCon, maxTokens = maxTokensCon) if nOutCon > 0;
   // Time
   PN.Blocks.delay fireDelay(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, delay = timeValue[1], active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.Delay;
-  PN.Blocks.duration fireDuration(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, duration = timeValue[1], activeIn = activationIn.active, activeOut = activationOut.active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.FireDuration;
+  PN.Blocks.duration fireDuration(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, duration = timeValue[1], activeIn = activeIn.value and allExtendedCondition and firingCon, activeOut = activeOut.value and firingCon, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.FireDuration;
   PN.Blocks.event fireEvent(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, event = timeValue, active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.Event;
   PN.Blocks.tact fireTact(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, tactTime = timeValue, active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.Tact;
   PN.Blocks.immediate fireImmediate(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.Immediate;

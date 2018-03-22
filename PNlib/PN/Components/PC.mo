@@ -7,7 +7,7 @@ model PC "Continuous Place"
   parameter Integer nOutDis(min=0)= 0 "number of discrete hybrid output transitions" annotation(Dialog(enable=true,group="Connector sizing"));
   parameter Integer nOutExt(min=0)=0 "number of output transitions" annotation(Dialog(enable=true,group="Connector sizing"));
   //****MODIFIABLE PARAMETERS AND VARIABLES BEGIN****//
-  parameter Real startMarks = 0 "start marks" annotation(Dialog(enable = true, group = "Marks"));
+  parameter Real startTokens = 0 "start marks" annotation(Dialog(enable = true, group = "Marks"));
   parameter Real minTokens = 0 "minimum capacity" annotation(Dialog(enable = true, group = "Marks"));
   parameter Real maxTokens=PNlib.Constants.inf "maximum capacity" annotation(Dialog(enable = true, group = "Marks"));
   parameter Boolean showTokenFlow=false;
@@ -30,7 +30,7 @@ model PC "Continuous Place"
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
   parameter Integer localSeedIn = PNlib.Functions.Random.counter() "Local seed to initialize random number generator for input conflicts" annotation(Dialog(enable = true, group = "Random Number Generator"));
   parameter Integer localSeedOut = PNlib.Functions.Random.counter() "Local seed to initialize random number generator for output conflicts" annotation(Dialog(enable = true, group = "Random Number Generator"));
-  PNlib.PN.Interfaces.ConPlaceIn inTransition[nInCon](
+  PNlib.PN.Interfaces.ConPlaceIn inTransitionCon[nInCon](
   each t=t_,
   each maxTokens=maxTokens,
   each emptied = emptying.anytrue,
@@ -44,7 +44,7 @@ model PC "Continuous Place"
   prelimSpeed=prelimSpeedIn) if nInCon > 0 "connector for input transitions" annotation(Placement(
         transformation(extent={{-114, -10}, {-98, 10}}, rotation=0),
     iconTransformation(extent={{-116, -10}, {-100, 10}})));
-  PNlib.PN.Interfaces.ConPlaceOut outTransition[nOutCon](
+  PNlib.PN.Interfaces.ConPlaceOut outTransitionCon[nOutCon](
   each t = t_,
   each minTokens=minTokens,
   each fed=feeding.anytrue,
@@ -114,7 +114,7 @@ protected
   Real maxSpeedOut[nOutCon] "maximum speed of output transitions";
   Real prelimSpeedIn[nInCon] "preliminary speed of input transitions";
   Real prelimSpeedOut[nOutCon] "preliminary speed of output transitions";
-  Real t_(start=startMarks, fixed=true) "marking";
+  Real t_(start=startTokens, fixed=true) "marking";
   Boolean preFireIn[nInCon] "pre-value of fireIn";
   Boolean preFireOut[nOutCon] "pre-value of fireOut";
   Boolean fireInCon[nInCon](each start=false, each fixed=true) "Does any input transition fire?";
@@ -201,7 +201,7 @@ end for;
   end when;
 //****MAIN END****//
 //****ERROR MESSENGES BEGIN****//
-  assert(startMarks >= minTokens and startMarks <= maxTokens, "minTokens<=startMarks<=maxTokens");
+  assert(startTokens >= minTokens and startTokens <= maxTokens, "minTokens<=startTokens<=maxTokens");
   assert(PNlib.Functions.OddsAndEnds.prioCheck(enablingPrioIn,nInDis) or nInDis==0, "The priorities of the input priorities may be given only once and must be selected from 1 to nIn");
   assert(PNlib.Functions.OddsAndEnds.prioCheck(enablingPrioOut,nOutDis) or nOutDis==0, "The priorities of the output priorities may be given only once and must be selected from 1 to nOut");
   assert(PNlib.Functions.OddsAndEnds.isEqual(sum(enablingProbIn), 1.0, 1e-6) or nInDis==0 or enablingType==PNlib.Types.EnablingType.Priority, "The sum of input enabling probabilities has to be equal to 1");
@@ -223,7 +223,7 @@ end for;
         lineColor={0, 0, 0},
         origin={0.5, -0.5},
         rotation=0,
-        textString=DynamicSelect("%startMarks", if animateMarking then if t>0 then realString(t, 1, 2) else "0.0" else " ")),
+        textString=DynamicSelect("%startTokens", if animateMarking then if t>0 then realString(t, 1, 2) else "0.0" else " ")),
         Text(
           extent={{0, -130}, {0, -116}},
           lineColor={0, 0, 0},

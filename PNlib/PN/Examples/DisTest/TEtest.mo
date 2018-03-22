@@ -2,11 +2,11 @@ within PNlib.PN.Examples.DisTest;
 model TEtest
   extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(Placement(visible = true, transformation(extent = {{60, 20}, {80, 40}}, rotation = 0)));
-  PNlib.PN.Components.PD P1(nIn = 1,nOut = 1, startTokens = 0) annotation(Placement(visible = true, transformation(extent = {{-20, 10}, {0, 30}}, rotation = 0)));
-  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.Event, timeValue = {1, 2, 3}) annotation(Placement(visible = true, transformation(extent = {{20, 10}, {40, 30}}, rotation = 0)));
-  PNlib.PN.Components.TD T2(timeValue = {0.5, 2.5, 2.8}, nIn = 1, nOut = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
+  PNlib.PN.Components.PD P1(nInDis = 1,nOutDis = 1) annotation(Placement(visible = true, transformation(extent = {{-20, 10}, {0, 30}}, rotation = 0)));
+  PNlib.PN.Components.TD T1(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Event, timeValue = {1, 2, 3}) annotation(Placement(visible = true, transformation(extent = {{20, 10}, {40, 30}}, rotation = 0)));
+  PNlib.PN.Components.TD T2(timeValue = {0.5, 2.5, 2.8}, nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Event)  annotation(
     Placement(visible = true, transformation(origin = {-54, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PD P2(nIn = 1, nOut = 1, startTokens = 1)  annotation(
+  PNlib.PN.Components.PD P2(nInDis = 1, nOutDis = 1, startTokens = 1)  annotation(
     Placement(visible = true, transformation(origin = {-10, -20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
   connect(P2.inTransitionDis[1], T1.outPlacesDis[1]) annotation(

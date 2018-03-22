@@ -4,9 +4,9 @@ model PDtoTDfunction
 
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent={{20, 20},
             {40, 40}})));
-  PNlib.PN.Components.PD P1(nOut = 1, startTokens = 10) annotation(Placement(transformation(extent={{-30, -10},
+  PNlib.PN.Components.PD P1(nOutDis = 1, startTokens = 10) annotation(Placement(transformation(extent={{-30, -10},
             {-10, 10}})));
-  PNlib.PN.Components.TD T1(arcWeightIntIn = {P1.t}, nIn = 1) annotation(Placement(transformation(extent={{10, -10}, {30,
+  PNlib.PN.Components.TD T1(arcWeightInDis = {P1.t}, nInDis = 1) annotation(Placement(transformation(extent={{10, -10}, {30,
             10}})));
 equation
   connect(T1.inPlacesDis[1], P1.outTransitionDis[1]) annotation(Line(points={{15.2, 0},

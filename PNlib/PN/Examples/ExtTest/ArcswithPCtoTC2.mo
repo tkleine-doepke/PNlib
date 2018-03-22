@@ -4,29 +4,29 @@ model ArcswithPCtoTC2
   extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(
     Placement(visible = true, transformation(extent = {{-100, 60}, {-80, 80}}, rotation = 0)));
-  PNlib.PN.Components.PC P1(maxMarks = 1, nIn = 1, nOutExt = 1) annotation(
+  PNlib.PN.Components.PC P1(maxTokens= 1, nInCon = 1, nOutExt = 1) annotation(
     Placement(visible = true, transformation(origin = {-40, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PC P2(nIn = 1) annotation(
+  PNlib.PN.Components.PC P2(nInCon = 1) annotation(
     Placement(visible = true, transformation(origin = {40, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PC P3(maxMarks = 1, nIn = 1, nOutExt = 1) annotation(
+  PNlib.PN.Components.PC P3(maxTokens= 1, nInCon = 1, nOutExt = 1) annotation(
     Placement(visible = true, transformation(origin = {-40, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PC P4(nIn = 1) annotation(
+  PNlib.PN.Components.PC P4(nInCon = 1) annotation(
     Placement(visible = true, transformation(origin = {40, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PC P5(maxMarks = 1, nIn = 1, nOutExt = 1) annotation(
+  PNlib.PN.Components.PC P5(maxTokens= 1, nInCon = 1, nOutExt = 1) annotation(
     Placement(visible = true, transformation(origin = {-40, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PC P6(nIn = 1) annotation(
+  PNlib.PN.Components.PC P6(nInCon = 1) annotation(
     Placement(visible = true, transformation(origin = {40, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PC P7(maxMarks = 1, nIn = 1, nOutExt = 1) annotation(
+  PNlib.PN.Components.PC P7(maxTokens= 1, nInCon = 1, nOutExt = 1) annotation(
     Placement(visible = true, transformation(origin = {-40, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.PC P8(nIn = 1) annotation(
+  PNlib.PN.Components.PC P8(nInCon = 1) annotation(
     Placement(visible = true, transformation(origin = {40, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TC T1(nInExt = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TC T1(nInExt = 1, nOutCon = 1) annotation(
     Placement(visible = true, transformation(origin = {10, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TC T2(nInExt = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TC T2(nInExt = 1, nOutCon = 1) annotation(
     Placement(visible = true, transformation(origin = {10, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TC T3(nInExt = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TC T3(nInExt = 1, nOutCon = 1) annotation(
     Placement(visible = true, transformation(origin = {10, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TC T4(nInExt = 1, nOut = 1) annotation(
+  PNlib.PN.Components.TC T4(nInExt = 1, nOutCon = 1) annotation(
     Placement(visible = true, transformation(origin = {10, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.EA EA1 annotation(
     Placement(visible = true, transformation(origin = {-6, 66}, extent = {{-9.8, 0.4}, {2.8, 4.8}}, rotation = 0)));
@@ -36,16 +36,16 @@ model ArcswithPCtoTC2
     Placement(visible = true, transformation(origin = {-8, -14}, extent = {{-9.8, 0.4}, {2.8, 4.8}}, rotation = 0)));
   PNlib.PN.Components.EA EA4(Arc = PNlib.Types.ArcType.InhibitorArc) annotation(
     Placement(visible = true, transformation(origin = {-6, -54}, extent = {{-9.8, 0.4}, {2.8, 4.8}}, rotation = 0)));
-  PNlib.PN.Components.TC T5(nOut = 4)  annotation(
+  PNlib.PN.Components.TC T5(nOutCon = 4)  annotation(
     Placement(visible = true, transformation(origin = {-84, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(T4.outPlaces[1], P8.inTransition[1]) annotation(
+  connect(T4.outPlacesCon[1], P8.inTransitionCon[1]) annotation(
     Line(points = {{14, -60}, {30, -60}, {30, -60}, {30, -60}}, thickness = 0.5));
-  connect(T3.outPlaces[1], P6.inTransition[1]) annotation(
+  connect(T3.outPlacesCon[1], P6.inTransitionCon[1]) annotation(
     Line(points = {{14, -20}, {28, -20}, {28, -20}, {30, -20}}, thickness = 0.5));
-  connect(T2.outPlaces[1], P4.inTransition[1]) annotation(
+  connect(T2.outPlacesCon[1], P4.inTransitionCon[1]) annotation(
     Line(points = {{14, 20}, {30, 20}, {30, 20}, {30, 20}}, thickness = 0.5));
-  connect(T1.outPlaces[1], P2.inTransition[1]) annotation(
+  connect(T1.outPlacesCon[1], P2.inTransitionCon[1]) annotation(
     Line(points = {{14, 60}, {28, 60}, {28, 60}, {30, 60}}, thickness = 0.5));
   connect(EA4.outExt, T4.extIn[1]) annotation(
     Line(points = {{-2, -52}, {6, -52}, {6, -50}, {6, -50}}));
@@ -63,13 +63,13 @@ equation
     Line(points = {{-32, 28}, {-18, 28}, {-18, 28}, {-18, 28}, {-18, 28}}, thickness = 0.5));
   connect(P1.extOut[1], EA1.inExt) annotation(
     Line(points = {{-32, 68}, {-18, 68}, {-18, 68}, {-16, 68}}, thickness = 0.5));
-  connect(T5.outPlaces[4], P7.inTransition[1]) annotation(
+  connect(T5.outPlacesCon[4], P7.inTransitionCon[1]) annotation(
     Line(points = {{-80, 0}, {-66, 0}, {-66, -60}, {-50, -60}, {-50, -60}}, thickness = 0.5));
-  connect(T5.outPlaces[3], P5.inTransition[1]) annotation(
+  connect(T5.outPlacesCon[3], P5.inTransitionCon[1]) annotation(
     Line(points = {{-80, 0}, {-66, 0}, {-66, -20}, {-50, -20}, {-50, -20}}, thickness = 0.5));
-  connect(T5.outPlaces[2], P3.inTransition[1]) annotation(
+  connect(T5.outPlacesCon[2], P3.inTransitionCon[1]) annotation(
     Line(points = {{-80, 0}, {-66, 0}, {-66, 20}, {-50, 20}, {-50, 20}}, thickness = 0.5));
-  connect(T5.outPlaces[1], P1.inTransition[1]) annotation(
+  connect(T5.outPlacesCon[1], P1.inTransitionCon[1]) annotation(
     Line(points = {{-80, 0}, {-66, 0}, {-66, 60}, {-50, 60}, {-50, 60}}, thickness = 0.5));
   annotation(
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -80}, {60, 80}})),

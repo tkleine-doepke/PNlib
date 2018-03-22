@@ -2,17 +2,17 @@ within PNlib.PN.Examples.DisTest;
 model SixConflictProb
   extends Modelica.Icons.Example;
 
-  PNlib.PN.Components.PD P1(startTokens = 1, enablingType = PNlib.Types.EnablingType.Probability, nOut = 6,
+  PNlib.PN.Components.PD P1(startTokens = 1, enablingType = PNlib.Types.EnablingType.Probability, nOutDis = 6,
     localSeedIn=1,
     localSeedOut=2)                                        annotation(Placement(transformation(extent={{-50, -10},
             {-30, 10}})));
-  PNlib.PN.Components.TD T1(nIn = 1) annotation(Placement(transformation(extent={{-20, 30}, {0, 50}})));
-  PNlib.PN.Components.TD T2(nIn = 1) annotation(Placement(transformation(extent={{0, 20}, {20, 40}})));
-  PNlib.PN.Components.TD T3(nIn = 1) annotation(Placement(transformation(extent={{20, 10}, {40, 30}})));
-  PNlib.PN.Components.TD T4(nIn = 1) annotation(Placement(transformation(extent={{20, -30}, {40,
+  PNlib.PN.Components.TD T1(nInDis = 1) annotation(Placement(transformation(extent={{-20, 30}, {0, 50}})));
+  PNlib.PN.Components.TD T2(nInDis = 1) annotation(Placement(transformation(extent={{0, 20}, {20, 40}})));
+  PNlib.PN.Components.TD T3(nInDis = 1) annotation(Placement(transformation(extent={{20, 10}, {40, 30}})));
+  PNlib.PN.Components.TD T4(nInDis = 1) annotation(Placement(transformation(extent={{20, -30}, {40,
             -10}})));
-  PNlib.PN.Components.TD T5(nIn = 1) annotation(Placement(transformation(extent={{0, -40}, {20, -20}})));
-  PNlib.PN.Components.TD T6(nIn = 1) annotation(Placement(transformation(extent={{-20, -50}, {0,
+  PNlib.PN.Components.TD T5(nInDis = 1) annotation(Placement(transformation(extent={{0, -40}, {20, -20}})));
+  PNlib.PN.Components.TD T6(nInDis = 1) annotation(Placement(transformation(extent={{-20, -50}, {0,
             -30}})));
   inner PNlib.PN.Components.Settings settings
     annotation(Placement(transformation(extent={{-60, 40}, {-40, 60}})));

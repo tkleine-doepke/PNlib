@@ -2,8 +2,8 @@ within PNlib.PN.Examples.DisTest;
 model TDtoPD
   extends Modelica.Icons.Example;
 
-  PNlib.PN.Components.PD P1(nOut = 0, nIn = 1) annotation(Placement(visible = true, transformation(origin={20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD T1(nOut = 1) annotation(Placement(visible = true, transformation(origin={-20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PNlib.PN.Components.PD P1(nInDis = 1) annotation(Placement(visible = true, transformation(origin={20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PNlib.PN.Components.TD T1(nOutDis = 1) annotation(Placement(visible = true, transformation(origin={-20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PNlib.PN.Components.Settings settings annotation(Placement(visible = true, transformation(origin={30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(P1.inTransitionDis[1], T1.outPlacesDis[1]) annotation(Line(points={{9.2, 0}, {

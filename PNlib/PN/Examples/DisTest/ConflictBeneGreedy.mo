@@ -1,12 +1,12 @@
 within PNlib.PN.Examples.DisTest;
 model ConflictBeneGreedy
   extends Modelica.Icons.Example;
-  PNlib.PN.Components.PD P1(enablingType = PNlib.Types.EnablingType.Benefit,nIn = 1, nOut = 2, startTokens = 2) annotation(Placement(transformation(extent = {{-30, -10}, {-10, 10}})));
-  PNlib.PN.Components.TD T1(nIn = 1, nOut = 1) annotation(Placement(transformation(extent = {{0, 10}, {20, 30}})));
-  PNlib.PN.Components.TD T2(nIn = 1, nOut = 1) annotation(Placement(transformation(extent = {{0, -30}, {20, -10}})));
-  PNlib.PN.Components.PD P2(nIn = 1) annotation(Placement(transformation(extent = {{30, 10}, {50, 30}})));
-  PNlib.PN.Components.PD P3(nIn = 1) annotation(Placement(transformation(extent = {{30, -30}, {50, -10}})));
-  PNlib.PN.Components.TD T3(nOut = 1) annotation(Placement(transformation(extent = {{-60, -10}, {-40, 10}})));
+  PNlib.PN.Components.PD P1(enablingType = PNlib.Types.EnablingType.Benefit, nInDis = 1, nOutDis = 2, startTokens = 2) annotation(Placement(transformation(extent = {{-30, -10}, {-10, 10}})));
+  PNlib.PN.Components.TD T1(nInDis = 1, nOutDis = 1) annotation(Placement(transformation(extent = {{0, 10}, {20, 30}})));
+  PNlib.PN.Components.TD T2(nInDis = 1, nOutDis = 1) annotation(Placement(transformation(extent = {{0, -30}, {20, -10}})));
+  PNlib.PN.Components.PD P2(nInDis = 1) annotation(Placement(transformation(extent = {{30, 10}, {50, 30}})));
+  PNlib.PN.Components.PD P3(nInDis = 1) annotation(Placement(transformation(extent = {{30, -30}, {50, -10}})));
+  PNlib.PN.Components.TD T3(nOutDis = 1) annotation(Placement(transformation(extent = {{-60, -10}, {-40, 10}})));
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent = {{-60, 20}, {-40, 40}})));
 equation
   connect(T3.outPlacesDis[1], P1.inTransitionDis[1]) annotation(Line(points = {{-45.2, 0}, {-30.8, 0}}, color = {0, 0, 0}, smooth = Smooth.None));

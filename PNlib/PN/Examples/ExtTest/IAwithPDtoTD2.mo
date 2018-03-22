@@ -2,12 +2,12 @@ within PNlib.PN.Examples.ExtTest;
 model IAwithPDtoTD2
   extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(Placement(transformation(extent={{-60, 40}, {-40, 60}})));
-  PNlib.PN.Components.PD P1(nOut = 1, nOutExt = 1, startTokens=5) annotation(Placement(transformation(extent={{-52, -10}, {-32, 10}})));
-  PNlib.PN.Components.PD P2(nIn=1) annotation(Placement(visible = true, transformation(extent = {{30, -44}, {50, -24}}, rotation = 0)));
-  PNlib.PN.Components.PD P3(nIn=1) annotation(Placement(visible = true, transformation(extent = {{30, 10}, {50, 30}}, rotation = 0)));
+  PNlib.PN.Components.PD P1(nOutDis = 1, nOutExt = 1, startTokens=5) annotation(Placement(transformation(extent={{-52, -10}, {-32, 10}})));
+  PNlib.PN.Components.PD P2(nInDis=1) annotation(Placement(visible = true, transformation(extent = {{30, -44}, {50, -24}}, rotation = 0)));
+  PNlib.PN.Components.PD P3(nInDis=1) annotation(Placement(visible = true, transformation(extent = {{30, 10}, {50, 30}}, rotation = 0)));
   PNlib.PN.Components.EA EA1(Arc = PNlib.Types.ArcType.InhibitorArc, testValue = 3) annotation(Placement(visible = true, transformation(extent = {{-18, 26}, {-4, 32}}, rotation = 0)));
-  PNlib.PN.Components.TD T1(nIn=1, nOut=1) annotation(Placement(visible = true, transformation(extent = {{6, -44}, {26, -24}}, rotation = 0)));
-  PNlib.PN.Components.TD T2(nInExt = 1, nIn = 0, nOut=1) annotation(Placement(visible = true, transformation(extent = {{6, 10}, {26, 30}}, rotation = 0)));
+  PNlib.PN.Components.TD T1(nInDis=1, nOutDis=1) annotation(Placement(visible = true, transformation(extent = {{6, -44}, {26, -24}}, rotation = 0)));
+  PNlib.PN.Components.TD T2(nInExt = 1, nOutDis=1) annotation(Placement(visible = true, transformation(extent = {{6, 10}, {26, 30}}, rotation = 0)));
 equation
   connect(P1.outTransitionDis[1], T1.inPlacesDis[1]) annotation(
     Line(points = {{-32, 0}, {-26, 0}, {-26, -34}, {12, -34}, {12, -34}}, thickness = 0.5));

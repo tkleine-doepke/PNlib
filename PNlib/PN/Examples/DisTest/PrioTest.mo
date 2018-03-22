@@ -2,16 +2,16 @@ within PNlib.PN.Examples.DisTest;
 model PrioTest
  extends Modelica.Icons.Example;
   inner PNlib.PN.Components.Settings settings annotation(Placement(visible = true, transformation(extent = {{-60, 50}, {-40, 70}}, rotation = 0)));
- PNlib.PN.Components.PD P1(enablingPrioOut = {4, 3, 2, 1},nIn = 1, nOut = 4, startTokens = 1)  annotation(Placement(visible = true, transformation(origin = {-26, 6}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.TD T1(nOut = 1)  annotation(Placement(visible = true, transformation(origin = {-52, 6}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.TD T2(nIn = 1, nOut = 1)  annotation(Placement(visible = true, transformation(origin = {16, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.TD T3(nIn = 1, nOut = 1)  annotation(Placement(visible = true, transformation(origin = {16, 24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.TD T4(nIn = 1, nOut = 1)  annotation(Placement(visible = true, transformation(origin = {16, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.TD T5(nIn = 1, nOut = 1)  annotation(Placement(visible = true, transformation(origin = {16, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.PD P2(maxTokens = 1, nIn = 1)  annotation(Placement(visible = true, transformation(origin = {40, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.PD P3(maxTokens = 1, nIn = 1)  annotation(Placement(visible = true, transformation(origin = {40, 24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.PD P4(maxTokens = 1, nIn = 1)  annotation(Placement(visible = true, transformation(origin = {40, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- PNlib.PN.Components.PD P5(maxTokens = 1, nIn = 1)  annotation(Placement(visible = true, transformation(origin = {40, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.PD P1(enablingPrioOut = {4, 3, 2, 1}, nInDis = 1, nOutDis = 4, startTokens = 1)  annotation(Placement(visible = true, transformation(origin = {-26, 6}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.TD T1(nOutDis = 1)  annotation(Placement(visible = true, transformation(origin = {-52, 6}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.TD T2(nInDis = 1, nOutDis = 1)  annotation(Placement(visible = true, transformation(origin = {16, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.TD T3(nInDis = 1, nOutDis = 1)  annotation(Placement(visible = true, transformation(origin = {16, 24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.TD T4(nInDis = 1, nOutDis = 1)  annotation(Placement(visible = true, transformation(origin = {16, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.TD T5(nInDis = 1, nOutDis = 1)  annotation(Placement(visible = true, transformation(origin = {16, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.PD P2(maxTokens = 1, nInDis = 1)  annotation(Placement(visible = true, transformation(origin = {40, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.PD P3(maxTokens = 1, nInDis = 1)  annotation(Placement(visible = true, transformation(origin = {40, 24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.PD P4(maxTokens = 1, nInDis = 1)  annotation(Placement(visible = true, transformation(origin = {40, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ PNlib.PN.Components.PD P5(maxTokens = 1, nInDis = 1)  annotation(Placement(visible = true, transformation(origin = {40, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(T1.outPlacesDis[1], P1.inTransitionDis[1]) annotation(
     Line(points = {{-47.2, 6}, {-37.2, 6}, {-37.2, 6}, {-35.2, 6}}));
