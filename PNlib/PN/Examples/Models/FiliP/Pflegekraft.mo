@@ -32,11 +32,11 @@ model Pflegekraft
     Placement(transformation(extent = {{-92, 150}, {-72, 170}})));
   PNlib.PN.Components.TD NSB( arcWeightInCon = {DauerNachtschicht - 0.75}, nInCon = 1, nInDis = 1,nOutDis = 2, timeType = PNlib.Types.TimeType.Tact, timeValue={BeginNachtschicht/24, 1}) annotation(
     Placement(transformation(extent = {{-94, 62}, {-74, 82}})));
-  PNlib.PN.Components.TD FSE( arcWeightOutCon = {DauerFruehschicht - 0.5},nInDis = 2, nOutCon = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {DauerFruehschicht / 24}) annotation(
+  PNlib.PN.Components.TD FSE( arcWeightOutCon = {DauerFruehschicht - 0.5},nInDis = 2, nOutCon = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Tact, timeValue = {(BeginFruehschicht + DauerFruehschicht) / 24, 1}) annotation(
     Placement(transformation(extent = {{74, 240}, {94, 260}})));
-  PNlib.PN.Components.TD SSE( arcWeightOutCon = {DauerSpaetschicht - 0.5},nInDis = 2, nOutCon = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {DauerSpaetschicht / 24}) annotation(
+  PNlib.PN.Components.TD SSE( arcWeightOutCon = {DauerSpaetschicht - 0.5},nInDis = 2, nOutCon = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Tact, timeValue = {(BeginSpaetschicht + DauerSpaetschicht) / 24, 1}) annotation(
     Placement(transformation(extent = {{74, 150}, {94, 170}})));
-  PNlib.PN.Components.TD NSE( arcWeightOutCon = {DauerNachtschicht - 0.75},nInDis = 2, nOutCon = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {DauerNachtschicht / 24}) annotation(
+  PNlib.PN.Components.TD NSE( arcWeightOutCon = {DauerNachtschicht - 0.75},nInDis = 2, nOutCon = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Tact, timeValue = {(BeginNachtschicht + DauerNachtschicht) / 24, 1}) annotation(
     Placement(transformation(extent = {{74, 62}, {94, 82}})));
   PNlib.PN.Components.PC GeleisteteArbeistzeit(nInDis = 3) annotation(
     Placement(visible = true, transformation(extent = {{202, 122}, {222, 142}}, rotation = 0)));

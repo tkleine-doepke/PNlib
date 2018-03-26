@@ -25,10 +25,12 @@ equation
   activeOut_ = activeOut and not pre(durationPassedOut) and prefire;
   //save next putative firing time
   when activeIn_ then
-     firingTimeIn = time+1e-6;
+     //firingTimeIn = time+1e-6;
+     firingTimeIn = time;
   end when;
   when activeOut_ then
-     firingTimeOut = if time>=firingTimeIn+duration_-1e-6  then time+1e-6 else firingTimeIn+duration_-1e-6;
+     //firingTimeOut = if time>=firingTimeIn+duration_-1e-6  then time+1e-6 else firingTimeIn+duration_-1e-6;
+     firingTimeOut = if time>=firingTimeIn+duration_ then time else firingTimeIn+duration_;
   end when;
   //is the Transition fire?
   prefire=pre(fire_);
