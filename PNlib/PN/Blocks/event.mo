@@ -10,7 +10,6 @@ block event "Activation of a discrete transition"
   output Boolean eventPassed (start=false, fixed=true);
 protected
   Real event_ [:] = PNlib.Functions.OddsAndEnds.addElement(event) "solves last-time problem";
-  Real firingTime "next putative firing time";
   Boolean active_;
   Integer eventIndex(start=1, fixed=true);
 algorithm
@@ -20,11 +19,7 @@ algorithm
 equation
   active_ = active and not pre(eventPassed);
   //save next putative firing time
-  when active_ then
-     firingTime = event_[eventIndex];
-  end when;
-  //event passed?
-  eventPassed= active_ and time>= firingTime;
+  eventPassed= active_ and  time>=event_[pre(eventIndex)];
   //firing process
  // fire=if nOut==0 then enabledByInPlaces else enabledByOutPlaces;
    fire=if nOut==0 and nIn==0 then false elseif nOut==0 then enabledIn else enabledOut;

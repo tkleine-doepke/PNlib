@@ -15,7 +15,7 @@ block duration "Activation of a discrete transition"
 protected
   Boolean prefire( start=false, fixed=true) "Was the Transition fire?";
   Boolean fire_( start=false, fixed=true) "Is the Transition fire?";
-  Real duration_ = if duration < 1e-6 then 1e-6 else duration "due to event problems if delay==0";
+  Real duration_ = if duration < PNlib.Constants.almost_eps then PNlib.Constants.almost_eps else duration "due to event problems if delay==0";
   Real firingTimeIn "next putative firing time";
   Real firingTimeOut "next putative firing time";
   Boolean activeIn_;
@@ -25,12 +25,10 @@ equation
   activeOut_ = activeOut and not pre(durationPassedOut) and prefire;
   //save next putative firing time
   when activeIn_ then
-     //firingTimeIn = time+1e-6;
-     firingTimeIn = time;
+     firingTimeIn = time+PNlib.Constants.almost_eps;
   end when;
   when activeOut_ then
-     //firingTimeOut = if time>=firingTimeIn+duration_-1e-6  then time+1e-6 else firingTimeIn+duration_-1e-6;
-     firingTimeOut = if time>=firingTimeIn+duration_ then time else firingTimeIn+duration_;
+     firingTimeOut = if time>=firingTimeIn+duration_-PNlib.Constants.almost_eps  then time+PNlib.Constants.almost_eps else firingTimeIn+duration_-PNlib.Constants.almost_eps;
   end when;
   //is the Transition fire?
   prefire=pre(fire_);

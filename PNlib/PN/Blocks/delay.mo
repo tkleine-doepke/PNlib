@@ -9,7 +9,7 @@ block delay "Activation of a discrete transition"
   output Boolean fire;
   output Boolean delayPassed;
 protected
-  Real delay_ = if delay < 1e-6 then 1e-6 else delay "due to event problems if delay==0";
+  Real delay_ = if delay < PNlib.Constants.almost_eps then PNlib.Constants.almost_eps else delay "due to event problems if delay==0";
   Real firingTime "next putative firing time";
   Boolean active_;
 equation
@@ -23,5 +23,7 @@ equation
   //firing process
  // fire=if nOut==0 then enabledByInPlaces else enabledByOutPlaces;
    fire=if nOut==0 and nIn==0 then false elseif nOut==0 then enabledIn else enabledOut;
+
   //****MAIN END****//
+  
 end delay;

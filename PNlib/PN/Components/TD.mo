@@ -15,6 +15,8 @@ model TD "Discrete Transition with delay "
   parameter PNlib.Types.TimeType timeType = PNlib.Types.TimeType.Delay;
   parameter Real timeValue[:] = {1} "time Value of transition" annotation(
     Dialog(enable = true, group = "Discrete Time Concept"));
+  parameter Boolean syncroTact = false "time Value of transition" annotation(
+      Dialog(enable = true, group = "Discrete Time Concept"));
   Integer arcWeightInDis[nInDis] = fill(1, nInDis) "arc weights of input places" annotation(
     Dialog(enable = true, group = "Arc Weights"));
   Integer arcWeightOutDis[nOutDis] = fill(1, nOutDis) "arc weights of output places" annotation(
@@ -104,11 +106,16 @@ model TD "Discrete Transition with delay "
   PNlib.PN.Interfaces.BooleanConIn fireOutEvent(value = fireEvent.fire) if timeType == PNlib.Types.TimeType.Event;
   PNlib.PN.Interfaces.BooleanConIn timePassedInEvent(value = fireEvent.eventPassed) if timeType == PNlib.Types.TimeType.Event;
   PNlib.PN.Interfaces.BooleanConIn timePassedOutEvent(value = fireEvent.eventPassed) if timeType == PNlib.Types.TimeType.Event;
-  // Event
-  PNlib.PN.Interfaces.BooleanConIn fireInTact(value = fireTact.fire) if timeType == PNlib.Types.TimeType.Tact;
-  PNlib.PN.Interfaces.BooleanConIn fireOutTact(value = fireTact.fire) if timeType == PNlib.Types.TimeType.Tact;
-  PNlib.PN.Interfaces.BooleanConIn timePassedInTact(value = fireTact.tactPassed) if timeType == PNlib.Types.TimeType.Tact;
-  PNlib.PN.Interfaces.BooleanConIn timePassedOutTact(value = fireTact.tactPassed) if timeType == PNlib.Types.TimeType.Tact;
+  // Tact
+  PNlib.PN.Interfaces.BooleanConIn fireInTact(value = fireTact.fire) if (not syncroTact and timeType == PNlib.Types.TimeType.Tact);
+  PNlib.PN.Interfaces.BooleanConIn fireOutTact(value = fireTact.fire) if (not syncroTact and timeType == PNlib.Types.TimeType.Tact);
+  PNlib.PN.Interfaces.BooleanConIn timePassedInTact(value = fireTact.tactPassed) if (not syncroTact and timeType == PNlib.Types.TimeType.Tact);
+  PNlib.PN.Interfaces.BooleanConIn timePassedOutTact(value = fireTact.tactPassed) if (not syncroTact and timeType == PNlib.Types.TimeType.Tact);
+  // Tact Syncro
+  PNlib.PN.Interfaces.BooleanConIn fireInTactSyncro(value = fireTactSyncro.fire) if (syncroTact and timeType == PNlib.Types.TimeType.Tact);
+  PNlib.PN.Interfaces.BooleanConIn fireOutTactSyncro(value = fireTactSyncro.fire) if (syncroTact and timeType == PNlib.Types.TimeType.Tact);
+  PNlib.PN.Interfaces.BooleanConIn timePassedInTactSyncro(value = fireTactSyncro.tactPassed) if (syncroTact and timeType == PNlib.Types.TimeType.Tact);
+  PNlib.PN.Interfaces.BooleanConIn timePassedOutTactSyncro(value = fireTactSyncro.tactPassed) if (syncroTact and timeType == PNlib.Types.TimeType.Tact);
   // Immediate
   PNlib.PN.Interfaces.BooleanConIn fireInImmediate(value = fireImmediate.fire) if timeType == PNlib.Types.TimeType.Immediate;
   PNlib.PN.Interfaces.BooleanConIn fireOutImmediate(value = fireImmediate.fire) if timeType == PNlib.Types.TimeType.Immediate;
@@ -148,7 +155,8 @@ protected
   PN.Blocks.delay fireDelay(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, delay = timeValue[1], active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.Delay;
   PN.Blocks.duration fireDuration(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, duration = timeValue[1], activeIn = activeIn.value and allExtendedCondition and firingCon, activeOut = activeOut.value and firingCon, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.FireDuration;
   PN.Blocks.event fireEvent(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, event = timeValue, active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.Event;
-  PN.Blocks.tact fireTact(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, tactTime = timeValue, active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.Tact;
+  PN.Blocks.tact fireTact(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, tactTime = timeValue, active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if (not syncroTact and timeType == PNlib.Types.TimeType.Tact);
+  PN.Blocks.tactSyncro fireTactSyncro(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, tactTime = timeValue, active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if (syncroTact and timeType == PNlib.Types.TimeType.Tact);
   PN.Blocks.immediate fireImmediate(nIn = nInDis+nInCon, nOut = nOutDis+nOutCon, active = active, enabledIn = enabledIn.value, enabledOut = enabledOut.value) if timeType == PNlib.Types.TimeType.Immediate;
   //Is the transition enabled by all input places?
   //Boolean enabledByInPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableIn) if nIn>0;
@@ -195,6 +203,11 @@ equation
   connect(fireOut, fireOutTact);
   connect(timePassedIn, timePassedInTact);
   connect(timePassedOut, timePassedOutTact);
+// Tact Syncro
+  connect(fireIn, fireInTactSyncro);
+  connect(fireOut, fireOutTactSyncro);
+  connect(timePassedIn, timePassedInTactSyncro);
+  connect(timePassedOut, timePassedOutTactSyncro);
 // Immediate
   connect(fireIn, fireInImmediate);
   connect(fireOut, fireOutImmediate);

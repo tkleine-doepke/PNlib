@@ -10,8 +10,8 @@ model CTC
   Real arcWeightIn[nIn, numColors] = fill(1,nIn,numColors) "arc weights of input places" annotation(Dialog(enable = true, group = "Arc Weights"));
   Real arcWeightOut[nOut, numColors] = fill(1,nOut,numColors) "arc weights of output places" annotation(Dialog(enable = true, group = "Arc Weights"));
 
-  PNlib.PN.Interfaces.TransitionInCon[nIn, numColors] inPlaces annotation(Placement(transformation(extent={{-56,-10},{-40,10}})));
-  PNlib.PN.Interfaces.TransitionOutCon[nOut, numColors] outPlaces annotation(Placement(transformation(extent={{40,-10},{56,10}})));
+  PNlib.PN.Interfaces.ConTransitionIn[nIn, numColors] inPlaces annotation(Placement(transformation(extent={{-56,-10},{-40,10}})));
+  PNlib.PN.Interfaces.ConTransitionOut[nOut, numColors] outPlaces annotation(Placement(transformation(extent={{40,-10},{56,10}})));
 protected
   outer PNlib.PN.Components.Settings settings "global settings for animation and display";
   PNlib.PN.Components.TC transition_(nInCon=numColors*nIn, nOutCon=numColors*nOut, maximumSpeed=maximumSpeed, arcWeightInCon=arcWeightIn_flat, arcWeightOutCon=arcWeightOut_flat);
@@ -20,14 +20,14 @@ protected
 equation
   for i in 1:nIn loop
     for j in 1:numColors loop
-      connect(inPlaces[i,j], transition_.inPlaces[j + (i-1)*numColors]);
+      connect(inPlaces[i,j], transition_.inPlacesCon[j + (i-1)*numColors]);
       arcWeightIn_flat[j + (i-1)*numColors] = arcWeightIn[i,j];
     end for;
   end for;
 
   for i in 1:nOut loop
     for j in 1:numColors loop
-      connect(outPlaces[i,j], transition_.outPlaces[j + (i-1)*numColors]);
+      connect(outPlaces[i,j], transition_.outPlacesCon[j + (i-1)*numColors]);
       arcWeightOut_flat[j + (i-1)*numColors] = arcWeightOut[i,j];
     end for;
   end for;

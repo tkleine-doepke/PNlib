@@ -1,12 +1,15 @@
 within PNlib.PN.Examples.Models.FiliP;
 model KrankUrlaub
-  parameter Real UrlaubStartTermine[:] = {10,20,30} "Begin Urlaub";
-  parameter Real UrlaubEndTermine[:] = {15,25,35} "Ende Urlaub";
-    PNlib.PN.Components.TD Gesund1(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Immediate, timeValue = {0}) annotation(
+  parameter Real UrlaubStartTermine[:] = {10,20,30};
+  parameter Real UrlaubEndTermine[:] = {15,25,35};
+  parameter Real WkeitKrankDauer[:] = {10,20,30};
+  Real WkeitKrank =1  annotation(Dialog(enable = true));
+  
+    PNlib.PN.Components.TD Gesund1(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {0}) annotation(
       Placement(visible = true, transformation(extent = {{14, -90}, {-6, -70}}, rotation = 0)));
     PNlib.PN.Examples.Models.FiliP.PNerweiterungen.PDwkeit Krankpruefer1(enablingProbOut = {WK, 1 - WK}, enablingType = PNlib.Types.EnablingType.Probability, nInDis = 1, nOutDis = 2) annotation(
       Placement(visible = true, transformation(extent = {{40, -90}, {20, -70}}, rotation = 0)));
-    PNlib.PN.Components.TD Arbeitet1(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Immediate, timeValue = {0}) annotation(
+    PNlib.PN.Components.TD Arbeitet1(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {0}) annotation(
       Placement(visible = true, transformation(extent = {{66, -90}, {46, -70}}, rotation = 0)));
     PNlib.PN.Components.TD T12(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Immediate, timeValue = {0}) annotation(
       Placement(visible = true, transformation(extent = {{-54, -90}, {-74, -70}}, rotation = 0)));
@@ -26,7 +29,7 @@ model KrankUrlaub
       Placement(visible = true, transformation(origin = {4, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     PNlib.PN.Components.PD ImUrlaub(nInDis = 1, nOutDis = 1) annotation(
       Placement(visible = true, transformation(origin = {30, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  PNlib.PN.Components.TD Urlaubgeber(nInDis = 2, nOutDis = 1, timeType = PNlib.Types.TimeType.Immediate, timeValue = {0})  annotation(
+  PNlib.PN.Components.TD Urlaubgeber(nInDis = 2, nOutDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {0})  annotation(
       Placement(visible = true, transformation(origin = {52, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD P1(nInDis = 1, nOutDis = 2)  annotation(
       Placement(visible = true, transformation(origin = {50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -74,7 +77,7 @@ model KrankUrlaub
     connect(KannArbeiteten.outTransitionDis[1], T12.inPlacesDis[1]) annotation(
       Line(points = {{-50.8, -80}, {-60.8, -80}}));
     WK = if time <= 744 then 0.0117 else if time <= 1464 then 0.008 else if time <= 2208 then 0.0196 else if time <= 2928 then 0.0325 else if time <= 3672 then 0.0276 else if time <= 4416 then 0.031 else if time <= 5088 then 0.0344 else if time <= 5832 then 0.0458 else if time <= 6552 then 0.0084 else if time <= 7296 then 0.0118 else if time <= 8016 then 0.0315 else 0.0188;
-    //WU = if time <= 744 then 0.0212 else if time <= 1464 then 0.0531 else if time <= 2208 then 0.0310 else if time <= 2928 then 0.0458 else if time <= 3672 then 0.0671 else if time <= 4416 then 0.046 else if time <= 5088 then 0.0135 else if time <= 5832 then 0.0304 else if time <= 6552 then 0.03 else if time <= 7296 then 0.0446 else if time <= 8016 then 0.0372 else 0.0618;
+//WU = if time <= 744 then 0.0212 else if time <= 1464 then 0.0531 else if time <= 2208 then 0.0310 else if time <= 2928 then 0.0458 else if time <= 3672 then 0.0671 else if time <= 4416 then 0.046 else if time <= 5088 then 0.0135 else if time <= 5832 then 0.0304 else if time <= 6552 then 0.03 else if time <= 7296 then 0.0446 else if time <= 8016 then 0.0372 else 0.0618;
     annotation(
       Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})),
       Icon(coordinateSystem(preserveAspectRatio = false, initialScale = 0.2), graphics = {Rectangle(origin = {0, -2}, fillColor = {255, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}})}));

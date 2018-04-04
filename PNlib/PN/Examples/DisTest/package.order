@@ -35,4 +35,17 @@ PrioTest
 NoInputConflict
 FiveTimes
 Ttest
+TandTDtest
 TandTDFtest
+TEandTDtest
+TEandTDtest2
+TFDandTDtest
+TFDandTDtest2
+TFDandTEtest
+TFDandTEtest2
+TFDandTTtest
+TFDandTTtest2
+TTandTDtest
+TTandTDtest2
+TTandTEtest
+TTandTEtest2

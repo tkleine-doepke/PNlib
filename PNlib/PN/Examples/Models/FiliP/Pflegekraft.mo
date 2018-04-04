@@ -8,6 +8,20 @@ model Pflegekraft
     choices(choice = 1 "1. Wochenende", choice = 2 "2. Wochenende", choice = 3 "jedes Wochenende", __Dymola_radioButtons = true));
   parameter Real UrlaubStartTermine[:] = {10,20,30} "number of input places"annotation(Dialog(enable = true, group = "Personal Daten"));
   parameter Real UrlaubEndTermine[:] = {15,25,35} "number of input places"annotation(Dialog(enable = true, group = "Personal Daten"));
+  Real WkeitKrank =1  annotation(Dialog(enable = true, group = "Personal Daten"));
+ parameter Real BeginFruehschicht annotation(
+    Dialog(enable = true, group = "Zeiten"));
+ parameter Real BeginSpaetschicht annotation(
+    Dialog(enable = true, group = "Zeiten"));
+ parameter Real BeginNachtschicht annotation(
+    Dialog(enable = true, group = "Zeiten"));
+ parameter Real DauerFruehschicht annotation(
+    Dialog(enable = true, group = "Zeiten"));
+ parameter Real DauerSpaetschicht annotation(
+    Dialog(enable = true, group = "Zeiten"));
+ parameter Real DauerNachtschicht annotation(
+    Dialog(enable = true, group = "Zeiten"));
+
   Real HatFruehDienst=IstImFruehDienst.t;
   Real HatSpaetDienst=IstImSpaetDienst.t;
   Real HatNachtDienst=IstImNachtDienst.t;
@@ -19,7 +33,7 @@ model Pflegekraft
   Real ArbeitszeitKontingentPlanungsPeriode=ArbeitszeitKontingent.t;
   Real GeleisteteArbeistzeitGesammt=GeleisteteArbeistzeit.t;
   protected
-  extends PNlib.PN.Examples.Models.FiliP.AllgemeineParameter;
+  //extends PNlib.PN.Examples.Models.FiliP.AllgemeineParameter;
   PNlib.PN.Components.PD IstImFruehDienst(nInDis = 1, nOutDis = 1) annotation(
     Placement(transformation(extent = {{-10, 240}, {10, 260}})));
   PNlib.PN.Components.PD IstImSpaetDienst(nInDis = 1, nOutDis = 1) annotation(
@@ -68,9 +82,9 @@ model Pflegekraft
     Placement(transformation(extent = {{-34, -168}, {-14, -148}})));
   PNlib.PN.Components.TD EinTagWiederholer( nInDis = 1,nOutDis = 1, timeValue = {1}) annotation(
     Placement(transformation(extent = {{-58, -128}, {-38, -108}})));
-  PNlib.PN.Components.TD WEenderbeiKrank(nInDis = 1, timeValue = {2}) annotation(
+  PNlib.PN.Components.TD WEenderbeiKrank(nInDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {2 - 0.1}) annotation(
     Placement(transformation(extent = {{102, -228}, {122, -208}})));
-  PNlib.PN.Examples.Models.FiliP.KrankUrlaub krankurlaub (UrlaubEndTermine = UrlaubEndTermine, UrlaubStartTermine = UrlaubStartTermine)  annotation(
+  PNlib.PN.Examples.Models.FiliP.KrankUrlaub krankurlaub (UrlaubEndTermine = UrlaubEndTermine, UrlaubStartTermine = UrlaubStartTermine, WkeitKrank = WkeitKrank)  annotation(
     Placement(visible = true, transformation(origin = {-80, -78}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   outer PNlib.PN.Components.Settings settings "global settings for animation and display";
 equation

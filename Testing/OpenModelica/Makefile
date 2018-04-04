@@ -3,7 +3,8 @@ TEST = ./rtest -v
 
 
 TESTFILES = \
-PNlib.PN.Examples.DisTest.ConflictPrio.mos \
+PNlib.PN.Examples.Models.FiliP.ModellStationen.Station1.mos \
+#PNlib.PN.Examples.DisTest.ConflictPrio.mos \
 PNlib.PN.Examples.DisTest.ConflictProb.mos \
 PNlib.PN.Examples.DisTest.ConflictBeneGreedy.mos \
 PNlib.PN.Examples.DisTest.ConflictBeneQuotient.mos \
@@ -40,6 +41,20 @@ PNlib.PN.Examples.DisTest.TEtest.mos \
 PNlib.PN.Examples.DisTest.TEnoInput.mos \
 PNlib.PN.Examples.DisTest.FiveTimes.mos \
 PNlib.PN.Examples.DisTest.Ttest.mos \
+PNlib.PN.Examples.DisTest.TandTDtest.mos \
+PNlib.PN.Examples.DisTest.TandTDFtest.mos \
+PNlib.PN.Examples.DisTest.TEandTDtest.mos \
+PNlib.PN.Examples.DisTest.TEandTDtest2.mos \
+PNlib.PN.Examples.DisTest.TFDandTDtest.mos \
+PNlib.PN.Examples.DisTest.TFDandTDtest2.mos \
+PNlib.PN.Examples.DisTest.TFDandTEtest.mos \
+PNlib.PN.Examples.DisTest.TFDandTEtest2.mos \
+PNlib.PN.Examples.DisTest.TFDandTTtest.mos \
+PNlib.PN.Examples.DisTest.TFDandTTtest2.mos \
+PNlib.PN.Examples.DisTest.TTandTDtest.mos \
+PNlib.PN.Examples.DisTest.TTandTDtest2.mos \
+PNlib.PN.Examples.DisTest.TTandTEtest.mos \
+PNlib.PN.Examples.DisTest.TTandTEtest2.mos \
 PNlib.PN.Examples.ConTest.Conflict.mos \
 PNlib.PN.Examples.ConTest.ConflictLoop.mos \
 PNlib.PN.Examples.ConTest.LoopAndArcweight.mos \
@@ -94,10 +109,10 @@ PNlib.PN.Examples.HybTest.TDtoPC.mos \
 PNlib.PN.Examples.HybTest.TDtoPCfunction.mos \
 PNlib.PN.Examples.HybTest.EightConflictProb.mos \
 PNlib.PN.Examples.HybTest.SixConflictProb.mos \
-
-#TESTFILES = \
 PNlib.PN.Examples.Models.BicoloredPlaces.Aquarium.mos \
 PNlib.PN.Examples.Models.FiliP.ModellStationen.Station1.mos \
+#TESTFILES = \
+
 
 # Mini Test
 #TESTFILES = \
