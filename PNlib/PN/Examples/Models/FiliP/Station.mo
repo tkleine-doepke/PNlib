@@ -15,6 +15,12 @@ model Station
     Dialog(enable = true, group = "Zeiten"));
  parameter Real BeginNachtschicht annotation(
     Dialog(enable = true, group = "Zeiten"));
+    parameter Real DauerFruehschicht annotation(
+       Dialog(enable = true, group = "Zeiten"));
+    parameter Real DauerSpaetschicht annotation(
+       Dialog(enable = true, group = "Zeiten"));
+    parameter Real DauerNachtschicht annotation(
+       Dialog(enable = true, group = "Zeiten"));
   Real BesetzungFruehDienst = PersonalImFruedienst.t;
   Real BesetzungSpaetDienst = PersonalImSpaetdienst.t;
   Real BesetzungNachtDienst = PersonalImNachtdienst.t;
