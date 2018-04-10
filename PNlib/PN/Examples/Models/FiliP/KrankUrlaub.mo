@@ -2,12 +2,13 @@ within PNlib.PN.Examples.Models.FiliP;
 model KrankUrlaub
   parameter Real UrlaubStartTermine[:] = {10,20,30};
   parameter Real UrlaubEndTermine[:] = {15,25,35};
-  parameter Real WkeitKrankDauer[:] = {10,20,30};
+  parameter Real KrankDauer[:] = 1:31;
+  parameter Real WkeitKrankDauer[:] = {75 / 237, 41 / 237, 24 / 237, 19 / 237, 22 / 237, 10 / 237, 13 / 237, 4 / 237, 2 / 237, 3 / 237, 2 / 237, 1 / 237, 3 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237};
   Real WkeitKrank =1  annotation(Dialog(enable = true));
-  
+
     PNlib.PN.Components.TD Gesund1(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {0}) annotation(
       Placement(visible = true, transformation(extent = {{14, -90}, {-6, -70}}, rotation = 0)));
-    PNlib.PN.Examples.Models.FiliP.PNerweiterungen.PDwkeit Krankpruefer1(enablingProbOut = {WK, 1 - WK}, enablingType = PNlib.Types.EnablingType.Probability, nInDis = 1, nOutDis = 2) annotation(
+    PNlib.PN.Examples.Models.FiliP.PNerweiterungen.PDwkeit Krankpruefer1(enablingProbOut = {WkeitKrank, 1 - WkeitKrank}, enablingType = PNlib.Types.EnablingType.Probability, nInDis = 1, nOutDis = 2) annotation(
       Placement(visible = true, transformation(extent = {{40, -90}, {20, -70}}, rotation = 0)));
     PNlib.PN.Components.TD Arbeitet1(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Delay, timeValue = {0}) annotation(
       Placement(visible = true, transformation(extent = {{66, -90}, {46, -70}}, rotation = 0)));
@@ -19,9 +20,8 @@ model KrankUrlaub
       Placement(visible = true, transformation(origin = {-116.06, 0.392857}, extent = {{16.7164, -20}, {-16.7164, 20}}, rotation = 0), iconTransformation(origin = {-117.955, -2.23214}, extent = {{18.6119, -22.2679}, {-18.6119, 22.2679}}, rotation = 0)));
     PNlib.PN.Interfaces.DisPlaceIn placeInDis [3] annotation(
       Placement(visible = true, transformation(origin = {116.236, -0.234045}, extent = {{16.8909, -19.766}, {-16.8909, 19.766}}, rotation = 0), iconTransformation(origin = {120.636, 0.191491}, extent = {{18.6364, -21.8085}, {-18.6364, 21.8085}}, rotation = 0)));
-    Real WK;
     //Real WU;
-    PNlib.PN.Components.TS Krank(E =1:31, P = {75 / 237, 41 / 237, 24 / 237, 19 / 237, 22 / 237, 10 / 237, 13 / 237, 4 / 237, 2 / 237, 3 / 237, 2 / 237, 1 / 237, 3 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237, 1 / 237}, distributionType = PNlib.Types.DistributionType.Discrete, nInDis = 1, nOutDis = 1, timeType = PNlib.Types.StoTimeType.FireDuration) annotation(
+    PNlib.PN.Components.TS Krank(E =KrankDauer, P =WkeitKrankDauer, distributionType = PNlib.Types.DistributionType.Discrete, nInDis = 1, nOutDis = 1, timeType = PNlib.Types.StoTimeType.FireDuration) annotation(
       Placement(visible = true, transformation(origin = {4, -40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
     PNlib.PN.Components.TD TUrlaubEnde(nInDis = 1, nOutDis = 1, timeType = PNlib.Types.TimeType.Event,timeValue = UrlaubEndTermine) annotation(
       Placement(visible = true, transformation(origin = {4, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
@@ -76,8 +76,6 @@ model KrankUrlaub
       Line(points = {{-29.2, -80}, {-19.2, -80}, {-19.2, 0}, {0.800078, 0}, {0.800078, 0}}, thickness = 0.5));
     connect(KannArbeiteten.outTransitionDis[1], T12.inPlacesDis[1]) annotation(
       Line(points = {{-50.8, -80}, {-60.8, -80}}));
-    WK = if time <= 744 then 0.0117 else if time <= 1464 then 0.008 else if time <= 2208 then 0.0196 else if time <= 2928 then 0.0325 else if time <= 3672 then 0.0276 else if time <= 4416 then 0.031 else if time <= 5088 then 0.0344 else if time <= 5832 then 0.0458 else if time <= 6552 then 0.0084 else if time <= 7296 then 0.0118 else if time <= 8016 then 0.0315 else 0.0188;
-//WU = if time <= 744 then 0.0212 else if time <= 1464 then 0.0531 else if time <= 2208 then 0.0310 else if time <= 2928 then 0.0458 else if time <= 3672 then 0.0671 else if time <= 4416 then 0.046 else if time <= 5088 then 0.0135 else if time <= 5832 then 0.0304 else if time <= 6552 then 0.03 else if time <= 7296 then 0.0446 else if time <= 8016 then 0.0372 else 0.0618;
     annotation(
       Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})),
       Icon(coordinateSystem(preserveAspectRatio = false, initialScale = 0.2), graphics = {Rectangle(origin = {0, -2}, fillColor = {255, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}})}));

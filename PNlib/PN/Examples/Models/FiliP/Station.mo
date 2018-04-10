@@ -22,7 +22,6 @@ model Station
   Real BesetzungsDefizitSpaet = DefizitSpaetSchicht.t;
   Real BesetzungsDefizitNacht = DefizizNachtSchicht.t;
   protected
-  //extends PNlib.PN.Examples.Models.FiliP.AllgemeineParameter;
   PNlib.PN.Components.PD DefizitFruehschicht(nInDis = 1) annotation(
     Placement(visible = true, transformation(origin = {164, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PNlib.PN.Components.PD DefizitSpaetSchicht(nInDis = 1) annotation(
