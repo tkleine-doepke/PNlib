@@ -242,27 +242,28 @@ equation
   assert(size(E,1)==size(P,1) or distributionType<>PNlib.Types.DistributionType.Discrete, "Discrete probability distribution must have the same number of events and probabilities");
 //****ERROR MESSENGES END****//
 algorithm
-   //****MAIN BEGIN****//
-   TimeOver:= timeType==PNlib.Types.StoTimeType.Event and time>=putFireTime;
-  //generate random putative fire time according to Next-Reaction method of Gibson and Bruck
-  when pre(fireOut.value) or pre(TimeOver) then    //17.06.11 Reihenfolge getauscht!
+//****MAIN BEGIN****//
+  TimeOver := timeType == PNlib.Types.StoTimeType.Event and time >= putFireTime;
+//generate random putative fire time according to Next-Reaction method of Gibson and Bruck
+  when pre(fireOut.value) or pre(TimeOver) then
     (r128, state128) := Modelica.Math.Random.Generators.Xorshift128plus.random(pre(state128));
-    if distributionType==PNlib.Types.DistributionType.Exponential then
-        putTime := PNlib.Functions.Random.randomexp(h, r128);
-    elseif distributionType==PNlib.Types.DistributionType.Triangular then
-        putTime := PNlib.Functions.Random.randomtriangular(a, b, c, r128);
-    elseif distributionType==PNlib.Types.DistributionType.Uniform then
-        putTime := Modelica.Math.Distributions.Uniform.quantile( max(r128,10 ^ (-10)), a, b);
-    elseif distributionType==PNlib.Types.DistributionType.TruncatedNormal then
-        putTime := Modelica.Math.Distributions.TruncatedNormal.quantile( max(r128,10 ^ (-10)), a, b, mu, sigma);
+    if distributionType == PNlib.Types.DistributionType.Exponential then
+      putTime := PNlib.Functions.Random.randomexp(h, r128);
+    elseif distributionType == PNlib.Types.DistributionType.Triangular then
+      putTime := PNlib.Functions.Random.randomtriangular(a, b, c, r128);
+    elseif distributionType == PNlib.Types.DistributionType.Uniform then
+      putTime := Modelica.Math.Distributions.Uniform.quantile(max(r128, 10 ^ (-10)), a, b);
+    elseif distributionType == PNlib.Types.DistributionType.TruncatedNormal then
+      putTime := Modelica.Math.Distributions.TruncatedNormal.quantile(max(r128, 10 ^ (-10)), a, b, mu, sigma);
     else
-        putTime := max(PNlib.Functions.Random.randomdis(E, P, r128),1e-6);
+      putTime := max(PNlib.Functions.Random.randomdis(E, P, r128), 1e-6);
     end if;
-    putFireTime:=time + putTime;
+    putFireTime := time + putTime;
   end when;
-   //****MAIN END****//
+//17.06.11 Reihenfolge getauscht!
+//****MAIN END****//
 initial equation
-  //to initialize the random generator otherwise the first random number is always the same in every simulation run
+//to initialize the random generator otherwise the first random number is always the same in every simulation run
   if distributionType==PNlib.Types.DistributionType.Exponential then
       putTime = PNlib.Functions.Random.randomexp(h, r128);
   elseif distributionType==PNlib.Types.DistributionType.Triangular then
@@ -276,13 +277,13 @@ initial equation
   end if;
   putFireTime=time + putTime;
 initial algorithm
-  // Generate initial state from localSeed and globalSeed
+// Generate initial state from localSeed and globalSeed
   state128 := Modelica.Math.Random.Generators.Xorshift128plus.initialState(localSeed, settings.globalSeed);
   (r128, state128) := Modelica.Math.Random.Generators.Xorshift128plus.random(
       state128);
 
   annotation(
     defaultComponentName = "T1",
-    Icon(graphics = {Rectangle(extent = {{-40, 100}, {40, -100}}, lineColor = {0, 0, 0}, fillColor = {0, 0, 0}, fillPattern = FillPattern.Solid), Text(extent = {{-2, -112}, {-2, -140}}, lineColor = {0, 0, 0}, textString = DynamicSelect("%timeType", "%timeType")), Text(extent = {{-2, -152}, {-2, -180}}, lineColor = {0, 0, 0}, textString = DynamicSelect("%timeValue", "%timeValue")), Text(extent = {{-4, 139}, {-4, 114}}, lineColor = {0, 0, 0}, textString = "%name")}),
+    Icon(graphics = {Rectangle(fillPattern = FillPattern.Solid, extent = {{-40, 100}, {40, -100}}), Text(extent = {{-2, -112}, {-2, -140}}, textString = "%timeType"), Text(extent = {{-2, -152}, {-2, -180}}, textString = "%timeValue"), Text(extent = {{-4, 139}, {-4, 114}}, textString = "%name"), Text(origin = {-18, 15}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, extent = {{56, 83}, {-20, -113}}, textString = "S")}, coordinateSystem(initialScale = 0.1)),
     Diagram(graphics));
 end TS;
