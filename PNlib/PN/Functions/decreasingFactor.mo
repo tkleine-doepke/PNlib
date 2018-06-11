@@ -3,8 +3,8 @@ function decreasingFactor "calculation of decreasing factors"
   parameter input Integer nIn "number of input transitions";
   parameter input Integer nOut "number of output transitions";
   input Real t "marking";
-  input Real minMarks "minimum capacity";
-  input Real maxMarks "maximum capacity";
+  input Real minTokens "minimum capacity";
+  input Real maxTokens "maximum capacity";
   input Real speedIn "input speed";
   input Real speedOut "output speed";
   input Real maxSpeedIn[:] "maximum speeds of input transitions";
@@ -26,7 +26,7 @@ protected
   Real prelimDecFactorOut;
   Real modSpeedIn;
   Real modSpeedOut;
-  Real minMarksMod;
+  Real minTokensMod;
   Integer numFireOut;
   Integer numFireIn;
   Boolean stop;
@@ -46,7 +46,7 @@ algorithm
   prelimSpeedSumOut := 0;
   prelimDecFactorIn := 0;
   prelimDecFactorOut := 0;
-  minMarksMod := minMarks;
+  minTokensMod := minTokens;
   for i in 1:nIn loop
     prelimSpeedIn_[i] := max(prelimSpeedIn[i], 0.0);
   end for;
@@ -66,7 +66,7 @@ algorithm
     prelimSpeedSumIn := PNlib.Functions.OddsAndEnds.conditionalSum(arcWeightIn .* prelimSpeedIn_, firingIn);
     maxSpeedSumIn := PNlib.Functions.OddsAndEnds.conditionalSum(arcWeightIn .* maxSpeedIn, firingIn);
     if maxSpeedSumIn > 0 then
-      if not (t<maxMarks) and  speedOut<prelimSpeedSumIn then   // arcWeights can be zero and then is maxSpeedSumIn zero!!! and not maxSpeedSumIn<=0
+      if not (t<maxTokens) and  speedOut<prelimSpeedSumIn then   // arcWeights can be zero and then is maxSpeedSumIn zero!!! and not maxSpeedSumIn<=0
         prelimDecFactorIn := speedOut/maxSpeedSumIn;
         while not stop loop
           stop := true;
@@ -107,7 +107,7 @@ algorithm
     prelimSpeedSumOut := PNlib.Functions.OddsAndEnds.conditionalSum(arcWeightOut .* prelimSpeedOut_, firingOut);
     maxSpeedSumOut := PNlib.Functions.OddsAndEnds.conditionalSum(arcWeightOut .* maxSpeedOut, firingOut);
     if maxSpeedSumOut>0 then
-      if not t>minMarks and speedIn<prelimSpeedSumOut then
+      if not t>minTokens and speedIn<prelimSpeedSumOut then
         prelimDecFactorOut := speedIn/maxSpeedSumOut;
         while not stop loop
           stop := true;

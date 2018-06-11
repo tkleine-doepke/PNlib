@@ -27,6 +27,8 @@ model PC "Continuous Place"
       "enabling benefit of output transitions" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Benefit then true else false, group = "Enabling"));
   parameter PNlib.Types.BenefitType benefitType=PNlib.Types.BenefitType.Greedy
         "enabling strategy for benefit" annotation(Dialog(enable = if enablingType==PNlib.Types.EnablingType.Benefit then true else false, group = "Enabling"));
+  Real decFactorIn[nInCon] "decreasing factors for input transitions";
+  Real decFactorOut[nOutCon] "decreasing factors for output transitions";
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
   parameter Integer localSeedIn = PNlib.Functions.Random.counter() "Local seed to initialize random number generator for input conflicts" annotation(Dialog(enable = true, group = "Random Number Generator"));
   parameter Integer localSeedOut = PNlib.Functions.Random.counter() "Local seed to initialize random number generator for output conflicts" annotation(Dialog(enable = true, group = "Random Number Generator"));
@@ -34,7 +36,7 @@ model PC "Continuous Place"
   each t=t_,
   each maxTokens=maxTokens,
   each emptied = emptying.anytrue,
-  decreasingFactor = decFactorIn.value,
+  decreasingFactor = decFactorIn,
   each speedSum= firingSumOutCon.conFiringSum,
   fire=fireInCon,
   active=activeInCon,
@@ -48,7 +50,7 @@ model PC "Continuous Place"
   each t = t_,
   each minTokens=minTokens,
   each fed=feeding.anytrue,
-  decreasingFactor=decFactorOut.value,
+  decreasingFactor=decFactorOut,
   each speedSum=firingSumInCon.conFiringSum,
   fire=fireOutCon,
   active=activeOutCon,
@@ -75,12 +77,12 @@ model PC "Continuous Place"
   active=activeOutDis) if nOutDis > 0 "connector for output transitions" annotation(Placement(visible = true, transformation(extent = {{100, -44}, {116, -24}}, rotation = 0), iconTransformation(extent = {{68, -82}, {84, -62}}, rotation = -45)));
   PNlib.PN.Interfaces.PlaceOutExt extOut[nOutExt](each t=t) if nOutExt > 0 "connector for output extended Arcs" annotation(Placement(transformation(extent={{70, 62}, {86, 82}}, rotation =45)));
   // decreasing
-  PNlib.PN.Interfaces.RealConIn decFactorIn1 [nInCon] (value=decreasingFactorCon.decFactorIn) if (nInCon>0 and nOutCon>0);
+  /*PNlib.PN.Interfaces.RealConIn decFactorIn1 [nInCon] (value=decFactorIn) if (nInCon>0 and nOutCon>0);
   PNlib.PN.Interfaces.RealConIn decFactorIn2 [nInCon](each value=1.0) if not (nInCon>0 and nOutCon>0);
   PNlib.PN.Interfaces.RealConOut decFactorIn [nInCon];
-  PNlib.PN.Interfaces.RealConIn decFactorOut1 [nOutCon] (value=decreasingFactorCon.decFactorOut) if (nInCon>0 and nOutCon>0);
+  PNlib.PN.Interfaces.RealConIn decFactorOut1 [nOutCon] (value=decFactorOut) if (nInCon>0 and nOutCon>0);
   PNlib.PN.Interfaces.RealConIn decFactorOut2 [nOutCon] (each value=1.0) if not (nInCon>0 and nOutCon>0);
-  PNlib.PN.Interfaces.RealConOut decFactorOut [nOutCon];
+  PNlib.PN.Interfaces.RealConOut decFactorOut [nOutCon];*/
   // Discrete
   PNlib.PN.Interfaces.BooleanConIn disMarksInOut1(value=(pre(disMarksIn.anytrue) or pre(disMarksOut.anytrue))) if (nInDis>0 and nOutDis>0);
   PNlib.PN.Interfaces.BooleanConIn disMarksInOut2(value=pre(disMarksIn.anytrue)) if (nInDis>0 and nOutDis==0);
@@ -139,7 +141,7 @@ protected
   //firing sum calculation for Continuous
   PNlib.PN.Blocks.firingSumCon firingSumInCon(fire=preFireIn, arcWeight=arcWeightInCon, instSpeed=instSpeedIn);
   PNlib.PN.Blocks.firingSumCon firingSumOutCon(fire=preFireOut, arcWeight=arcWeightOutCon, instSpeed=instSpeedOut);
-  PNlib.PN.Blocks.decreasingFactor decreasingFactorCon (nIn=nInCon, nOut=nOutCon, t=t_, minTokens=minTokens, maxTokens=maxTokens, speedIn= firingSumInCon.conFiringSum, speedOut= firingSumOutCon.conFiringSum, maxSpeedIn=maxSpeedIn, maxSpeedOut=maxSpeedOut, prelimSpeedIn=prelimSpeedIn, prelimSpeedOut=prelimSpeedOut, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, firingIn=fireInCon, firingOut=fireOutCon) if nInCon>0 and nOutCon>0 ;
+  //PNlib.PN.Blocks.decreasingFactor decreasingFactorCon (nIn=nInCon, nOut=nOutCon, t=t_, minTokens=minTokens, maxTokens=maxTokens, speedIn= firingSumInCon.conFiringSum, speedOut= firingSumOutCon.conFiringSum, maxSpeedIn=maxSpeedIn, maxSpeedOut=maxSpeedOut, prelimSpeedIn=prelimSpeedIn, prelimSpeedOut=prelimSpeedOut, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, firingIn=fireInCon, firingOut=fireOutCon) if nInCon>0 and nOutCon>0 ;
   //Does any time passed of a connected transition?
   PNlib.Blocks.anyTrue timePassedOut(vec=activeOutDis) if nOutDis>0;
   PNlib.Blocks.anyTrue timePassedIn(vec=activeInDis) if nInDis>0;
@@ -158,15 +160,21 @@ protected
 
 //****BLOCKS END****//
 equation
+  if nInCon>0 and nOutCon>0 then
+    (decFactorIn, decFactorOut)= PNlib.PN.Functions.decreasingFactor(nIn=nInCon, nOut=nOutCon, t=t_, minTokens=minTokens, maxTokens=maxTokens, speedIn= firingSumInCon.conFiringSum, speedOut= firingSumOutCon.conFiringSum, maxSpeedIn=maxSpeedIn, maxSpeedOut=maxSpeedOut, prelimSpeedIn=prelimSpeedIn, prelimSpeedOut=prelimSpeedOut, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, firingIn=fireInCon, firingOut=fireOutCon);
+  else
+   decFactorIn=fill(1, nInCon);
+   decFactorOut=fill(1, nOutCon);
+  end if;
 //decreasing factor calculation
-  for i in 1:nInCon loop
+  /*for i in 1:nInCon loop
     connect(decFactorIn[i], decFactorIn1[i]);
     connect(decFactorIn[i], decFactorIn2[i]);
   end for;
   for i in 1:nOutCon loop
     connect(decFactorOut[i],decFactorOut1[i]);
     connect(decFactorOut[i],decFactorOut2[i]);
-  end for;
+  end for;*/
 //Discrete
   connect(disMarksInOut,disMarksInOut1);
   connect(disMarksInOut,disMarksInOut2);

@@ -28,6 +28,7 @@ model TD "Discrete Transition with delay "
   Boolean firingCon = true "additional firing condition" annotation(
     Dialog(enable = true, group = "Firing Condition"));
   Boolean active;
+  Integer nFire;
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
   //Boolean active "Is the transition active?";
   //Boolean fire "Does the transition fire?";
@@ -163,6 +164,12 @@ protected
   //Is the transition enabled by all output places?
   //Boolean enabledByOutPlaces = PNlib.Functions.OddsAndEnds.allTrue(enableOut) if nOut>0;
   //****BLOCKS END****//
+initial algorithm
+nFire:=0;
+algorithm
+when fireOut.value then
+  nFire:=nFire+1;
+end when;
 equation
 //Active
   connect(activeIn, activeIn1);

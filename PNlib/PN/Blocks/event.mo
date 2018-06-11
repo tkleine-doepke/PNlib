@@ -13,13 +13,13 @@ protected
   Boolean active_;
   Integer eventIndex(start=1, fixed=true);
 algorithm
-  when time>=event_[eventIndex] then
+  when time>=event_[eventIndex] and time>=PNlib.Constants.almost_eps then
       eventIndex:=eventIndex+1;
   end when;
 equation
   active_ = active and not pre(eventPassed);
   //save next putative firing time
-  eventPassed= active_ and  time>=event_[pre(eventIndex)];
+  eventPassed= active_ and  time>=event_[pre(eventIndex)] and time>=PNlib.Constants.almost_eps ;
   //firing process
  // fire=if nOut==0 then enabledByInPlaces else enabledByOutPlaces;
    fire=if nOut==0 and nIn==0 then false elseif nOut==0 then enabledIn else enabledOut;

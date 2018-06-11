@@ -5,10 +5,10 @@ function eventCheck "Determine the event times are correct"
   output Boolean result "= true, if event times are correctly";
 algorithm
   result:=true;
-  if eventtime[1] == 0 then
+  /*if eventtime[1] == 0 then
     result:=false;
     return;
-  end if;
+  end if;*/
   for i in 2:size(eventtime,1) loop
     if eventtime[i-1]>=eventtime[i] then
       result:=false;

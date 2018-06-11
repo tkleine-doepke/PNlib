@@ -14,6 +14,8 @@ protected
   Real speedSum;
   Real arcWeight;
 algorithm
+  //speedSum:=0;
+  //arcWeight:=0;
   prelimSpeed := max(maximumSpeed, 0.0);
 
   for i in 1:nIn loop

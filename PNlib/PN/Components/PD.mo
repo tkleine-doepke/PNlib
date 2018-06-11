@@ -52,8 +52,8 @@ protected
   PNlib.Blocks.anyTrue timePassedOut(vec=activeOutDis) if nOutDis>0;
   PNlib.Blocks.anyTrue timePassedIn(vec=activeInDis) if nInDis>0;
   //firing sum calculation
-  PN.Blocks.firingSumDis firingSumIn(fire=fireInDis, arcWeight=arcWeightInDis) if nInDis>0;
-  PN.Blocks.firingSumDis firingSumOut(fire=fireOutDis, arcWeight=arcWeightOutDis) if nOutDis>0;
+  PNlib.PN.Blocks.firingSumDis firingSumIn(fire=fireInDis, arcWeight=arcWeightInDis) if nInDis>0;
+  PNlib.PN.Blocks.firingSumDis firingSumOut(fire=fireOutDis, arcWeight=arcWeightOutDis) if nOutDis>0;
   //Enabling process Prio
   PNlib.PN.Blocks.enablingOutDisPrio enableOutPrio(timePassed=timePassedOut.anytrue, nOut=nOutDis, arcWeight=arcWeightOutDis, t=pret, minTokens=minTokens, TAout=activeOutDis, enablingPrio=enablingPrioOut) if (nOutDis>0 and enablingType==PNlib.Types.EnablingType.Priority);
   PNlib.PN.Blocks.enablingInDisPrio enableInPrio(timePassed=timePassedIn.anytrue, active=activeInDis, nIn=nInDis, arcWeight=arcWeightInDis, t=pret, maxTokens=maxTokens, TAein= enabledByInPlaces and activeInDis, enablingPrio=enablingPrioIn) if (nInDis>0 and enablingType==PNlib.Types.EnablingType.Priority);

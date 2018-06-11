@@ -42,6 +42,7 @@ model TS "Discrete Transition with delay "
   Boolean firingCon = true "additional firing condition" annotation(
     Dialog(enable = true, group = "Firing Condition"));
   Boolean active;
+  Integer nFire;
   parameter Integer localSeed = PNlib.Functions.Random.counter() "Local seed to initialize random number generator" annotation(Dialog(enable = true, group = "Random Number Generator"));
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
   discrete Real putFireTime "putative firing time at event";
@@ -243,6 +244,9 @@ equation
 //****ERROR MESSENGES END****//
 algorithm
 //****MAIN BEGIN****//
+  when pre(fireOut.value) then
+  nFire:=nFire+1;
+  end when;
   TimeOver := timeType == PNlib.Types.StoTimeType.Event and time >= putFireTime;
 //generate random putative fire time according to Next-Reaction method of Gibson and Bruck
   when pre(fireOut.value) or pre(TimeOver) then
@@ -277,6 +281,7 @@ initial equation
   end if;
   putFireTime=time + putTime;
 initial algorithm
+  nFire:=0;
 // Generate initial state from localSeed and globalSeed
   state128 := Modelica.Math.Random.Generators.Xorshift128plus.initialState(localSeed, settings.globalSeed);
   (r128, state128) := Modelica.Math.Random.Generators.Xorshift128plus.random(

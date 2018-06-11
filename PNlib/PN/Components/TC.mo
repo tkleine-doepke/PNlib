@@ -13,6 +13,7 @@ model TC "Continuous Transition"
   //****MODIFIABLE PARAMETERS AND VARIABLES END****//
   Boolean fire "Does the transition fire?";
   Real instantaneousSpeed "instantaneous speed";
+  Real prelimSpeed "preliminary speed";
   Real actualSpeed = if fire then instantaneousSpeed else 0.0;
   Boolean active;
   PNlib.PN.Interfaces.ConTransitionIn[nInCon] inPlacesCon(
@@ -20,7 +21,7 @@ model TC "Continuous Transition"
     each fire=fire,
     arcWeight=arcWeightInCon,
     each instSpeed = instantaneousSpeed,
-    each prelimSpeed = prelimSpeed.prelimSpeed,
+    each prelimSpeed = prelimSpeed,
     each maxSpeed =  maximumSpeed,
     t=tInCon,
     minTokens=minTokensCon,
@@ -32,7 +33,7 @@ model TC "Continuous Transition"
     each fire=fire,
     arcWeight=arcWeightOutCon,
     each instSpeed = instantaneousSpeed,
-    each prelimSpeed = prelimSpeed.prelimSpeed,
+    each prelimSpeed = prelimSpeed,
     each maxSpeed =  maximumSpeed,
     t=tOutCon,
     maxTokens=maxTokensCon,
@@ -72,11 +73,12 @@ protected
   PNlib.PN.Blocks.activationCon conActivation(nIn=nInCon, nOut=nOutCon, tIn=tInCon, tOut=tOutCon, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, minTokens=minTokensCon, maxTokens=maxTokensCon, firingCon=firingCon, fed=fed, emptied=emptied);
   PNlib.PN.Blocks.activationDis disActivation(nDis=nDis, tDis=tDis, arcWeightDis=arcWeightDis, minTokensDis=minTokensDis, maxTokensDis=maxTokensDis);
   //preliminary speed calculation
-  PNlib.PN.Blocks.preliminarySpeed prelimSpeed (nIn=nInCon, nOut=nOutCon, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=conActivation.weaklyInputActiveVec, weaklyOutputActiveVec=conActivation.weaklyOutputActiveVec);
+  //PNlib.PN.Blocks.preliminarySpeed prelimSpeed (nIn=nInCon, nOut=nOutCon, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=conActivation.weaklyInputActiveVec, weaklyOutputActiveVec=conActivation.weaklyOutputActiveVec);
   //firing process
   //Boolean fire_ = PNlib.Functions.OddsAndEnds.allTrue(/* hack for Dymola 2017 */ PNlib.Functions.OddsAndEnds.boolOr(enableIn, not disPlaceIn));
   //****BLOCKS END****//
 equation
+  prelimSpeed = PNlib.PN.Functions.preliminarySpeed(nIn=nInCon, nOut=nOutCon, arcWeightIn=arcWeightInCon, arcWeightOut=arcWeightOutCon, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=conActivation.weaklyInputActiveVec, weaklyOutputActiveVec=conActivation.weaklyOutputActiveVec);
   //****MAIN BEGIN****//
   //preliminary speed calculation
   //prelimSpeed = PNlib.PN.Functions.preliminarySpeed(nIn=nIn, nOut=nOut, arcWeightIn=arcWeightIn, arcWeightOut=arcWeightOut, speedSumIn=speedSumIn, speedSumOut=speedSumOut, maximumSpeed=maximumSpeed, weaklyInputActiveVec=conActivation.weaklyInputActiveVec, weaklyOutputActiveVec=conActivation.weaklyOutputActiveVec);
@@ -84,7 +86,7 @@ equation
   active = conActivation.active and disActivation.active and allExtendedCondition and firingCon;
   fire=active and allEnabledByDisPlaces and not maximumSpeed<=0;
   //instantaneous speed calculation
-  instantaneousSpeed=min(min(min(decreasingFactorIn), min(decreasingFactorOut))*maximumSpeed, prelimSpeed.prelimSpeed);
+  instantaneousSpeed=min(min(min(decreasingFactorIn), min(decreasingFactorOut))*maximumSpeed, prelimSpeed);
   //****MAIN END****//
   //****ERROR MESSENGES BEGIN****//  hier noch Message gleiches Kantengewicht und auch Kante dis Place!!
   for i in 1:nInCon loop
